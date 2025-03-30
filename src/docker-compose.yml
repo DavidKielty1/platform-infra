@@ -1,0 +1,26 @@
+version: '3.8'
+
+services:
+  dev:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    volumes:
+      - .:/app
+      - ~/.aws:/root/.aws
+      - /var/run/docker.sock:/var/run/docker.sock
+    environment:
+      - AWS_ACCESS_KEY_ID=${AWS_ACCESS_KEY_ID}
+      - AWS_SECRET_ACCESS_KEY=${AWS_SECRET_ACCESS_KEY}
+      - AWS_REGION=${AWS_REGION}
+      - AWS_ACCOUNT_ID=${AWS_ACCOUNT_ID}
+      - AWS_DEFAULT_REGION=${AWS_DEFAULT_REGION}
+      - APP_NAME=platform
+      - APP_ENV=dev
+      - APP_PORT=3000
+      - CONTAINER_PORT=3000
+      - ECS_CLUSTER_NAME=platform-cluster
+      - ECS_SERVICE_NAME=platform-service
+      - CREATE_NEW_RESOURCES=true
+    working_dir: /app
+    command: /bin/bash 

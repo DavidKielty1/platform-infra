@@ -1,0 +1,981 @@
+{
+ "Resources": {
+  "NetworkingPlatformVPCA0EF3C6E": {
+   "Type": "AWS::EC2::VPC",
+   "Properties": {
+    "CidrBlock": "10.0.0.0/16",
+    "EnableDnsHostnames": true,
+    "EnableDnsSupport": true,
+    "InstanceTenancy": "default",
+    "Tags": [
+     {
+      "Key": "Name",
+      "Value": "platform-demo-vpc"
+     }
+    ]
+   },
+   "Metadata": {
+    "aws:cdk:path": "PlatformStack/Networking/PlatformVPC/Resource"
+   }
+  },
+  "NetworkingPlatformVPCPublicSubnet1Subnet6E1E730A": {
+   "Type": "AWS::EC2::Subnet",
+   "Properties": {
+    "AvailabilityZone": "eu-west-2a",
+    "CidrBlock": "10.0.0.0/18",
+    "MapPublicIpOnLaunch": true,
+    "Tags": [
+     {
+      "Key": "aws-cdk:subnet-name",
+      "Value": "Public"
+     },
+     {
+      "Key": "aws-cdk:subnet-type",
+      "Value": "Public"
+     },
+     {
+      "Key": "Name",
+      "Value": "PlatformStack/Networking/PlatformVPC/PublicSubnet1"
+     }
+    ],
+    "VpcId": {
+     "Ref": "NetworkingPlatformVPCA0EF3C6E"
+    }
+   },
+   "Metadata": {
+    "aws:cdk:path": "PlatformStack/Networking/PlatformVPC/PublicSubnet1/Subnet"
+   }
+  },
+  "NetworkingPlatformVPCPublicSubnet1RouteTableB5955B00": {
+   "Type": "AWS::EC2::RouteTable",
+   "Properties": {
+    "Tags": [
+     {
+      "Key": "Name",
+      "Value": "PlatformStack/Networking/PlatformVPC/PublicSubnet1"
+     }
+    ],
+    "VpcId": {
+     "Ref": "NetworkingPlatformVPCA0EF3C6E"
+    }
+   },
+   "Metadata": {
+    "aws:cdk:path": "PlatformStack/Networking/PlatformVPC/PublicSubnet1/RouteTable"
+   }
+  },
+  "NetworkingPlatformVPCPublicSubnet1RouteTableAssociationCDDE4378": {
+   "Type": "AWS::EC2::SubnetRouteTableAssociation",
+   "Properties": {
+    "RouteTableId": {
+     "Ref": "NetworkingPlatformVPCPublicSubnet1RouteTableB5955B00"
+    },
+    "SubnetId": {
+     "Ref": "NetworkingPlatformVPCPublicSubnet1Subnet6E1E730A"
+    }
+   },
+   "Metadata": {
+    "aws:cdk:path": "PlatformStack/Networking/PlatformVPC/PublicSubnet1/RouteTableAssociation"
+   }
+  },
+  "NetworkingPlatformVPCPublicSubnet1DefaultRoute66F81498": {
+   "Type": "AWS::EC2::Route",
+   "Properties": {
+    "DestinationCidrBlock": "0.0.0.0/0",
+    "GatewayId": {
+     "Ref": "NetworkingPlatformVPCIGWED839ED3"
+    },
+    "RouteTableId": {
+     "Ref": "NetworkingPlatformVPCPublicSubnet1RouteTableB5955B00"
+    }
+   },
+   "DependsOn": [
+    "NetworkingPlatformVPCVPCGW30418E99"
+   ],
+   "Metadata": {
+    "aws:cdk:path": "PlatformStack/Networking/PlatformVPC/PublicSubnet1/DefaultRoute"
+   }
+  },
+  "NetworkingPlatformVPCPublicSubnet1EIP83DF34B0": {
+   "Type": "AWS::EC2::EIP",
+   "Properties": {
+    "Domain": "vpc",
+    "Tags": [
+     {
+      "Key": "Name",
+      "Value": "PlatformStack/Networking/PlatformVPC/PublicSubnet1"
+     }
+    ]
+   },
+   "Metadata": {
+    "aws:cdk:path": "PlatformStack/Networking/PlatformVPC/PublicSubnet1/EIP"
+   }
+  },
+  "NetworkingPlatformVPCPublicSubnet1NATGateway90033327": {
+   "Type": "AWS::EC2::NatGateway",
+   "Properties": {
+    "AllocationId": {
+     "Fn::GetAtt": [
+      "NetworkingPlatformVPCPublicSubnet1EIP83DF34B0",
+      "AllocationId"
+     ]
+    },
+    "SubnetId": {
+     "Ref": "NetworkingPlatformVPCPublicSubnet1Subnet6E1E730A"
+    },
+    "Tags": [
+     {
+      "Key": "Name",
+      "Value": "PlatformStack/Networking/PlatformVPC/PublicSubnet1"
+     }
+    ]
+   },
+   "DependsOn": [
+    "NetworkingPlatformVPCPublicSubnet1DefaultRoute66F81498",
+    "NetworkingPlatformVPCPublicSubnet1RouteTableAssociationCDDE4378"
+   ],
+   "Metadata": {
+    "aws:cdk:path": "PlatformStack/Networking/PlatformVPC/PublicSubnet1/NATGateway"
+   }
+  },
+  "NetworkingPlatformVPCPublicSubnet2SubnetC9775787": {
+   "Type": "AWS::EC2::Subnet",
+   "Properties": {
+    "AvailabilityZone": "eu-west-2b",
+    "CidrBlock": "10.0.64.0/18",
+    "MapPublicIpOnLaunch": true,
+    "Tags": [
+     {
+      "Key": "aws-cdk:subnet-name",
+      "Value": "Public"
+     },
+     {
+      "Key": "aws-cdk:subnet-type",
+      "Value": "Public"
+     },
+     {
+      "Key": "Name",
+      "Value": "PlatformStack/Networking/PlatformVPC/PublicSubnet2"
+     }
+    ],
+    "VpcId": {
+     "Ref": "NetworkingPlatformVPCA0EF3C6E"
+    }
+   },
+   "Metadata": {
+    "aws:cdk:path": "PlatformStack/Networking/PlatformVPC/PublicSubnet2/Subnet"
+   }
+  },
+  "NetworkingPlatformVPCPublicSubnet2RouteTable4EA4C88E": {
+   "Type": "AWS::EC2::RouteTable",
+   "Properties": {
+    "Tags": [
+     {
+      "Key": "Name",
+      "Value": "PlatformStack/Networking/PlatformVPC/PublicSubnet2"
+     }
+    ],
+    "VpcId": {
+     "Ref": "NetworkingPlatformVPCA0EF3C6E"
+    }
+   },
+   "Metadata": {
+    "aws:cdk:path": "PlatformStack/Networking/PlatformVPC/PublicSubnet2/RouteTable"
+   }
+  },
+  "NetworkingPlatformVPCPublicSubnet2RouteTableAssociation15DF3C14": {
+   "Type": "AWS::EC2::SubnetRouteTableAssociation",
+   "Properties": {
+    "RouteTableId": {
+     "Ref": "NetworkingPlatformVPCPublicSubnet2RouteTable4EA4C88E"
+    },
+    "SubnetId": {
+     "Ref": "NetworkingPlatformVPCPublicSubnet2SubnetC9775787"
+    }
+   },
+   "Metadata": {
+    "aws:cdk:path": "PlatformStack/Networking/PlatformVPC/PublicSubnet2/RouteTableAssociation"
+   }
+  },
+  "NetworkingPlatformVPCPublicSubnet2DefaultRouteB606E2D3": {
+   "Type": "AWS::EC2::Route",
+   "Properties": {
+    "DestinationCidrBlock": "0.0.0.0/0",
+    "GatewayId": {
+     "Ref": "NetworkingPlatformVPCIGWED839ED3"
+    },
+    "RouteTableId": {
+     "Ref": "NetworkingPlatformVPCPublicSubnet2RouteTable4EA4C88E"
+    }
+   },
+   "DependsOn": [
+    "NetworkingPlatformVPCVPCGW30418E99"
+   ],
+   "Metadata": {
+    "aws:cdk:path": "PlatformStack/Networking/PlatformVPC/PublicSubnet2/DefaultRoute"
+   }
+  },
+  "NetworkingPlatformVPCPrivateSubnet1Subnet2E0AA240": {
+   "Type": "AWS::EC2::Subnet",
+   "Properties": {
+    "AvailabilityZone": "eu-west-2a",
+    "CidrBlock": "10.0.128.0/18",
+    "MapPublicIpOnLaunch": false,
+    "Tags": [
+     {
+      "Key": "aws-cdk:subnet-name",
+      "Value": "Private"
+     },
+     {
+      "Key": "aws-cdk:subnet-type",
+      "Value": "Private"
+     },
+     {
+      "Key": "Name",
+      "Value": "PlatformStack/Networking/PlatformVPC/PrivateSubnet1"
+     }
+    ],
+    "VpcId": {
+     "Ref": "NetworkingPlatformVPCA0EF3C6E"
+    }
+   },
+   "Metadata": {
+    "aws:cdk:path": "PlatformStack/Networking/PlatformVPC/PrivateSubnet1/Subnet"
+   }
+  },
+  "NetworkingPlatformVPCPrivateSubnet1RouteTableE9DFE17B": {
+   "Type": "AWS::EC2::RouteTable",
+   "Properties": {
+    "Tags": [
+     {
+      "Key": "Name",
+      "Value": "PlatformStack/Networking/PlatformVPC/PrivateSubnet1"
+     }
+    ],
+    "VpcId": {
+     "Ref": "NetworkingPlatformVPCA0EF3C6E"
+    }
+   },
+   "Metadata": {
+    "aws:cdk:path": "PlatformStack/Networking/PlatformVPC/PrivateSubnet1/RouteTable"
+   }
+  },
+  "NetworkingPlatformVPCPrivateSubnet1RouteTableAssociation1260149E": {
+   "Type": "AWS::EC2::SubnetRouteTableAssociation",
+   "Properties": {
+    "RouteTableId": {
+     "Ref": "NetworkingPlatformVPCPrivateSubnet1RouteTableE9DFE17B"
+    },
+    "SubnetId": {
+     "Ref": "NetworkingPlatformVPCPrivateSubnet1Subnet2E0AA240"
+    }
+   },
+   "Metadata": {
+    "aws:cdk:path": "PlatformStack/Networking/PlatformVPC/PrivateSubnet1/RouteTableAssociation"
+   }
+  },
+  "NetworkingPlatformVPCPrivateSubnet1DefaultRoute18C1651F": {
+   "Type": "AWS::EC2::Route",
+   "Properties": {
+    "DestinationCidrBlock": "0.0.0.0/0",
+    "NatGatewayId": {
+     "Ref": "NetworkingPlatformVPCPublicSubnet1NATGateway90033327"
+    },
+    "RouteTableId": {
+     "Ref": "NetworkingPlatformVPCPrivateSubnet1RouteTableE9DFE17B"
+    }
+   },
+   "Metadata": {
+    "aws:cdk:path": "PlatformStack/Networking/PlatformVPC/PrivateSubnet1/DefaultRoute"
+   }
+  },
+  "NetworkingPlatformVPCPrivateSubnet2Subnet949CE4ED": {
+   "Type": "AWS::EC2::Subnet",
+   "Properties": {
+    "AvailabilityZone": "eu-west-2b",
+    "CidrBlock": "10.0.192.0/18",
+    "MapPublicIpOnLaunch": false,
+    "Tags": [
+     {
+      "Key": "aws-cdk:subnet-name",
+      "Value": "Private"
+     },
+     {
+      "Key": "aws-cdk:subnet-type",
+      "Value": "Private"
+     },
+     {
+      "Key": "Name",
+      "Value": "PlatformStack/Networking/PlatformVPC/PrivateSubnet2"
+     }
+    ],
+    "VpcId": {
+     "Ref": "NetworkingPlatformVPCA0EF3C6E"
+    }
+   },
+   "Metadata": {
+    "aws:cdk:path": "PlatformStack/Networking/PlatformVPC/PrivateSubnet2/Subnet"
+   }
+  },
+  "NetworkingPlatformVPCPrivateSubnet2RouteTable37095BC1": {
+   "Type": "AWS::EC2::RouteTable",
+   "Properties": {
+    "Tags": [
+     {
+      "Key": "Name",
+      "Value": "PlatformStack/Networking/PlatformVPC/PrivateSubnet2"
+     }
+    ],
+    "VpcId": {
+     "Ref": "NetworkingPlatformVPCA0EF3C6E"
+    }
+   },
+   "Metadata": {
+    "aws:cdk:path": "PlatformStack/Networking/PlatformVPC/PrivateSubnet2/RouteTable"
+   }
+  },
+  "NetworkingPlatformVPCPrivateSubnet2RouteTableAssociation203FE2E4": {
+   "Type": "AWS::EC2::SubnetRouteTableAssociation",
+   "Properties": {
+    "RouteTableId": {
+     "Ref": "NetworkingPlatformVPCPrivateSubnet2RouteTable37095BC1"
+    },
+    "SubnetId": {
+     "Ref": "NetworkingPlatformVPCPrivateSubnet2Subnet949CE4ED"
+    }
+   },
+   "Metadata": {
+    "aws:cdk:path": "PlatformStack/Networking/PlatformVPC/PrivateSubnet2/RouteTableAssociation"
+   }
+  },
+  "NetworkingPlatformVPCPrivateSubnet2DefaultRoute086188F0": {
+   "Type": "AWS::EC2::Route",
+   "Properties": {
+    "DestinationCidrBlock": "0.0.0.0/0",
+    "NatGatewayId": {
+     "Ref": "NetworkingPlatformVPCPublicSubnet1NATGateway90033327"
+    },
+    "RouteTableId": {
+     "Ref": "NetworkingPlatformVPCPrivateSubnet2RouteTable37095BC1"
+    }
+   },
+   "Metadata": {
+    "aws:cdk:path": "PlatformStack/Networking/PlatformVPC/PrivateSubnet2/DefaultRoute"
+   }
+  },
+  "NetworkingPlatformVPCIGWED839ED3": {
+   "Type": "AWS::EC2::InternetGateway",
+   "Properties": {
+    "Tags": [
+     {
+      "Key": "Name",
+      "Value": "platform-demo-vpc"
+     }
+    ]
+   },
+   "Metadata": {
+    "aws:cdk:path": "PlatformStack/Networking/PlatformVPC/IGW"
+   }
+  },
+  "NetworkingPlatformVPCVPCGW30418E99": {
+   "Type": "AWS::EC2::VPCGatewayAttachment",
+   "Properties": {
+    "InternetGatewayId": {
+     "Ref": "NetworkingPlatformVPCIGWED839ED3"
+    },
+    "VpcId": {
+     "Ref": "NetworkingPlatformVPCA0EF3C6E"
+    }
+   },
+   "Metadata": {
+    "aws:cdk:path": "PlatformStack/Networking/PlatformVPC/VPCGW"
+   }
+  },
+  "NetworkingPlatformVPCRestrictDefaultSecurityGroupCustomResource7462BE93": {
+   "Type": "Custom::VpcRestrictDefaultSG",
+   "Properties": {
+    "ServiceToken": {
+     "Fn::GetAtt": [
+      "CustomVpcRestrictDefaultSGCustomResourceProviderHandlerDC833E5E",
+      "Arn"
+     ]
+    },
+    "DefaultSecurityGroupId": {
+     "Fn::GetAtt": [
+      "NetworkingPlatformVPCA0EF3C6E",
+      "DefaultSecurityGroup"
+     ]
+    },
+    "Account": "156041400555"
+   },
+   "UpdateReplacePolicy": "Delete",
+   "DeletionPolicy": "Delete",
+   "Metadata": {
+    "aws:cdk:path": "PlatformStack/Networking/PlatformVPC/RestrictDefaultSecurityGroupCustomResource/Default"
+   }
+  },
+  "NetworkingServiceSecurityGroupB65FF842": {
+   "Type": "AWS::EC2::SecurityGroup",
+   "Properties": {
+    "GroupDescription": "Security group for platform-demo",
+    "GroupName": "platform-demo-security-group",
+    "SecurityGroupEgress": [
+     {
+      "CidrIp": "0.0.0.0/0",
+      "Description": "Allow all outbound traffic by default",
+      "IpProtocol": "-1"
+     }
+    ],
+    "SecurityGroupIngress": [
+     {
+      "CidrIp": "0.0.0.0/0",
+      "Description": "Allow HTTP inbound",
+      "FromPort": 80,
+      "IpProtocol": "tcp",
+      "ToPort": 80
+     },
+     {
+      "CidrIp": "0.0.0.0/0",
+      "Description": "Allow HTTPS inbound",
+      "FromPort": 443,
+      "IpProtocol": "tcp",
+      "ToPort": 443
+     }
+    ],
+    "VpcId": {
+     "Ref": "NetworkingPlatformVPCA0EF3C6E"
+    }
+   },
+   "Metadata": {
+    "aws:cdk:path": "PlatformStack/Networking/ServiceSecurityGroup/Resource"
+   }
+  },
+  "CustomVpcRestrictDefaultSGCustomResourceProviderRole26592FE0": {
+   "Type": "AWS::IAM::Role",
+   "Properties": {
+    "AssumeRolePolicyDocument": {
+     "Version": "2012-10-17",
+     "Statement": [
+      {
+       "Action": "sts:AssumeRole",
+       "Effect": "Allow",
+       "Principal": {
+        "Service": "lambda.amazonaws.com"
+       }
+      }
+     ]
+    },
+    "ManagedPolicyArns": [
+     {
+      "Fn::Sub": "arn:${AWS::Partition}:iam::aws:policy/service-role/AWSLambdaBasicExecutionRole"
+     }
+    ],
+    "Policies": [
+     {
+      "PolicyName": "Inline",
+      "PolicyDocument": {
+       "Version": "2012-10-17",
+       "Statement": [
+        {
+         "Effect": "Allow",
+         "Action": [
+          "ec2:AuthorizeSecurityGroupIngress",
+          "ec2:AuthorizeSecurityGroupEgress",
+          "ec2:RevokeSecurityGroupIngress",
+          "ec2:RevokeSecurityGroupEgress"
+         ],
+         "Resource": [
+          {
+           "Fn::Join": [
+            "",
+            [
+             "arn:aws:ec2:eu-west-2:156041400555:security-group/",
+             {
+              "Fn::GetAtt": [
+               "NetworkingPlatformVPCA0EF3C6E",
+               "DefaultSecurityGroup"
+              ]
+             }
+            ]
+           ]
+          }
+         ]
+        }
+       ]
+      }
+     }
+    ]
+   },
+   "Metadata": {
+    "aws:cdk:path": "PlatformStack/Custom::VpcRestrictDefaultSGCustomResourceProvider/Role"
+   }
+  },
+  "CustomVpcRestrictDefaultSGCustomResourceProviderHandlerDC833E5E": {
+   "Type": "AWS::Lambda::Function",
+   "Properties": {
+    "Code": {
+     "S3Bucket": "cdk-hnb659fds-assets-156041400555-eu-west-2",
+     "S3Key": "7fa1e366ee8a9ded01fc355f704cff92bfd179574e6f9cfee800a3541df1b200.zip"
+    },
+    "Timeout": 900,
+    "MemorySize": 128,
+    "Handler": "__entrypoint__.handler",
+    "Role": {
+     "Fn::GetAtt": [
+      "CustomVpcRestrictDefaultSGCustomResourceProviderRole26592FE0",
+      "Arn"
+     ]
+    },
+    "Runtime": "nodejs20.x",
+    "Description": "Lambda function for removing all inbound/outbound rules from the VPC default security group"
+   },
+   "DependsOn": [
+    "CustomVpcRestrictDefaultSGCustomResourceProviderRole26592FE0"
+   ],
+   "Metadata": {
+    "aws:cdk:path": "PlatformStack/Custom::VpcRestrictDefaultSGCustomResourceProvider/Handler",
+    "aws:asset:path": "asset.7fa1e366ee8a9ded01fc355f704cff92bfd179574e6f9cfee800a3541df1b200",
+    "aws:asset:property": "Code"
+   }
+  },
+  "ContainerPlatformRepository31C1AB06": {
+   "Type": "AWS::ECR::Repository",
+   "Properties": {
+    "RepositoryName": "platform-demo"
+   },
+   "UpdateReplacePolicy": "Delete",
+   "DeletionPolicy": "Delete",
+   "Metadata": {
+    "aws:cdk:path": "PlatformStack/Container/PlatformRepository/Resource"
+   }
+  },
+  "ContainerPlatformCluster8FD96C92": {
+   "Type": "AWS::ECS::Cluster",
+   "Properties": {
+    "ClusterName": "platform-cluster",
+    "ClusterSettings": [
+     {
+      "Name": "containerInsights",
+      "Value": "enabled"
+     }
+    ]
+   },
+   "Metadata": {
+    "aws:cdk:path": "PlatformStack/Container/PlatformCluster/Resource"
+   }
+  },
+  "ContainerPlatformCluster1A8B83EA": {
+   "Type": "AWS::ECS::ClusterCapacityProviderAssociations",
+   "Properties": {
+    "CapacityProviders": [
+     "FARGATE",
+     "FARGATE_SPOT"
+    ],
+    "Cluster": {
+     "Ref": "ContainerPlatformCluster8FD96C92"
+    },
+    "DefaultCapacityProviderStrategy": []
+   },
+   "Metadata": {
+    "aws:cdk:path": "PlatformStack/Container/PlatformCluster/PlatformCluster"
+   }
+  },
+  "ContainerPlatformTaskDefinitionTaskRoleCD857534": {
+   "Type": "AWS::IAM::Role",
+   "Properties": {
+    "AssumeRolePolicyDocument": {
+     "Statement": [
+      {
+       "Action": "sts:AssumeRole",
+       "Effect": "Allow",
+       "Principal": {
+        "Service": "ecs-tasks.amazonaws.com"
+       }
+      }
+     ],
+     "Version": "2012-10-17"
+    },
+    "Description": "Task role for platform-demo"
+   },
+   "Metadata": {
+    "aws:cdk:path": "PlatformStack/Container/PlatformTaskDefinitionTaskRole/Resource"
+   }
+  },
+  "ContainerTaskExecutionRole29EAFB52": {
+   "Type": "AWS::IAM::Role",
+   "Properties": {
+    "AssumeRolePolicyDocument": {
+     "Statement": [
+      {
+       "Action": "sts:AssumeRole",
+       "Effect": "Allow",
+       "Principal": {
+        "Service": "ecs-tasks.amazonaws.com"
+       }
+      }
+     ],
+     "Version": "2012-10-17"
+    },
+    "Description": "Task execution role for platform-demo",
+    "ManagedPolicyArns": [
+     {
+      "Fn::Join": [
+       "",
+       [
+        "arn:",
+        {
+         "Ref": "AWS::Partition"
+        },
+        ":iam::aws:policy/service-role/AmazonECSTaskExecutionRolePolicy"
+       ]
+      ]
+     }
+    ]
+   },
+   "Metadata": {
+    "aws:cdk:path": "PlatformStack/Container/TaskExecutionRole/Resource"
+   }
+  },
+  "ContainerTaskExecutionRoleDefaultPolicyE3FB33E8": {
+   "Type": "AWS::IAM::Policy",
+   "Properties": {
+    "PolicyDocument": {
+     "Statement": [
+      {
+       "Action": [
+        "logs:CreateLogStream",
+        "logs:PutLogEvents"
+       ],
+       "Effect": "Allow",
+       "Resource": {
+        "Fn::GetAtt": [
+         "ContainerPlatformTaskDefinitionPlatformContainerLogGroup8940AB23",
+         "Arn"
+        ]
+       }
+      }
+     ],
+     "Version": "2012-10-17"
+    },
+    "PolicyName": "ContainerTaskExecutionRoleDefaultPolicyE3FB33E8",
+    "Roles": [
+     {
+      "Ref": "ContainerTaskExecutionRole29EAFB52"
+     }
+    ]
+   },
+   "Metadata": {
+    "aws:cdk:path": "PlatformStack/Container/TaskExecutionRole/DefaultPolicy/Resource"
+   }
+  },
+  "ContainerPlatformTaskDefinitionPlatformContainerLogGroup8940AB23": {
+   "Type": "AWS::Logs::LogGroup",
+   "Properties": {
+    "RetentionInDays": 7
+   },
+   "UpdateReplacePolicy": "Retain",
+   "DeletionPolicy": "Retain",
+   "Metadata": {
+    "aws:cdk:path": "PlatformStack/Container/PlatformTaskDefinitionPlatformContainerLogGroup/Resource"
+   }
+  },
+  "ContainerPlatformTaskDefinition42DCF9D8": {
+   "Type": "AWS::ECS::TaskDefinition",
+   "Properties": {
+    "ContainerDefinitions": [
+     {
+      "Essential": true,
+      "Image": "amazon/amazon-ecs-sample",
+      "LogConfiguration": {
+       "LogDriver": "awslogs",
+       "Options": {
+        "awslogs-group": {
+         "Ref": "ContainerPlatformTaskDefinitionPlatformContainerLogGroup8940AB23"
+        },
+        "awslogs-stream-prefix": "platform",
+        "awslogs-region": "eu-west-2"
+       }
+      },
+      "Name": "PlatformContainer",
+      "PortMappings": [
+       {
+        "ContainerPort": 5000,
+        "Protocol": "tcp"
+       }
+      ]
+     }
+    ],
+    "Cpu": "256",
+    "ExecutionRoleArn": {
+     "Fn::GetAtt": [
+      "ContainerTaskExecutionRole29EAFB52",
+      "Arn"
+     ]
+    },
+    "Family": "PlatformStackContainerPlatformTaskDefinition9F5B9F80",
+    "Memory": "512",
+    "NetworkMode": "awsvpc",
+    "RequiresCompatibilities": [
+     "FARGATE"
+    ],
+    "TaskRoleArn": {
+     "Fn::GetAtt": [
+      "ContainerPlatformTaskDefinitionTaskRoleCD857534",
+      "Arn"
+     ]
+    }
+   },
+   "Metadata": {
+    "aws:cdk:path": "PlatformStack/Container/PlatformTaskDefinition/Resource"
+   }
+  },
+  "ContainerPlatformService98BCE8D4": {
+   "Type": "AWS::ECS::Service",
+   "Properties": {
+    "Cluster": {
+     "Ref": "ContainerPlatformCluster8FD96C92"
+    },
+    "DeploymentConfiguration": {
+     "Alarms": {
+      "AlarmNames": [],
+      "Enable": false,
+      "Rollback": false
+     },
+     "MaximumPercent": 200,
+     "MinimumHealthyPercent": 100
+    },
+    "DesiredCount": 1,
+    "EnableECSManagedTags": false,
+    "LaunchType": "FARGATE",
+    "NetworkConfiguration": {
+     "AwsvpcConfiguration": {
+      "AssignPublicIp": "ENABLED",
+      "SecurityGroups": [
+       {
+        "Fn::GetAtt": [
+         "NetworkingServiceSecurityGroupB65FF842",
+         "GroupId"
+        ]
+       }
+      ],
+      "Subnets": [
+       {
+        "Ref": "NetworkingPlatformVPCPublicSubnet1Subnet6E1E730A"
+       },
+       {
+        "Ref": "NetworkingPlatformVPCPublicSubnet2SubnetC9775787"
+       }
+      ]
+     }
+    },
+    "ServiceName": "platform-service",
+    "TaskDefinition": {
+     "Ref": "ContainerPlatformTaskDefinition42DCF9D8"
+    }
+   },
+   "DependsOn": [
+    "ContainerPlatformTaskDefinitionTaskRoleCD857534"
+   ],
+   "Metadata": {
+    "aws:cdk:path": "PlatformStack/Container/PlatformService/Service"
+   }
+  },
+  "CDKMetadata": {
+   "Type": "AWS::CDK::Metadata",
+   "Properties": {
+    "Analytics": "v2:deflate64:H4sIAAAAAAAA/2WQ3W7CMAyFn4X7kA2Qpt2ybkNI01a1E7eTG0zxaJMqdkBV1Xef2gJF7Mqfj3/k47mePT/pxwmceGq2h2lBmW5SAXNQcOKfBs1cN5vKqGhnN3Gk4pAVZNKQWZROGylxQfAbsgJHfdSWzM4QCDl7be7gbR134RNkBYInqFXs6QiC4+K1FfQWrw3DJedsKQJmX6IVlaIJnqReeReq/oZboVVovG4SrByTON/vGbOuzLqJisCCvqv9xwgqMCR17N2RtuhvPLF6B59DZ5YPr7gjSxer94qzAmTR32jn2RT9kczwvgFbRVDqJnHDU/sYu4JMf/1ArSpczrr5cPnV+YXbViXILvhua2Bx5Zh27kf+ClIFuWu6GH0BRrVkRkkFcrJ5q+Ja9s4+LPRsoeeTXyaa+mCFStTJEP8A/JfG01oCAAA="
+   },
+   "Metadata": {
+    "aws:cdk:path": "PlatformStack/CDKMetadata/Default"
+   }
+  }
+ },
+ "Outputs": {
+  "NetworkingVpcIdA4694F27": {
+   "Value": {
+    "Ref": "NetworkingPlatformVPCA0EF3C6E"
+   }
+  },
+  "NetworkingPublicSubnetsC1108940": {
+   "Value": {
+    "Fn::Join": [
+     "",
+     [
+      {
+       "Ref": "NetworkingPlatformVPCPublicSubnet1Subnet6E1E730A"
+      },
+      ",",
+      {
+       "Ref": "NetworkingPlatformVPCPublicSubnet2SubnetC9775787"
+      }
+     ]
+    ]
+   }
+  },
+  "NetworkingPrivateSubnets5ABEDB3E": {
+   "Value": {
+    "Fn::Join": [
+     "",
+     [
+      {
+       "Ref": "NetworkingPlatformVPCPrivateSubnet1Subnet2E0AA240"
+      },
+      ",",
+      {
+       "Ref": "NetworkingPlatformVPCPrivateSubnet2Subnet949CE4ED"
+      }
+     ]
+    ]
+   }
+  },
+  "NetworkingSecurityGroupIdB954B301": {
+   "Value": {
+    "Fn::GetAtt": [
+     "NetworkingServiceSecurityGroupB65FF842",
+     "GroupId"
+    ]
+   }
+  },
+  "VpcId": {
+   "Value": {
+    "Ref": "NetworkingPlatformVPCA0EF3C6E"
+   }
+  },
+  "SecurityGroupId": {
+   "Value": {
+    "Fn::GetAtt": [
+     "NetworkingServiceSecurityGroupB65FF842",
+     "GroupId"
+    ]
+   }
+  },
+  "PublicSubnets": {
+   "Value": {
+    "Fn::Join": [
+     "",
+     [
+      {
+       "Ref": "NetworkingPlatformVPCPublicSubnet1Subnet6E1E730A"
+      },
+      ",",
+      {
+       "Ref": "NetworkingPlatformVPCPublicSubnet2SubnetC9775787"
+      }
+     ]
+    ]
+   }
+  },
+  "PrivateSubnets": {
+   "Value": {
+    "Fn::Join": [
+     "",
+     [
+      {
+       "Ref": "NetworkingPlatformVPCPrivateSubnet1Subnet2E0AA240"
+      },
+      ",",
+      {
+       "Ref": "NetworkingPlatformVPCPrivateSubnet2Subnet949CE4ED"
+      }
+     ]
+    ]
+   }
+  },
+  "ClusterName": {
+   "Value": {
+    "Ref": "ContainerPlatformCluster8FD96C92"
+   }
+  },
+  "ServiceName": {
+   "Value": {
+    "Fn::GetAtt": [
+     "ContainerPlatformService98BCE8D4",
+     "Name"
+    ]
+   }
+  },
+  "RepositoryUri": {
+   "Value": {
+    "Fn::Join": [
+     "",
+     [
+      {
+       "Fn::Select": [
+        4,
+        {
+         "Fn::Split": [
+          ":",
+          {
+           "Fn::GetAtt": [
+            "ContainerPlatformRepository31C1AB06",
+            "Arn"
+           ]
+          }
+         ]
+        }
+       ]
+      },
+      ".dkr.ecr.",
+      {
+       "Fn::Select": [
+        3,
+        {
+         "Fn::Split": [
+          ":",
+          {
+           "Fn::GetAtt": [
+            "ContainerPlatformRepository31C1AB06",
+            "Arn"
+           ]
+          }
+         ]
+        }
+       ]
+      },
+      ".",
+      {
+       "Ref": "AWS::URLSuffix"
+      },
+      "/",
+      {
+       "Ref": "ContainerPlatformRepository31C1AB06"
+      }
+     ]
+    ]
+   }
+  }
+ },
+ "Parameters": {
+  "BootstrapVersion": {
+   "Type": "AWS::SSM::Parameter::Value<String>",
+   "Default": "/cdk-bootstrap/hnb659fds/version",
+   "Description": "Version of the CDK Bootstrap resources in this environment, automatically retrieved from SSM Parameter Store. [cdk:skip]"
+  }
+ },
+ "Rules": {
+  "CheckBootstrapVersion": {
+   "Assertions": [
+    {
+     "Assert": {
+      "Fn::Not": [
+       {
+        "Fn::Contains": [
+         [
+          "1",
+          "2",
+          "3",
+          "4",
+          "5"
+         ],
+         {
+          "Ref": "BootstrapVersion"
+         }
+        ]
+       }
+      ]
+     },
+     "AssertDescription": "CDK bootstrap stack version 6 required. Please run 'cdk bootstrap' with a recent version of the CDK CLI."
+    }
+   ]
+  }
+ }
+}

@@ -1,0 +1,329 @@
+{
+  "version": "40.0.0",
+  "artifacts": {
+    "PlatformStack.assets": {
+      "type": "cdk:asset-manifest",
+      "properties": {
+        "file": "PlatformStack.assets.json",
+        "requiresBootstrapStackVersion": 6,
+        "bootstrapStackVersionSsmParameter": "/cdk-bootstrap/hnb659fds/version"
+      }
+    },
+    "PlatformStack": {
+      "type": "aws:cloudformation:stack",
+      "environment": "aws://156041400555/eu-west-2",
+      "properties": {
+        "templateFile": "PlatformStack.template.json",
+        "terminationProtection": false,
+        "validateOnSynth": false,
+        "assumeRoleArn": "arn:${AWS::Partition}:iam::156041400555:role/cdk-hnb659fds-deploy-role-156041400555-eu-west-2",
+        "cloudFormationExecutionRoleArn": "arn:${AWS::Partition}:iam::156041400555:role/cdk-hnb659fds-cfn-exec-role-156041400555-eu-west-2",
+        "stackTemplateAssetObjectUrl": "s3://cdk-hnb659fds-assets-156041400555-eu-west-2/9797727574acf587e039d3ad099cd3376be660f4e078137e35ad9954ef84bfa3.json",
+        "requiresBootstrapStackVersion": 6,
+        "bootstrapStackVersionSsmParameter": "/cdk-bootstrap/hnb659fds/version",
+        "additionalDependencies": [
+          "PlatformStack.assets"
+        ],
+        "lookupRole": {
+          "arn": "arn:${AWS::Partition}:iam::156041400555:role/cdk-hnb659fds-lookup-role-156041400555-eu-west-2",
+          "requiresBootstrapStackVersion": 8,
+          "bootstrapStackVersionSsmParameter": "/cdk-bootstrap/hnb659fds/version"
+        }
+      },
+      "dependencies": [
+        "PlatformStack.assets"
+      ],
+      "metadata": {
+        "/PlatformStack/NetworkingConstruct/PlatformVpc/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "NetworkingConstructPlatformVpc61F3BBEA"
+          }
+        ],
+        "/PlatformStack/NetworkingConstruct/PlatformVpc/PublicSubnet1/Subnet": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "NetworkingConstructPlatformVpcPublicSubnet1Subnet3BB2F241"
+          }
+        ],
+        "/PlatformStack/NetworkingConstruct/PlatformVpc/PublicSubnet1/RouteTable": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "NetworkingConstructPlatformVpcPublicSubnet1RouteTableC63E0813"
+          }
+        ],
+        "/PlatformStack/NetworkingConstruct/PlatformVpc/PublicSubnet1/RouteTableAssociation": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "NetworkingConstructPlatformVpcPublicSubnet1RouteTableAssociationFBA6F7D1"
+          }
+        ],
+        "/PlatformStack/NetworkingConstruct/PlatformVpc/PublicSubnet1/DefaultRoute": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "NetworkingConstructPlatformVpcPublicSubnet1DefaultRouteFAADAF7D"
+          }
+        ],
+        "/PlatformStack/NetworkingConstruct/PlatformVpc/PublicSubnet1/EIP": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "NetworkingConstructPlatformVpcPublicSubnet1EIPE9270DE0"
+          }
+        ],
+        "/PlatformStack/NetworkingConstruct/PlatformVpc/PublicSubnet1/NATGateway": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "NetworkingConstructPlatformVpcPublicSubnet1NATGateway0AF4BBBF"
+          }
+        ],
+        "/PlatformStack/NetworkingConstruct/PlatformVpc/PublicSubnet2/Subnet": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "NetworkingConstructPlatformVpcPublicSubnet2SubnetFDFBE794"
+          }
+        ],
+        "/PlatformStack/NetworkingConstruct/PlatformVpc/PublicSubnet2/RouteTable": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "NetworkingConstructPlatformVpcPublicSubnet2RouteTable6D325A04"
+          }
+        ],
+        "/PlatformStack/NetworkingConstruct/PlatformVpc/PublicSubnet2/RouteTableAssociation": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "NetworkingConstructPlatformVpcPublicSubnet2RouteTableAssociation97061695"
+          }
+        ],
+        "/PlatformStack/NetworkingConstruct/PlatformVpc/PublicSubnet2/DefaultRoute": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "NetworkingConstructPlatformVpcPublicSubnet2DefaultRoute17AFA0AF"
+          }
+        ],
+        "/PlatformStack/NetworkingConstruct/PlatformVpc/PrivateSubnet1/Subnet": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "NetworkingConstructPlatformVpcPrivateSubnet1SubnetD64F1EC7"
+          }
+        ],
+        "/PlatformStack/NetworkingConstruct/PlatformVpc/PrivateSubnet1/RouteTable": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "NetworkingConstructPlatformVpcPrivateSubnet1RouteTableF571BA0E"
+          }
+        ],
+        "/PlatformStack/NetworkingConstruct/PlatformVpc/PrivateSubnet1/RouteTableAssociation": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "NetworkingConstructPlatformVpcPrivateSubnet1RouteTableAssociation6AC52F55"
+          }
+        ],
+        "/PlatformStack/NetworkingConstruct/PlatformVpc/PrivateSubnet1/DefaultRoute": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "NetworkingConstructPlatformVpcPrivateSubnet1DefaultRouteE5450C03"
+          }
+        ],
+        "/PlatformStack/NetworkingConstruct/PlatformVpc/PrivateSubnet2/Subnet": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "NetworkingConstructPlatformVpcPrivateSubnet2Subnet7D20E41E"
+          }
+        ],
+        "/PlatformStack/NetworkingConstruct/PlatformVpc/PrivateSubnet2/RouteTable": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "NetworkingConstructPlatformVpcPrivateSubnet2RouteTable37E4F551"
+          }
+        ],
+        "/PlatformStack/NetworkingConstruct/PlatformVpc/PrivateSubnet2/RouteTableAssociation": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "NetworkingConstructPlatformVpcPrivateSubnet2RouteTableAssociationF830A696"
+          }
+        ],
+        "/PlatformStack/NetworkingConstruct/PlatformVpc/PrivateSubnet2/DefaultRoute": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "NetworkingConstructPlatformVpcPrivateSubnet2DefaultRouteECDD9A3B"
+          }
+        ],
+        "/PlatformStack/NetworkingConstruct/PlatformVpc/IGW": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "NetworkingConstructPlatformVpcIGW2AEC2802"
+          }
+        ],
+        "/PlatformStack/NetworkingConstruct/PlatformVpc/VPCGW": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "NetworkingConstructPlatformVpcVPCGW787EE206"
+          }
+        ],
+        "/PlatformStack/NetworkingConstruct/PlatformVpc/RestrictDefaultSecurityGroupCustomResource/Default": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "NetworkingConstructPlatformVpcRestrictDefaultSecurityGroupCustomResource699D7F6D"
+          }
+        ],
+        "/PlatformStack/NetworkingConstruct/ApplicationSecurityGroup/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "NetworkingConstructApplicationSecurityGroup29DA5B85"
+          }
+        ],
+        "/PlatformStack/Custom::VpcRestrictDefaultSGCustomResourceProvider": [
+          {
+            "type": "aws:cdk:is-custom-resource-handler-customResourceProvider",
+            "data": true
+          }
+        ],
+        "/PlatformStack/Custom::VpcRestrictDefaultSGCustomResourceProvider/Role": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "CustomVpcRestrictDefaultSGCustomResourceProviderRole26592FE0"
+          }
+        ],
+        "/PlatformStack/Custom::VpcRestrictDefaultSGCustomResourceProvider/Handler": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "CustomVpcRestrictDefaultSGCustomResourceProviderHandlerDC833E5E"
+          }
+        ],
+        "/PlatformStack/VpcId": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "VpcId"
+          }
+        ],
+        "/PlatformStack/SecurityGroupId": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "SecurityGroupId"
+          }
+        ],
+        "/PlatformStack/PublicSubnets": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "PublicSubnets"
+          }
+        ],
+        "/PlatformStack/PrivateSubnets": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "PrivateSubnets"
+          }
+        ],
+        "/PlatformStack/ContainerConstruct/LogEncryptionKey/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "ContainerConstructLogEncryptionKeyA3DA34DB"
+          }
+        ],
+        "/PlatformStack/ContainerConstruct/ApplicationContainerLogGroup/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "ContainerConstructApplicationContainerLogGroupA5EF6D09"
+          }
+        ],
+        "/PlatformStack/ContainerConstruct/ApplicationCluster/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "ContainerConstructApplicationCluster56345A4E"
+          }
+        ],
+        "/PlatformStack/ContainerConstruct/ApplicationTaskDefinition/TaskRole/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "ContainerConstructApplicationTaskDefinitionTaskRoleE440B468"
+          }
+        ],
+        "/PlatformStack/ContainerConstruct/ApplicationTaskDefinition/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "ContainerConstructApplicationTaskDefinitionB0EBE2C9"
+          }
+        ],
+        "/PlatformStack/ContainerConstruct/ApplicationTaskDefinition/ExecutionRole/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "ContainerConstructApplicationTaskDefinitionExecutionRoleA664CE50"
+          }
+        ],
+        "/PlatformStack/ContainerConstruct/ApplicationTaskDefinition/ExecutionRole/DefaultPolicy/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "ContainerConstructApplicationTaskDefinitionExecutionRoleDefaultPolicyA593EF03"
+          }
+        ],
+        "/PlatformStack/ContainerConstruct/ApplicationService": [
+          {
+            "type": "aws:cdk:warning",
+            "data": "minHealthyPercent has not been configured so the default value of 50% is used. The number of running tasks will decrease below the desired count during deployments etc. See https://github.com/aws/aws-cdk/issues/31705 [ack: @aws-cdk/aws-ecs:minHealthyPercent]",
+            "trace": [
+              "Annotations.addMessage (C:\\Users\\david\\AppData\\Local\\Temp\\jsii-kernel-qkoN4N\\node_modules\\aws-cdk-lib\\core\\lib\\annotations.js:1:1608)",
+              "Annotations.addWarningV2 (C:\\Users\\david\\AppData\\Local\\Temp\\jsii-kernel-qkoN4N\\node_modules\\aws-cdk-lib\\core\\lib\\annotations.js:1:825)",
+              "new BaseService (C:\\Users\\david\\AppData\\Local\\Temp\\jsii-kernel-qkoN4N\\node_modules\\aws-cdk-lib\\aws-ecs\\lib\\base\\base-service.js:1:8100)",
+              "new FargateService (C:\\Users\\david\\AppData\\Local\\Temp\\jsii-kernel-qkoN4N\\node_modules\\aws-cdk-lib\\aws-ecs\\lib\\fargate\\fargate-service.js:1:3551)",
+              "Kernel._Kernel_create (C:\\Users\\david\\AppData\\Local\\Temp\\tmp9m6qwfi_\\lib\\program.js:548:25)",
+              "Kernel.create (C:\\Users\\david\\AppData\\Local\\Temp\\tmp9m6qwfi_\\lib\\program.js:218:93)",
+              "KernelHost.processRequest (C:\\Users\\david\\AppData\\Local\\Temp\\tmp9m6qwfi_\\lib\\program.js:15471:36)",
+              "KernelHost.run (C:\\Users\\david\\AppData\\Local\\Temp\\tmp9m6qwfi_\\lib\\program.js:15431:22)",
+              "Immediate._onImmediate (C:\\Users\\david\\AppData\\Local\\Temp\\tmp9m6qwfi_\\lib\\program.js:15432:46)",
+              "process.processImmediate (node:internal/timers:476:21)"
+            ]
+          }
+        ],
+        "/PlatformStack/ContainerConstruct/ApplicationService/Service": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "ContainerConstructApplicationServiceB0650F50"
+          }
+        ],
+        "/PlatformStack/ClusterName": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "ClusterName"
+          }
+        ],
+        "/PlatformStack/ServiceName": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "ServiceName"
+          }
+        ],
+        "/PlatformStack/RepositoryUri": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "RepositoryUri"
+          }
+        ],
+        "/PlatformStack/CDKMetadata/Default": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "CDKMetadata"
+          }
+        ],
+        "/PlatformStack/BootstrapVersion": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "BootstrapVersion"
+          }
+        ],
+        "/PlatformStack/CheckBootstrapVersion": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "CheckBootstrapVersion"
+          }
+        ]
+      },
+      "displayName": "PlatformStack"
+    },
+    "Tree": {
+      "type": "cdk:tree",
+      "properties": {
+        "file": "tree.json"
+      }
+    }
+  }
+}
