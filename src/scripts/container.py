@@ -10,7 +10,7 @@ from aws_cdk import (
     Tags
 )
 from constructs import Construct
-from src.utils.config import PlatformConfig
+from ..utils.config import PlatformConfig
 
 class ContainerConstruct(Construct):
     """Container infrastructure for the platform."""

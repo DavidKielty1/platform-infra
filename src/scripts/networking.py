@@ -9,7 +9,7 @@ from aws_cdk import (
     Tags
 )
 from constructs import Construct
-from src.utils.config import PlatformConfig
+from ..utils.config import PlatformConfig
 
 class NetworkingConstruct(Construct):
     """Networking infrastructure for the platform."""

@@ -1,8 +1,8 @@
 from aws_cdk import Stack, CfnOutput
 from constructs import Construct
-from src.constructs.networking import NetworkingConstruct
-from src.constructs.container import ContainerConstruct
-from src.utils.config import PlatformConfig
+from .networking import NetworkingConstruct
+from .container import ContainerConstruct
+from ..utils.config import PlatformConfig
 
 class PlatformStack(Stack):
     """Platform stack that creates all necessary infrastructure."""
