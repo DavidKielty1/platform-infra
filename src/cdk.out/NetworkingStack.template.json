@@ -1,0 +1,574 @@
+{
+ "Resources": {
+  "NetworkingConstructPlatformVPC2388000F": {
+   "Type": "AWS::EC2::VPC",
+   "Properties": {
+    "CidrBlock": "10.0.0.0/16",
+    "EnableDnsHostnames": true,
+    "EnableDnsSupport": true,
+    "InstanceTenancy": "default",
+    "Tags": [
+     {
+      "Key": "Name",
+      "Value": "platform-vpc"
+     }
+    ]
+   },
+   "Metadata": {
+    "aws:cdk:path": "NetworkingStack/NetworkingConstruct/PlatformVPC/Resource"
+   }
+  },
+  "NetworkingConstructPlatformVPCPublicSubnet1SubnetAAC63FD1": {
+   "Type": "AWS::EC2::Subnet",
+   "Properties": {
+    "AvailabilityZone": "eu-west-2a",
+    "CidrBlock": "10.0.0.0/24",
+    "MapPublicIpOnLaunch": true,
+    "Tags": [
+     {
+      "Key": "aws-cdk:subnet-name",
+      "Value": "Public"
+     },
+     {
+      "Key": "aws-cdk:subnet-type",
+      "Value": "Public"
+     },
+     {
+      "Key": "Name",
+      "Value": "NetworkingStack/NetworkingConstruct/PlatformVPC/PublicSubnet1"
+     }
+    ],
+    "VpcId": {
+     "Ref": "NetworkingConstructPlatformVPC2388000F"
+    }
+   },
+   "Metadata": {
+    "aws:cdk:path": "NetworkingStack/NetworkingConstruct/PlatformVPC/PublicSubnet1/Subnet"
+   }
+  },
+  "NetworkingConstructPlatformVPCPublicSubnet1RouteTable02F4BE7B": {
+   "Type": "AWS::EC2::RouteTable",
+   "Properties": {
+    "Tags": [
+     {
+      "Key": "Name",
+      "Value": "NetworkingStack/NetworkingConstruct/PlatformVPC/PublicSubnet1"
+     }
+    ],
+    "VpcId": {
+     "Ref": "NetworkingConstructPlatformVPC2388000F"
+    }
+   },
+   "Metadata": {
+    "aws:cdk:path": "NetworkingStack/NetworkingConstruct/PlatformVPC/PublicSubnet1/RouteTable"
+   }
+  },
+  "NetworkingConstructPlatformVPCPublicSubnet1RouteTableAssociation279FDA86": {
+   "Type": "AWS::EC2::SubnetRouteTableAssociation",
+   "Properties": {
+    "RouteTableId": {
+     "Ref": "NetworkingConstructPlatformVPCPublicSubnet1RouteTable02F4BE7B"
+    },
+    "SubnetId": {
+     "Ref": "NetworkingConstructPlatformVPCPublicSubnet1SubnetAAC63FD1"
+    }
+   },
+   "Metadata": {
+    "aws:cdk:path": "NetworkingStack/NetworkingConstruct/PlatformVPC/PublicSubnet1/RouteTableAssociation"
+   }
+  },
+  "NetworkingConstructPlatformVPCPublicSubnet1DefaultRoute49D6F3F3": {
+   "Type": "AWS::EC2::Route",
+   "Properties": {
+    "DestinationCidrBlock": "0.0.0.0/0",
+    "GatewayId": {
+     "Ref": "NetworkingConstructPlatformVPCIGWF782E6F9"
+    },
+    "RouteTableId": {
+     "Ref": "NetworkingConstructPlatformVPCPublicSubnet1RouteTable02F4BE7B"
+    }
+   },
+   "DependsOn": [
+    "NetworkingConstructPlatformVPCVPCGW1A0C15AC"
+   ],
+   "Metadata": {
+    "aws:cdk:path": "NetworkingStack/NetworkingConstruct/PlatformVPC/PublicSubnet1/DefaultRoute"
+   }
+  },
+  "NetworkingConstructPlatformVPCPublicSubnet1EIP9FA43E9A": {
+   "Type": "AWS::EC2::EIP",
+   "Properties": {
+    "Domain": "vpc",
+    "Tags": [
+     {
+      "Key": "Name",
+      "Value": "NetworkingStack/NetworkingConstruct/PlatformVPC/PublicSubnet1"
+     }
+    ]
+   },
+   "Metadata": {
+    "aws:cdk:path": "NetworkingStack/NetworkingConstruct/PlatformVPC/PublicSubnet1/EIP"
+   }
+  },
+  "NetworkingConstructPlatformVPCPublicSubnet1NATGateway189E2D07": {
+   "Type": "AWS::EC2::NatGateway",
+   "Properties": {
+    "AllocationId": {
+     "Fn::GetAtt": [
+      "NetworkingConstructPlatformVPCPublicSubnet1EIP9FA43E9A",
+      "AllocationId"
+     ]
+    },
+    "SubnetId": {
+     "Ref": "NetworkingConstructPlatformVPCPublicSubnet1SubnetAAC63FD1"
+    },
+    "Tags": [
+     {
+      "Key": "Name",
+      "Value": "NetworkingStack/NetworkingConstruct/PlatformVPC/PublicSubnet1"
+     }
+    ]
+   },
+   "DependsOn": [
+    "NetworkingConstructPlatformVPCPublicSubnet1DefaultRoute49D6F3F3",
+    "NetworkingConstructPlatformVPCPublicSubnet1RouteTableAssociation279FDA86"
+   ],
+   "Metadata": {
+    "aws:cdk:path": "NetworkingStack/NetworkingConstruct/PlatformVPC/PublicSubnet1/NATGateway"
+   }
+  },
+  "NetworkingConstructPlatformVPCPublicSubnet2Subnet6EF7BED7": {
+   "Type": "AWS::EC2::Subnet",
+   "Properties": {
+    "AvailabilityZone": "eu-west-2b",
+    "CidrBlock": "10.0.1.0/24",
+    "MapPublicIpOnLaunch": true,
+    "Tags": [
+     {
+      "Key": "aws-cdk:subnet-name",
+      "Value": "Public"
+     },
+     {
+      "Key": "aws-cdk:subnet-type",
+      "Value": "Public"
+     },
+     {
+      "Key": "Name",
+      "Value": "NetworkingStack/NetworkingConstruct/PlatformVPC/PublicSubnet2"
+     }
+    ],
+    "VpcId": {
+     "Ref": "NetworkingConstructPlatformVPC2388000F"
+    }
+   },
+   "Metadata": {
+    "aws:cdk:path": "NetworkingStack/NetworkingConstruct/PlatformVPC/PublicSubnet2/Subnet"
+   }
+  },
+  "NetworkingConstructPlatformVPCPublicSubnet2RouteTable55378216": {
+   "Type": "AWS::EC2::RouteTable",
+   "Properties": {
+    "Tags": [
+     {
+      "Key": "Name",
+      "Value": "NetworkingStack/NetworkingConstruct/PlatformVPC/PublicSubnet2"
+     }
+    ],
+    "VpcId": {
+     "Ref": "NetworkingConstructPlatformVPC2388000F"
+    }
+   },
+   "Metadata": {
+    "aws:cdk:path": "NetworkingStack/NetworkingConstruct/PlatformVPC/PublicSubnet2/RouteTable"
+   }
+  },
+  "NetworkingConstructPlatformVPCPublicSubnet2RouteTableAssociation44F90CE4": {
+   "Type": "AWS::EC2::SubnetRouteTableAssociation",
+   "Properties": {
+    "RouteTableId": {
+     "Ref": "NetworkingConstructPlatformVPCPublicSubnet2RouteTable55378216"
+    },
+    "SubnetId": {
+     "Ref": "NetworkingConstructPlatformVPCPublicSubnet2Subnet6EF7BED7"
+    }
+   },
+   "Metadata": {
+    "aws:cdk:path": "NetworkingStack/NetworkingConstruct/PlatformVPC/PublicSubnet2/RouteTableAssociation"
+   }
+  },
+  "NetworkingConstructPlatformVPCPublicSubnet2DefaultRouteEFC1AF05": {
+   "Type": "AWS::EC2::Route",
+   "Properties": {
+    "DestinationCidrBlock": "0.0.0.0/0",
+    "GatewayId": {
+     "Ref": "NetworkingConstructPlatformVPCIGWF782E6F9"
+    },
+    "RouteTableId": {
+     "Ref": "NetworkingConstructPlatformVPCPublicSubnet2RouteTable55378216"
+    }
+   },
+   "DependsOn": [
+    "NetworkingConstructPlatformVPCVPCGW1A0C15AC"
+   ],
+   "Metadata": {
+    "aws:cdk:path": "NetworkingStack/NetworkingConstruct/PlatformVPC/PublicSubnet2/DefaultRoute"
+   }
+  },
+  "NetworkingConstructPlatformVPCPrivateSubnet1Subnet6D700D2E": {
+   "Type": "AWS::EC2::Subnet",
+   "Properties": {
+    "AvailabilityZone": "eu-west-2a",
+    "CidrBlock": "10.0.2.0/24",
+    "MapPublicIpOnLaunch": false,
+    "Tags": [
+     {
+      "Key": "aws-cdk:subnet-name",
+      "Value": "Private"
+     },
+     {
+      "Key": "aws-cdk:subnet-type",
+      "Value": "Private"
+     },
+     {
+      "Key": "Name",
+      "Value": "NetworkingStack/NetworkingConstruct/PlatformVPC/PrivateSubnet1"
+     }
+    ],
+    "VpcId": {
+     "Ref": "NetworkingConstructPlatformVPC2388000F"
+    }
+   },
+   "Metadata": {
+    "aws:cdk:path": "NetworkingStack/NetworkingConstruct/PlatformVPC/PrivateSubnet1/Subnet"
+   }
+  },
+  "NetworkingConstructPlatformVPCPrivateSubnet1RouteTable06E97996": {
+   "Type": "AWS::EC2::RouteTable",
+   "Properties": {
+    "Tags": [
+     {
+      "Key": "Name",
+      "Value": "NetworkingStack/NetworkingConstruct/PlatformVPC/PrivateSubnet1"
+     }
+    ],
+    "VpcId": {
+     "Ref": "NetworkingConstructPlatformVPC2388000F"
+    }
+   },
+   "Metadata": {
+    "aws:cdk:path": "NetworkingStack/NetworkingConstruct/PlatformVPC/PrivateSubnet1/RouteTable"
+   }
+  },
+  "NetworkingConstructPlatformVPCPrivateSubnet1RouteTableAssociationCB6A8558": {
+   "Type": "AWS::EC2::SubnetRouteTableAssociation",
+   "Properties": {
+    "RouteTableId": {
+     "Ref": "NetworkingConstructPlatformVPCPrivateSubnet1RouteTable06E97996"
+    },
+    "SubnetId": {
+     "Ref": "NetworkingConstructPlatformVPCPrivateSubnet1Subnet6D700D2E"
+    }
+   },
+   "Metadata": {
+    "aws:cdk:path": "NetworkingStack/NetworkingConstruct/PlatformVPC/PrivateSubnet1/RouteTableAssociation"
+   }
+  },
+  "NetworkingConstructPlatformVPCPrivateSubnet1DefaultRouteF05354D5": {
+   "Type": "AWS::EC2::Route",
+   "Properties": {
+    "DestinationCidrBlock": "0.0.0.0/0",
+    "NatGatewayId": {
+     "Ref": "NetworkingConstructPlatformVPCPublicSubnet1NATGateway189E2D07"
+    },
+    "RouteTableId": {
+     "Ref": "NetworkingConstructPlatformVPCPrivateSubnet1RouteTable06E97996"
+    }
+   },
+   "Metadata": {
+    "aws:cdk:path": "NetworkingStack/NetworkingConstruct/PlatformVPC/PrivateSubnet1/DefaultRoute"
+   }
+  },
+  "NetworkingConstructPlatformVPCPrivateSubnet2SubnetBF1734FF": {
+   "Type": "AWS::EC2::Subnet",
+   "Properties": {
+    "AvailabilityZone": "eu-west-2b",
+    "CidrBlock": "10.0.3.0/24",
+    "MapPublicIpOnLaunch": false,
+    "Tags": [
+     {
+      "Key": "aws-cdk:subnet-name",
+      "Value": "Private"
+     },
+     {
+      "Key": "aws-cdk:subnet-type",
+      "Value": "Private"
+     },
+     {
+      "Key": "Name",
+      "Value": "NetworkingStack/NetworkingConstruct/PlatformVPC/PrivateSubnet2"
+     }
+    ],
+    "VpcId": {
+     "Ref": "NetworkingConstructPlatformVPC2388000F"
+    }
+   },
+   "Metadata": {
+    "aws:cdk:path": "NetworkingStack/NetworkingConstruct/PlatformVPC/PrivateSubnet2/Subnet"
+   }
+  },
+  "NetworkingConstructPlatformVPCPrivateSubnet2RouteTable099578DE": {
+   "Type": "AWS::EC2::RouteTable",
+   "Properties": {
+    "Tags": [
+     {
+      "Key": "Name",
+      "Value": "NetworkingStack/NetworkingConstruct/PlatformVPC/PrivateSubnet2"
+     }
+    ],
+    "VpcId": {
+     "Ref": "NetworkingConstructPlatformVPC2388000F"
+    }
+   },
+   "Metadata": {
+    "aws:cdk:path": "NetworkingStack/NetworkingConstruct/PlatformVPC/PrivateSubnet2/RouteTable"
+   }
+  },
+  "NetworkingConstructPlatformVPCPrivateSubnet2RouteTableAssociation0C61A5EF": {
+   "Type": "AWS::EC2::SubnetRouteTableAssociation",
+   "Properties": {
+    "RouteTableId": {
+     "Ref": "NetworkingConstructPlatformVPCPrivateSubnet2RouteTable099578DE"
+    },
+    "SubnetId": {
+     "Ref": "NetworkingConstructPlatformVPCPrivateSubnet2SubnetBF1734FF"
+    }
+   },
+   "Metadata": {
+    "aws:cdk:path": "NetworkingStack/NetworkingConstruct/PlatformVPC/PrivateSubnet2/RouteTableAssociation"
+   }
+  },
+  "NetworkingConstructPlatformVPCPrivateSubnet2DefaultRoute338C5C3E": {
+   "Type": "AWS::EC2::Route",
+   "Properties": {
+    "DestinationCidrBlock": "0.0.0.0/0",
+    "NatGatewayId": {
+     "Ref": "NetworkingConstructPlatformVPCPublicSubnet1NATGateway189E2D07"
+    },
+    "RouteTableId": {
+     "Ref": "NetworkingConstructPlatformVPCPrivateSubnet2RouteTable099578DE"
+    }
+   },
+   "Metadata": {
+    "aws:cdk:path": "NetworkingStack/NetworkingConstruct/PlatformVPC/PrivateSubnet2/DefaultRoute"
+   }
+  },
+  "NetworkingConstructPlatformVPCIGWF782E6F9": {
+   "Type": "AWS::EC2::InternetGateway",
+   "Properties": {
+    "Tags": [
+     {
+      "Key": "Name",
+      "Value": "platform-vpc"
+     }
+    ]
+   },
+   "Metadata": {
+    "aws:cdk:path": "NetworkingStack/NetworkingConstruct/PlatformVPC/IGW"
+   }
+  },
+  "NetworkingConstructPlatformVPCVPCGW1A0C15AC": {
+   "Type": "AWS::EC2::VPCGatewayAttachment",
+   "Properties": {
+    "InternetGatewayId": {
+     "Ref": "NetworkingConstructPlatformVPCIGWF782E6F9"
+    },
+    "VpcId": {
+     "Ref": "NetworkingConstructPlatformVPC2388000F"
+    }
+   },
+   "Metadata": {
+    "aws:cdk:path": "NetworkingStack/NetworkingConstruct/PlatformVPC/VPCGW"
+   }
+  },
+  "NetworkingConstructApplicationSecurityGroup29DA5B85": {
+   "Type": "AWS::EC2::SecurityGroup",
+   "Properties": {
+    "GroupDescription": "Security group for application resources",
+    "SecurityGroupEgress": [
+     {
+      "CidrIp": "0.0.0.0/0",
+      "Description": "Allow all outbound traffic by default",
+      "IpProtocol": "-1"
+     }
+    ],
+    "SecurityGroupIngress": [
+     {
+      "CidrIp": "0.0.0.0/0",
+      "Description": "Allow inbound HTTP traffic",
+      "FromPort": 5000,
+      "IpProtocol": "tcp",
+      "ToPort": 5000
+     }
+    ],
+    "Tags": [
+     {
+      "Key": "Name",
+      "Value": "platform-infra-app-sg"
+     }
+    ],
+    "VpcId": {
+     "Ref": "NetworkingConstructPlatformVPC2388000F"
+    }
+   },
+   "Metadata": {
+    "aws:cdk:path": "NetworkingStack/NetworkingConstruct/ApplicationSecurityGroup/Resource"
+   }
+  },
+  "CDKMetadata": {
+   "Type": "AWS::CDK::Metadata",
+   "Properties": {
+    "Analytics": "v2:deflate64:H4sIAAAAAAAA/02OwYrCQBBEv8X7ZFaTLxAR8aJDIl6XTttia5wJM90bgvjvS4wYT1X9KKort4tibucz6FKGp1vWcG0flQDeDHTplzC3j2OLZnX2R7cyTuuGsdLakwxscmVQoQPUDU18YsuUAjIIB/8JD2a9dYPsQDYg1EFvXOQ/EJqKt14oevoExiXvaykCeLmTF1MRamTpNzFo+9rwDZ6mpBQ04uvtXqXVcfabPo3r5RL8T2EXhc1n18ScRfXCd7LlqP/fh5+LLAEAAA=="
+   },
+   "Metadata": {
+    "aws:cdk:path": "NetworkingStack/CDKMetadata/Default"
+   }
+  }
+ },
+ "Outputs": {
+  "NetworkingConstructVpcId13FDA9D1": {
+   "Value": {
+    "Ref": "NetworkingConstructPlatformVPC2388000F"
+   }
+  },
+  "NetworkingConstructSecurityGroupId749D182F": {
+   "Value": {
+    "Fn::GetAtt": [
+     "NetworkingConstructApplicationSecurityGroup29DA5B85",
+     "GroupId"
+    ]
+   }
+  },
+  "VpcId": {
+   "Description": "VPC ID",
+   "Value": {
+    "Ref": "NetworkingConstructPlatformVPC2388000F"
+   },
+   "Export": {
+    "Name": "platform-infra-vpc-id"
+   }
+  },
+  "SecurityGroupId": {
+   "Description": "Security Group ID",
+   "Value": {
+    "Fn::GetAtt": [
+     "NetworkingConstructApplicationSecurityGroup29DA5B85",
+     "GroupId"
+    ]
+   },
+   "Export": {
+    "Name": "platform-infra-security-group-id"
+   }
+  },
+  "PublicSubnetIds": {
+   "Description": "Public Subnet IDs",
+   "Value": {
+    "Fn::Join": [
+     "",
+     [
+      {
+       "Ref": "NetworkingConstructPlatformVPCPublicSubnet1SubnetAAC63FD1"
+      },
+      ",",
+      {
+       "Ref": "NetworkingConstructPlatformVPCPublicSubnet2Subnet6EF7BED7"
+      }
+     ]
+    ]
+   },
+   "Export": {
+    "Name": "platform-infra-public-subnet-ids"
+   }
+  },
+  "PrivateSubnetIds": {
+   "Description": "Private Subnet IDs",
+   "Value": {
+    "Fn::Join": [
+     "",
+     [
+      {
+       "Ref": "NetworkingConstructPlatformVPCPrivateSubnet1Subnet6D700D2E"
+      },
+      ",",
+      {
+       "Ref": "NetworkingConstructPlatformVPCPrivateSubnet2SubnetBF1734FF"
+      }
+     ]
+    ]
+   },
+   "Export": {
+    "Name": "platform-infra-private-subnet-ids"
+   }
+  },
+  "ExportsOutputRefNetworkingConstructPlatformVPCPublicSubnet1SubnetAAC63FD19D801D7F": {
+   "Value": {
+    "Ref": "NetworkingConstructPlatformVPCPublicSubnet1SubnetAAC63FD1"
+   },
+   "Export": {
+    "Name": "NetworkingStack:ExportsOutputRefNetworkingConstructPlatformVPCPublicSubnet1SubnetAAC63FD19D801D7F"
+   }
+  },
+  "ExportsOutputRefNetworkingConstructPlatformVPCPublicSubnet2Subnet6EF7BED74A81723C": {
+   "Value": {
+    "Ref": "NetworkingConstructPlatformVPCPublicSubnet2Subnet6EF7BED7"
+   },
+   "Export": {
+    "Name": "NetworkingStack:ExportsOutputRefNetworkingConstructPlatformVPCPublicSubnet2Subnet6EF7BED74A81723C"
+   }
+  },
+  "ExportsOutputFnGetAttNetworkingConstructApplicationSecurityGroup29DA5B85GroupIdE77F49C3": {
+   "Value": {
+    "Fn::GetAtt": [
+     "NetworkingConstructApplicationSecurityGroup29DA5B85",
+     "GroupId"
+    ]
+   },
+   "Export": {
+    "Name": "NetworkingStack:ExportsOutputFnGetAttNetworkingConstructApplicationSecurityGroup29DA5B85GroupIdE77F49C3"
+   }
+  }
+ },
+ "Parameters": {
+  "BootstrapVersion": {
+   "Type": "AWS::SSM::Parameter::Value<String>",
+   "Default": "/cdk-bootstrap/hnb659fds/version",
+   "Description": "Version of the CDK Bootstrap resources in this environment, automatically retrieved from SSM Parameter Store. [cdk:skip]"
+  }
+ },
+ "Rules": {
+  "CheckBootstrapVersion": {
+   "Assertions": [
+    {
+     "Assert": {
+      "Fn::Not": [
+       {
+        "Fn::Contains": [
+         [
+          "1",
+          "2",
+          "3",
+          "4",
+          "5"
+         ],
+         {
+          "Ref": "BootstrapVersion"
+         }
+        ]
+       }
+      ]
+     },
+     "AssertDescription": "CDK bootstrap stack version 6 required. Please run 'cdk bootstrap' with a recent version of the CDK CLI."
+    }
+   ]
+  }
+ }
+}

@@ -4,21 +4,21 @@
     "id": "App",
     "path": "",
     "children": {
-      "PlatformStack": {
-        "id": "PlatformStack",
-        "path": "PlatformStack",
+      "NetworkingStack": {
+        "id": "NetworkingStack",
+        "path": "NetworkingStack",
         "children": {
           "NetworkingConstruct": {
             "id": "NetworkingConstruct",
-            "path": "PlatformStack/NetworkingConstruct",
+            "path": "NetworkingStack/NetworkingConstruct",
             "children": {
               "PlatformVPC": {
                 "id": "PlatformVPC",
-                "path": "PlatformStack/NetworkingConstruct/PlatformVPC",
+                "path": "NetworkingStack/NetworkingConstruct/PlatformVPC",
                 "children": {
                   "Resource": {
                     "id": "Resource",
-                    "path": "PlatformStack/NetworkingConstruct/PlatformVPC/Resource",
+                    "path": "NetworkingStack/NetworkingConstruct/PlatformVPC/Resource",
                     "attributes": {
                       "aws:cdk:cloudformation:type": "AWS::EC2::VPC",
                       "aws:cdk:cloudformation:props": {
@@ -41,11 +41,11 @@
                   },
                   "PublicSubnet1": {
                     "id": "PublicSubnet1",
-                    "path": "PlatformStack/NetworkingConstruct/PlatformVPC/PublicSubnet1",
+                    "path": "NetworkingStack/NetworkingConstruct/PlatformVPC/PublicSubnet1",
                     "children": {
                       "Subnet": {
                         "id": "Subnet",
-                        "path": "PlatformStack/NetworkingConstruct/PlatformVPC/PublicSubnet1/Subnet",
+                        "path": "NetworkingStack/NetworkingConstruct/PlatformVPC/PublicSubnet1/Subnet",
                         "attributes": {
                           "aws:cdk:cloudformation:type": "AWS::EC2::Subnet",
                           "aws:cdk:cloudformation:props": {
@@ -63,7 +63,7 @@
                               },
                               {
                                 "key": "Name",
-                                "value": "PlatformStack/NetworkingConstruct/PlatformVPC/PublicSubnet1"
+                                "value": "NetworkingStack/NetworkingConstruct/PlatformVPC/PublicSubnet1"
                               }
                             ],
                             "vpcId": {
@@ -78,7 +78,7 @@
                       },
                       "Acl": {
                         "id": "Acl",
-                        "path": "PlatformStack/NetworkingConstruct/PlatformVPC/PublicSubnet1/Acl",
+                        "path": "NetworkingStack/NetworkingConstruct/PlatformVPC/PublicSubnet1/Acl",
                         "constructInfo": {
                           "fqn": "aws-cdk-lib.Resource",
                           "version": "2.130.0"
@@ -86,14 +86,14 @@
                       },
                       "RouteTable": {
                         "id": "RouteTable",
-                        "path": "PlatformStack/NetworkingConstruct/PlatformVPC/PublicSubnet1/RouteTable",
+                        "path": "NetworkingStack/NetworkingConstruct/PlatformVPC/PublicSubnet1/RouteTable",
                         "attributes": {
                           "aws:cdk:cloudformation:type": "AWS::EC2::RouteTable",
                           "aws:cdk:cloudformation:props": {
                             "tags": [
                               {
                                 "key": "Name",
-                                "value": "PlatformStack/NetworkingConstruct/PlatformVPC/PublicSubnet1"
+                                "value": "NetworkingStack/NetworkingConstruct/PlatformVPC/PublicSubnet1"
                               }
                             ],
                             "vpcId": {
@@ -108,7 +108,7 @@
                       },
                       "RouteTableAssociation": {
                         "id": "RouteTableAssociation",
-                        "path": "PlatformStack/NetworkingConstruct/PlatformVPC/PublicSubnet1/RouteTableAssociation",
+                        "path": "NetworkingStack/NetworkingConstruct/PlatformVPC/PublicSubnet1/RouteTableAssociation",
                         "attributes": {
                           "aws:cdk:cloudformation:type": "AWS::EC2::SubnetRouteTableAssociation",
                           "aws:cdk:cloudformation:props": {
@@ -127,7 +127,7 @@
                       },
                       "DefaultRoute": {
                         "id": "DefaultRoute",
-                        "path": "PlatformStack/NetworkingConstruct/PlatformVPC/PublicSubnet1/DefaultRoute",
+                        "path": "NetworkingStack/NetworkingConstruct/PlatformVPC/PublicSubnet1/DefaultRoute",
                         "attributes": {
                           "aws:cdk:cloudformation:type": "AWS::EC2::Route",
                           "aws:cdk:cloudformation:props": {
@@ -147,7 +147,7 @@
                       },
                       "EIP": {
                         "id": "EIP",
-                        "path": "PlatformStack/NetworkingConstruct/PlatformVPC/PublicSubnet1/EIP",
+                        "path": "NetworkingStack/NetworkingConstruct/PlatformVPC/PublicSubnet1/EIP",
                         "attributes": {
                           "aws:cdk:cloudformation:type": "AWS::EC2::EIP",
                           "aws:cdk:cloudformation:props": {
@@ -155,7 +155,7 @@
                             "tags": [
                               {
                                 "key": "Name",
-                                "value": "PlatformStack/NetworkingConstruct/PlatformVPC/PublicSubnet1"
+                                "value": "NetworkingStack/NetworkingConstruct/PlatformVPC/PublicSubnet1"
                               }
                             ]
                           }
@@ -167,7 +167,7 @@
                       },
                       "NATGateway": {
                         "id": "NATGateway",
-                        "path": "PlatformStack/NetworkingConstruct/PlatformVPC/PublicSubnet1/NATGateway",
+                        "path": "NetworkingStack/NetworkingConstruct/PlatformVPC/PublicSubnet1/NATGateway",
                         "attributes": {
                           "aws:cdk:cloudformation:type": "AWS::EC2::NatGateway",
                           "aws:cdk:cloudformation:props": {
@@ -183,7 +183,7 @@
                             "tags": [
                               {
                                 "key": "Name",
-                                "value": "PlatformStack/NetworkingConstruct/PlatformVPC/PublicSubnet1"
+                                "value": "NetworkingStack/NetworkingConstruct/PlatformVPC/PublicSubnet1"
                               }
                             ]
                           }
@@ -201,11 +201,11 @@
                   },
                   "PublicSubnet2": {
                     "id": "PublicSubnet2",
-                    "path": "PlatformStack/NetworkingConstruct/PlatformVPC/PublicSubnet2",
+                    "path": "NetworkingStack/NetworkingConstruct/PlatformVPC/PublicSubnet2",
                     "children": {
                       "Subnet": {
                         "id": "Subnet",
-                        "path": "PlatformStack/NetworkingConstruct/PlatformVPC/PublicSubnet2/Subnet",
+                        "path": "NetworkingStack/NetworkingConstruct/PlatformVPC/PublicSubnet2/Subnet",
                         "attributes": {
                           "aws:cdk:cloudformation:type": "AWS::EC2::Subnet",
                           "aws:cdk:cloudformation:props": {
@@ -223,7 +223,7 @@
                               },
                               {
                                 "key": "Name",
-                                "value": "PlatformStack/NetworkingConstruct/PlatformVPC/PublicSubnet2"
+                                "value": "NetworkingStack/NetworkingConstruct/PlatformVPC/PublicSubnet2"
                               }
                             ],
                             "vpcId": {
@@ -238,7 +238,7 @@
                       },
                       "Acl": {
                         "id": "Acl",
-                        "path": "PlatformStack/NetworkingConstruct/PlatformVPC/PublicSubnet2/Acl",
+                        "path": "NetworkingStack/NetworkingConstruct/PlatformVPC/PublicSubnet2/Acl",
                         "constructInfo": {
                           "fqn": "aws-cdk-lib.Resource",
                           "version": "2.130.0"
@@ -246,14 +246,14 @@
                       },
                       "RouteTable": {
                         "id": "RouteTable",
-                        "path": "PlatformStack/NetworkingConstruct/PlatformVPC/PublicSubnet2/RouteTable",
+                        "path": "NetworkingStack/NetworkingConstruct/PlatformVPC/PublicSubnet2/RouteTable",
                         "attributes": {
                           "aws:cdk:cloudformation:type": "AWS::EC2::RouteTable",
                           "aws:cdk:cloudformation:props": {
                             "tags": [
                               {
                                 "key": "Name",
-                                "value": "PlatformStack/NetworkingConstruct/PlatformVPC/PublicSubnet2"
+                                "value": "NetworkingStack/NetworkingConstruct/PlatformVPC/PublicSubnet2"
                               }
                             ],
                             "vpcId": {
@@ -268,7 +268,7 @@
                       },
                       "RouteTableAssociation": {
                         "id": "RouteTableAssociation",
-                        "path": "PlatformStack/NetworkingConstruct/PlatformVPC/PublicSubnet2/RouteTableAssociation",
+                        "path": "NetworkingStack/NetworkingConstruct/PlatformVPC/PublicSubnet2/RouteTableAssociation",
                         "attributes": {
                           "aws:cdk:cloudformation:type": "AWS::EC2::SubnetRouteTableAssociation",
                           "aws:cdk:cloudformation:props": {
@@ -287,7 +287,7 @@
                       },
                       "DefaultRoute": {
                         "id": "DefaultRoute",
-                        "path": "PlatformStack/NetworkingConstruct/PlatformVPC/PublicSubnet2/DefaultRoute",
+                        "path": "NetworkingStack/NetworkingConstruct/PlatformVPC/PublicSubnet2/DefaultRoute",
                         "attributes": {
                           "aws:cdk:cloudformation:type": "AWS::EC2::Route",
                           "aws:cdk:cloudformation:props": {
@@ -313,11 +313,11 @@
                   },
                   "PrivateSubnet1": {
                     "id": "PrivateSubnet1",
-                    "path": "PlatformStack/NetworkingConstruct/PlatformVPC/PrivateSubnet1",
+                    "path": "NetworkingStack/NetworkingConstruct/PlatformVPC/PrivateSubnet1",
                     "children": {
                       "Subnet": {
                         "id": "Subnet",
-                        "path": "PlatformStack/NetworkingConstruct/PlatformVPC/PrivateSubnet1/Subnet",
+                        "path": "NetworkingStack/NetworkingConstruct/PlatformVPC/PrivateSubnet1/Subnet",
                         "attributes": {
                           "aws:cdk:cloudformation:type": "AWS::EC2::Subnet",
                           "aws:cdk:cloudformation:props": {
@@ -335,7 +335,7 @@
                               },
                               {
                                 "key": "Name",
-                                "value": "PlatformStack/NetworkingConstruct/PlatformVPC/PrivateSubnet1"
+                                "value": "NetworkingStack/NetworkingConstruct/PlatformVPC/PrivateSubnet1"
                               }
                             ],
                             "vpcId": {
@@ -350,7 +350,7 @@
                       },
                       "Acl": {
                         "id": "Acl",
-                        "path": "PlatformStack/NetworkingConstruct/PlatformVPC/PrivateSubnet1/Acl",
+                        "path": "NetworkingStack/NetworkingConstruct/PlatformVPC/PrivateSubnet1/Acl",
                         "constructInfo": {
                           "fqn": "aws-cdk-lib.Resource",
                           "version": "2.130.0"
@@ -358,14 +358,14 @@
                       },
                       "RouteTable": {
                         "id": "RouteTable",
-                        "path": "PlatformStack/NetworkingConstruct/PlatformVPC/PrivateSubnet1/RouteTable",
+                        "path": "NetworkingStack/NetworkingConstruct/PlatformVPC/PrivateSubnet1/RouteTable",
                         "attributes": {
                           "aws:cdk:cloudformation:type": "AWS::EC2::RouteTable",
                           "aws:cdk:cloudformation:props": {
                             "tags": [
                               {
                                 "key": "Name",
-                                "value": "PlatformStack/NetworkingConstruct/PlatformVPC/PrivateSubnet1"
+                                "value": "NetworkingStack/NetworkingConstruct/PlatformVPC/PrivateSubnet1"
                               }
                             ],
                             "vpcId": {
@@ -380,7 +380,7 @@
                       },
                       "RouteTableAssociation": {
                         "id": "RouteTableAssociation",
-                        "path": "PlatformStack/NetworkingConstruct/PlatformVPC/PrivateSubnet1/RouteTableAssociation",
+                        "path": "NetworkingStack/NetworkingConstruct/PlatformVPC/PrivateSubnet1/RouteTableAssociation",
                         "attributes": {
                           "aws:cdk:cloudformation:type": "AWS::EC2::SubnetRouteTableAssociation",
                           "aws:cdk:cloudformation:props": {
@@ -399,7 +399,7 @@
                       },
                       "DefaultRoute": {
                         "id": "DefaultRoute",
-                        "path": "PlatformStack/NetworkingConstruct/PlatformVPC/PrivateSubnet1/DefaultRoute",
+                        "path": "NetworkingStack/NetworkingConstruct/PlatformVPC/PrivateSubnet1/DefaultRoute",
                         "attributes": {
                           "aws:cdk:cloudformation:type": "AWS::EC2::Route",
                           "aws:cdk:cloudformation:props": {
@@ -425,11 +425,11 @@
                   },
                   "PrivateSubnet2": {
                     "id": "PrivateSubnet2",
-                    "path": "PlatformStack/NetworkingConstruct/PlatformVPC/PrivateSubnet2",
+                    "path": "NetworkingStack/NetworkingConstruct/PlatformVPC/PrivateSubnet2",
                     "children": {
                       "Subnet": {
                         "id": "Subnet",
-                        "path": "PlatformStack/NetworkingConstruct/PlatformVPC/PrivateSubnet2/Subnet",
+                        "path": "NetworkingStack/NetworkingConstruct/PlatformVPC/PrivateSubnet2/Subnet",
                         "attributes": {
                           "aws:cdk:cloudformation:type": "AWS::EC2::Subnet",
                           "aws:cdk:cloudformation:props": {
@@ -447,7 +447,7 @@
                               },
                               {
                                 "key": "Name",
-                                "value": "PlatformStack/NetworkingConstruct/PlatformVPC/PrivateSubnet2"
+                                "value": "NetworkingStack/NetworkingConstruct/PlatformVPC/PrivateSubnet2"
                               }
                             ],
                             "vpcId": {
@@ -462,7 +462,7 @@
                       },
                       "Acl": {
                         "id": "Acl",
-                        "path": "PlatformStack/NetworkingConstruct/PlatformVPC/PrivateSubnet2/Acl",
+                        "path": "NetworkingStack/NetworkingConstruct/PlatformVPC/PrivateSubnet2/Acl",
                         "constructInfo": {
                           "fqn": "aws-cdk-lib.Resource",
                           "version": "2.130.0"
@@ -470,14 +470,14 @@
                       },
                       "RouteTable": {
                         "id": "RouteTable",
-                        "path": "PlatformStack/NetworkingConstruct/PlatformVPC/PrivateSubnet2/RouteTable",
+                        "path": "NetworkingStack/NetworkingConstruct/PlatformVPC/PrivateSubnet2/RouteTable",
                         "attributes": {
                           "aws:cdk:cloudformation:type": "AWS::EC2::RouteTable",
                           "aws:cdk:cloudformation:props": {
                             "tags": [
                               {
                                 "key": "Name",
-                                "value": "PlatformStack/NetworkingConstruct/PlatformVPC/PrivateSubnet2"
+                                "value": "NetworkingStack/NetworkingConstruct/PlatformVPC/PrivateSubnet2"
                               }
                             ],
                             "vpcId": {
@@ -492,7 +492,7 @@
                       },
                       "RouteTableAssociation": {
                         "id": "RouteTableAssociation",
-                        "path": "PlatformStack/NetworkingConstruct/PlatformVPC/PrivateSubnet2/RouteTableAssociation",
+                        "path": "NetworkingStack/NetworkingConstruct/PlatformVPC/PrivateSubnet2/RouteTableAssociation",
                         "attributes": {
                           "aws:cdk:cloudformation:type": "AWS::EC2::SubnetRouteTableAssociation",
                           "aws:cdk:cloudformation:props": {
@@ -511,7 +511,7 @@
                       },
                       "DefaultRoute": {
                         "id": "DefaultRoute",
-                        "path": "PlatformStack/NetworkingConstruct/PlatformVPC/PrivateSubnet2/DefaultRoute",
+                        "path": "NetworkingStack/NetworkingConstruct/PlatformVPC/PrivateSubnet2/DefaultRoute",
                         "attributes": {
                           "aws:cdk:cloudformation:type": "AWS::EC2::Route",
                           "aws:cdk:cloudformation:props": {
@@ -537,7 +537,7 @@
                   },
                   "IGW": {
                     "id": "IGW",
-                    "path": "PlatformStack/NetworkingConstruct/PlatformVPC/IGW",
+                    "path": "NetworkingStack/NetworkingConstruct/PlatformVPC/IGW",
                     "attributes": {
                       "aws:cdk:cloudformation:type": "AWS::EC2::InternetGateway",
                       "aws:cdk:cloudformation:props": {
@@ -556,7 +556,7 @@
                   },
                   "VPCGW": {
                     "id": "VPCGW",
-                    "path": "PlatformStack/NetworkingConstruct/PlatformVPC/VPCGW",
+                    "path": "NetworkingStack/NetworkingConstruct/PlatformVPC/VPCGW",
                     "attributes": {
                       "aws:cdk:cloudformation:type": "AWS::EC2::VPCGatewayAttachment",
                       "aws:cdk:cloudformation:props": {
@@ -581,11 +581,11 @@
               },
               "ApplicationSecurityGroup": {
                 "id": "ApplicationSecurityGroup",
-                "path": "PlatformStack/NetworkingConstruct/ApplicationSecurityGroup",
+                "path": "NetworkingStack/NetworkingConstruct/ApplicationSecurityGroup",
                 "children": {
                   "Resource": {
                     "id": "Resource",
-                    "path": "PlatformStack/NetworkingConstruct/ApplicationSecurityGroup/Resource",
+                    "path": "NetworkingStack/NetworkingConstruct/ApplicationSecurityGroup/Resource",
                     "attributes": {
                       "aws:cdk:cloudformation:type": "AWS::EC2::SecurityGroup",
                       "aws:cdk:cloudformation:props": {
@@ -630,7 +630,7 @@
               },
               "VpcId": {
                 "id": "VpcId",
-                "path": "PlatformStack/NetworkingConstruct/VpcId",
+                "path": "NetworkingStack/NetworkingConstruct/VpcId",
                 "constructInfo": {
                   "fqn": "aws-cdk-lib.CfnOutput",
                   "version": "2.130.0"
@@ -638,7 +638,7 @@
               },
               "SecurityGroupId": {
                 "id": "SecurityGroupId",
-                "path": "PlatformStack/NetworkingConstruct/SecurityGroupId",
+                "path": "NetworkingStack/NetworkingConstruct/SecurityGroupId",
                 "constructInfo": {
                   "fqn": "aws-cdk-lib.CfnOutput",
                   "version": "2.130.0"
@@ -652,7 +652,7 @@
           },
           "VpcId": {
             "id": "VpcId",
-            "path": "PlatformStack/VpcId",
+            "path": "NetworkingStack/VpcId",
             "constructInfo": {
               "fqn": "aws-cdk-lib.CfnOutput",
               "version": "2.130.0"
@@ -660,7 +660,7 @@
           },
           "SecurityGroupId": {
             "id": "SecurityGroupId",
-            "path": "PlatformStack/SecurityGroupId",
+            "path": "NetworkingStack/SecurityGroupId",
             "constructInfo": {
               "fqn": "aws-cdk-lib.CfnOutput",
               "version": "2.130.0"
@@ -668,7 +668,7 @@
           },
           "PublicSubnetIds": {
             "id": "PublicSubnetIds",
-            "path": "PlatformStack/PublicSubnetIds",
+            "path": "NetworkingStack/PublicSubnetIds",
             "constructInfo": {
               "fqn": "aws-cdk-lib.CfnOutput",
               "version": "2.130.0"
@@ -676,23 +676,101 @@
           },
           "PrivateSubnetIds": {
             "id": "PrivateSubnetIds",
-            "path": "PlatformStack/PrivateSubnetIds",
+            "path": "NetworkingStack/PrivateSubnetIds",
             "constructInfo": {
               "fqn": "aws-cdk-lib.CfnOutput",
               "version": "2.130.0"
             }
           },
+          "CDKMetadata": {
+            "id": "CDKMetadata",
+            "path": "NetworkingStack/CDKMetadata",
+            "children": {
+              "Default": {
+                "id": "Default",
+                "path": "NetworkingStack/CDKMetadata/Default",
+                "constructInfo": {
+                  "fqn": "aws-cdk-lib.CfnResource",
+                  "version": "2.130.0"
+                }
+              }
+            },
+            "constructInfo": {
+              "fqn": "constructs.Construct",
+              "version": "10.4.2"
+            }
+          },
+          "Exports": {
+            "id": "Exports",
+            "path": "NetworkingStack/Exports",
+            "children": {
+              "Output{\"Ref\":\"NetworkingConstructPlatformVPCPublicSubnet1SubnetAAC63FD1\"}": {
+                "id": "Output{\"Ref\":\"NetworkingConstructPlatformVPCPublicSubnet1SubnetAAC63FD1\"}",
+                "path": "NetworkingStack/Exports/Output{\"Ref\":\"NetworkingConstructPlatformVPCPublicSubnet1SubnetAAC63FD1\"}",
+                "constructInfo": {
+                  "fqn": "aws-cdk-lib.CfnOutput",
+                  "version": "2.130.0"
+                }
+              },
+              "Output{\"Ref\":\"NetworkingConstructPlatformVPCPublicSubnet2Subnet6EF7BED7\"}": {
+                "id": "Output{\"Ref\":\"NetworkingConstructPlatformVPCPublicSubnet2Subnet6EF7BED7\"}",
+                "path": "NetworkingStack/Exports/Output{\"Ref\":\"NetworkingConstructPlatformVPCPublicSubnet2Subnet6EF7BED7\"}",
+                "constructInfo": {
+                  "fqn": "aws-cdk-lib.CfnOutput",
+                  "version": "2.130.0"
+                }
+              },
+              "Output{\"Fn::GetAtt\":[\"NetworkingConstructApplicationSecurityGroup29DA5B85\",\"GroupId\"]}": {
+                "id": "Output{\"Fn::GetAtt\":[\"NetworkingConstructApplicationSecurityGroup29DA5B85\",\"GroupId\"]}",
+                "path": "NetworkingStack/Exports/Output{\"Fn::GetAtt\":[\"NetworkingConstructApplicationSecurityGroup29DA5B85\",\"GroupId\"]}",
+                "constructInfo": {
+                  "fqn": "aws-cdk-lib.CfnOutput",
+                  "version": "2.130.0"
+                }
+              }
+            },
+            "constructInfo": {
+              "fqn": "constructs.Construct",
+              "version": "10.4.2"
+            }
+          },
+          "BootstrapVersion": {
+            "id": "BootstrapVersion",
+            "path": "NetworkingStack/BootstrapVersion",
+            "constructInfo": {
+              "fqn": "aws-cdk-lib.CfnParameter",
+              "version": "2.130.0"
+            }
+          },
+          "CheckBootstrapVersion": {
+            "id": "CheckBootstrapVersion",
+            "path": "NetworkingStack/CheckBootstrapVersion",
+            "constructInfo": {
+              "fqn": "aws-cdk-lib.CfnRule",
+              "version": "2.130.0"
+            }
+          }
+        },
+        "constructInfo": {
+          "fqn": "aws-cdk-lib.Stack",
+          "version": "2.130.0"
+        }
+      },
+      "ContainerStack": {
+        "id": "ContainerStack",
+        "path": "ContainerStack",
+        "children": {
           "ContainerConstruct": {
             "id": "ContainerConstruct",
-            "path": "PlatformStack/ContainerConstruct",
+            "path": "ContainerStack/ContainerConstruct",
             "children": {
               "LogEncryptionKey": {
                 "id": "LogEncryptionKey",
-                "path": "PlatformStack/ContainerConstruct/LogEncryptionKey",
+                "path": "ContainerStack/ContainerConstruct/LogEncryptionKey",
                 "children": {
                   "Resource": {
                     "id": "Resource",
-                    "path": "PlatformStack/ContainerConstruct/LogEncryptionKey/Resource",
+                    "path": "ContainerStack/ContainerConstruct/LogEncryptionKey/Resource",
                     "attributes": {
                       "aws:cdk:cloudformation:type": "AWS::KMS::Key",
                       "aws:cdk:cloudformation:props": {
@@ -756,11 +834,11 @@
               },
               "ContainerLogGroup": {
                 "id": "ContainerLogGroup",
-                "path": "PlatformStack/ContainerConstruct/ContainerLogGroup",
+                "path": "ContainerStack/ContainerConstruct/ContainerLogGroup",
                 "children": {
                   "Resource": {
                     "id": "Resource",
-                    "path": "PlatformStack/ContainerConstruct/ContainerLogGroup/Resource",
+                    "path": "ContainerStack/ContainerConstruct/ContainerLogGroup/Resource",
                     "attributes": {
                       "aws:cdk:cloudformation:type": "AWS::Logs::LogGroup",
                       "aws:cdk:cloudformation:props": {
@@ -787,11 +865,11 @@
               },
               "ApplicationRepository": {
                 "id": "ApplicationRepository",
-                "path": "PlatformStack/ContainerConstruct/ApplicationRepository",
+                "path": "ContainerStack/ContainerConstruct/ApplicationRepository",
                 "children": {
                   "Resource": {
                     "id": "Resource",
-                    "path": "PlatformStack/ContainerConstruct/ApplicationRepository/Resource",
+                    "path": "ContainerStack/ContainerConstruct/ApplicationRepository/Resource",
                     "attributes": {
                       "aws:cdk:cloudformation:type": "AWS::ECR::Repository",
                       "aws:cdk:cloudformation:props": {
@@ -818,11 +896,11 @@
               },
               "ApplicationCluster": {
                 "id": "ApplicationCluster",
-                "path": "PlatformStack/ContainerConstruct/ApplicationCluster",
+                "path": "ContainerStack/ContainerConstruct/ApplicationCluster",
                 "children": {
                   "Resource": {
                     "id": "Resource",
-                    "path": "PlatformStack/ContainerConstruct/ApplicationCluster/Resource",
+                    "path": "ContainerStack/ContainerConstruct/ApplicationCluster/Resource",
                     "attributes": {
                       "aws:cdk:cloudformation:type": "AWS::ECS::Cluster",
                       "aws:cdk:cloudformation:props": {
@@ -848,11 +926,11 @@
               },
               "TaskExecutionRole": {
                 "id": "TaskExecutionRole",
-                "path": "PlatformStack/ContainerConstruct/TaskExecutionRole",
+                "path": "ContainerStack/ContainerConstruct/TaskExecutionRole",
                 "children": {
                   "ImportTaskExecutionRole": {
                     "id": "ImportTaskExecutionRole",
-                    "path": "PlatformStack/ContainerConstruct/TaskExecutionRole/ImportTaskExecutionRole",
+                    "path": "ContainerStack/ContainerConstruct/TaskExecutionRole/ImportTaskExecutionRole",
                     "constructInfo": {
                       "fqn": "aws-cdk-lib.Resource",
                       "version": "2.130.0"
@@ -860,7 +938,7 @@
                   },
                   "Resource": {
                     "id": "Resource",
-                    "path": "PlatformStack/ContainerConstruct/TaskExecutionRole/Resource",
+                    "path": "ContainerStack/ContainerConstruct/TaskExecutionRole/Resource",
                     "attributes": {
                       "aws:cdk:cloudformation:type": "AWS::IAM::Role",
                       "aws:cdk:cloudformation:props": {
@@ -899,11 +977,11 @@
                   },
                   "DefaultPolicy": {
                     "id": "DefaultPolicy",
-                    "path": "PlatformStack/ContainerConstruct/TaskExecutionRole/DefaultPolicy",
+                    "path": "ContainerStack/ContainerConstruct/TaskExecutionRole/DefaultPolicy",
                     "children": {
                       "Resource": {
                         "id": "Resource",
-                        "path": "PlatformStack/ContainerConstruct/TaskExecutionRole/DefaultPolicy/Resource",
+                        "path": "ContainerStack/ContainerConstruct/TaskExecutionRole/DefaultPolicy/Resource",
                         "attributes": {
                           "aws:cdk:cloudformation:type": "AWS::IAM::Policy",
                           "aws:cdk:cloudformation:props": {
@@ -971,11 +1049,11 @@
               },
               "TaskRole": {
                 "id": "TaskRole",
-                "path": "PlatformStack/ContainerConstruct/TaskRole",
+                "path": "ContainerStack/ContainerConstruct/TaskRole",
                 "children": {
                   "ImportTaskRole": {
                     "id": "ImportTaskRole",
-                    "path": "PlatformStack/ContainerConstruct/TaskRole/ImportTaskRole",
+                    "path": "ContainerStack/ContainerConstruct/TaskRole/ImportTaskRole",
                     "constructInfo": {
                       "fqn": "aws-cdk-lib.Resource",
                       "version": "2.130.0"
@@ -983,7 +1061,7 @@
                   },
                   "Resource": {
                     "id": "Resource",
-                    "path": "PlatformStack/ContainerConstruct/TaskRole/Resource",
+                    "path": "ContainerStack/ContainerConstruct/TaskRole/Resource",
                     "attributes": {
                       "aws:cdk:cloudformation:type": "AWS::IAM::Role",
                       "aws:cdk:cloudformation:props": {
@@ -1028,11 +1106,11 @@
               },
               "ApplicationTaskDefinition": {
                 "id": "ApplicationTaskDefinition",
-                "path": "PlatformStack/ContainerConstruct/ApplicationTaskDefinition",
+                "path": "ContainerStack/ContainerConstruct/ApplicationTaskDefinition",
                 "children": {
                   "Resource": {
                     "id": "Resource",
-                    "path": "PlatformStack/ContainerConstruct/ApplicationTaskDefinition/Resource",
+                    "path": "ContainerStack/ContainerConstruct/ApplicationTaskDefinition/Resource",
                     "attributes": {
                       "aws:cdk:cloudformation:type": "AWS::ECS::TaskDefinition",
                       "aws:cdk:cloudformation:props": {
@@ -1114,7 +1192,7 @@
                             "Arn"
                           ]
                         },
-                        "family": "PlatformStackContainerConstructApplicationTaskDefinitionD58B40F5",
+                        "family": "ContainerStackContainerConstructApplicationTaskDefinitionAA66D4AD",
                         "memory": "512",
                         "networkMode": "awsvpc",
                         "requiresCompatibilities": [
@@ -1139,7 +1217,7 @@
                   },
                   "ApplicationContainer": {
                     "id": "ApplicationContainer",
-                    "path": "PlatformStack/ContainerConstruct/ApplicationTaskDefinition/ApplicationContainer",
+                    "path": "ContainerStack/ContainerConstruct/ApplicationTaskDefinition/ApplicationContainer",
                     "constructInfo": {
                       "fqn": "aws-cdk-lib.aws_ecs.ContainerDefinition",
                       "version": "2.130.0"
@@ -1153,11 +1231,11 @@
               },
               "ApplicationService": {
                 "id": "ApplicationService",
-                "path": "PlatformStack/ContainerConstruct/ApplicationService",
+                "path": "ContainerStack/ContainerConstruct/ApplicationService",
                 "children": {
                   "Service": {
                     "id": "Service",
-                    "path": "PlatformStack/ContainerConstruct/ApplicationService/Service",
+                    "path": "ContainerStack/ContainerConstruct/ApplicationService/Service",
                     "attributes": {
                       "aws:cdk:cloudformation:type": "AWS::ECS::Service",
                       "aws:cdk:cloudformation:props": {
@@ -1181,18 +1259,15 @@
                             "assignPublicIp": "ENABLED",
                             "subnets": [
                               {
-                                "Ref": "NetworkingConstructPlatformVPCPublicSubnet1SubnetAAC63FD1"
+                                "Fn::ImportValue": "NetworkingStack:ExportsOutputRefNetworkingConstructPlatformVPCPublicSubnet1SubnetAAC63FD19D801D7F"
                               },
                               {
-                                "Ref": "NetworkingConstructPlatformVPCPublicSubnet2Subnet6EF7BED7"
+                                "Fn::ImportValue": "NetworkingStack:ExportsOutputRefNetworkingConstructPlatformVPCPublicSubnet2Subnet6EF7BED74A81723C"
                               }
                             ],
                             "securityGroups": [
                               {
-                                "Fn::GetAtt": [
-                                  "NetworkingConstructApplicationSecurityGroup29DA5B85",
-                                  "GroupId"
-                                ]
+                                "Fn::ImportValue": "NetworkingStack:ExportsOutputFnGetAttNetworkingConstructApplicationSecurityGroup29DA5B85GroupIdE77F49C3"
                               }
                             ]
                           }
@@ -1221,7 +1296,7 @@
           },
           "EcrRepositoryName": {
             "id": "EcrRepositoryName",
-            "path": "PlatformStack/EcrRepositoryName",
+            "path": "ContainerStack/EcrRepositoryName",
             "constructInfo": {
               "fqn": "aws-cdk-lib.CfnOutput",
               "version": "2.130.0"
@@ -1229,7 +1304,7 @@
           },
           "EcsClusterName": {
             "id": "EcsClusterName",
-            "path": "PlatformStack/EcsClusterName",
+            "path": "ContainerStack/EcsClusterName",
             "constructInfo": {
               "fqn": "aws-cdk-lib.CfnOutput",
               "version": "2.130.0"
@@ -1237,7 +1312,7 @@
           },
           "EcsServiceName": {
             "id": "EcsServiceName",
-            "path": "PlatformStack/EcsServiceName",
+            "path": "ContainerStack/EcsServiceName",
             "constructInfo": {
               "fqn": "aws-cdk-lib.CfnOutput",
               "version": "2.130.0"
@@ -1245,11 +1320,11 @@
           },
           "CDKMetadata": {
             "id": "CDKMetadata",
-            "path": "PlatformStack/CDKMetadata",
+            "path": "ContainerStack/CDKMetadata",
             "children": {
               "Default": {
                 "id": "Default",
-                "path": "PlatformStack/CDKMetadata/Default",
+                "path": "ContainerStack/CDKMetadata/Default",
                 "constructInfo": {
                   "fqn": "aws-cdk-lib.CfnResource",
                   "version": "2.130.0"
@@ -1263,7 +1338,7 @@
           },
           "BootstrapVersion": {
             "id": "BootstrapVersion",
-            "path": "PlatformStack/BootstrapVersion",
+            "path": "ContainerStack/BootstrapVersion",
             "constructInfo": {
               "fqn": "aws-cdk-lib.CfnParameter",
               "version": "2.130.0"
@@ -1271,7 +1346,7 @@
           },
           "CheckBootstrapVersion": {
             "id": "CheckBootstrapVersion",
-            "path": "PlatformStack/CheckBootstrapVersion",
+            "path": "ContainerStack/CheckBootstrapVersion",
             "constructInfo": {
               "fqn": "aws-cdk-lib.CfnRule",
               "version": "2.130.0"

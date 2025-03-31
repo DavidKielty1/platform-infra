@@ -1,28 +1,28 @@
 {
   "version": "36.0.0",
   "artifacts": {
-    "PlatformStack.assets": {
+    "NetworkingStack.assets": {
       "type": "cdk:asset-manifest",
       "properties": {
-        "file": "PlatformStack.assets.json",
+        "file": "NetworkingStack.assets.json",
         "requiresBootstrapStackVersion": 6,
         "bootstrapStackVersionSsmParameter": "/cdk-bootstrap/hnb659fds/version"
       }
     },
-    "PlatformStack": {
+    "NetworkingStack": {
       "type": "aws:cloudformation:stack",
       "environment": "aws://156041400555/eu-west-2",
       "properties": {
-        "templateFile": "PlatformStack.template.json",
+        "templateFile": "NetworkingStack.template.json",
         "terminationProtection": false,
         "validateOnSynth": false,
         "assumeRoleArn": "arn:${AWS::Partition}:iam::156041400555:role/cdk-hnb659fds-deploy-role-156041400555-eu-west-2",
         "cloudFormationExecutionRoleArn": "arn:${AWS::Partition}:iam::156041400555:role/cdk-hnb659fds-cfn-exec-role-156041400555-eu-west-2",
-        "stackTemplateAssetObjectUrl": "s3://cdk-hnb659fds-assets-156041400555-eu-west-2/e524cfc0f1e6d36cd6c90c6f574e1a58126b68b23678d3e5885625dc9005a92e.json",
+        "stackTemplateAssetObjectUrl": "s3://cdk-hnb659fds-assets-156041400555-eu-west-2/02837a0a3588c9cb95c8ea4da79ecad52e8be34d763450b65a1f80f3b330b76c.json",
         "requiresBootstrapStackVersion": 6,
         "bootstrapStackVersionSsmParameter": "/cdk-bootstrap/hnb659fds/version",
         "additionalDependencies": [
-          "PlatformStack.assets"
+          "NetworkingStack.assets"
         ],
         "lookupRole": {
           "arn": "arn:${AWS::Partition}:iam::156041400555:role/cdk-hnb659fds-lookup-role-156041400555-eu-west-2",
@@ -31,269 +31,342 @@
         }
       },
       "dependencies": [
-        "PlatformStack.assets"
+        "NetworkingStack.assets"
       ],
       "metadata": {
-        "/PlatformStack/NetworkingConstruct/PlatformVPC/Resource": [
+        "/NetworkingStack/NetworkingConstruct/PlatformVPC/Resource": [
           {
             "type": "aws:cdk:logicalId",
             "data": "NetworkingConstructPlatformVPC2388000F"
           }
         ],
-        "/PlatformStack/NetworkingConstruct/PlatformVPC/PublicSubnet1/Subnet": [
+        "/NetworkingStack/NetworkingConstruct/PlatformVPC/PublicSubnet1/Subnet": [
           {
             "type": "aws:cdk:logicalId",
             "data": "NetworkingConstructPlatformVPCPublicSubnet1SubnetAAC63FD1"
           }
         ],
-        "/PlatformStack/NetworkingConstruct/PlatformVPC/PublicSubnet1/RouteTable": [
+        "/NetworkingStack/NetworkingConstruct/PlatformVPC/PublicSubnet1/RouteTable": [
           {
             "type": "aws:cdk:logicalId",
             "data": "NetworkingConstructPlatformVPCPublicSubnet1RouteTable02F4BE7B"
           }
         ],
-        "/PlatformStack/NetworkingConstruct/PlatformVPC/PublicSubnet1/RouteTableAssociation": [
+        "/NetworkingStack/NetworkingConstruct/PlatformVPC/PublicSubnet1/RouteTableAssociation": [
           {
             "type": "aws:cdk:logicalId",
             "data": "NetworkingConstructPlatformVPCPublicSubnet1RouteTableAssociation279FDA86"
           }
         ],
-        "/PlatformStack/NetworkingConstruct/PlatformVPC/PublicSubnet1/DefaultRoute": [
+        "/NetworkingStack/NetworkingConstruct/PlatformVPC/PublicSubnet1/DefaultRoute": [
           {
             "type": "aws:cdk:logicalId",
             "data": "NetworkingConstructPlatformVPCPublicSubnet1DefaultRoute49D6F3F3"
           }
         ],
-        "/PlatformStack/NetworkingConstruct/PlatformVPC/PublicSubnet1/EIP": [
+        "/NetworkingStack/NetworkingConstruct/PlatformVPC/PublicSubnet1/EIP": [
           {
             "type": "aws:cdk:logicalId",
             "data": "NetworkingConstructPlatformVPCPublicSubnet1EIP9FA43E9A"
           }
         ],
-        "/PlatformStack/NetworkingConstruct/PlatformVPC/PublicSubnet1/NATGateway": [
+        "/NetworkingStack/NetworkingConstruct/PlatformVPC/PublicSubnet1/NATGateway": [
           {
             "type": "aws:cdk:logicalId",
             "data": "NetworkingConstructPlatformVPCPublicSubnet1NATGateway189E2D07"
           }
         ],
-        "/PlatformStack/NetworkingConstruct/PlatformVPC/PublicSubnet2/Subnet": [
+        "/NetworkingStack/NetworkingConstruct/PlatformVPC/PublicSubnet2/Subnet": [
           {
             "type": "aws:cdk:logicalId",
             "data": "NetworkingConstructPlatformVPCPublicSubnet2Subnet6EF7BED7"
           }
         ],
-        "/PlatformStack/NetworkingConstruct/PlatformVPC/PublicSubnet2/RouteTable": [
+        "/NetworkingStack/NetworkingConstruct/PlatformVPC/PublicSubnet2/RouteTable": [
           {
             "type": "aws:cdk:logicalId",
             "data": "NetworkingConstructPlatformVPCPublicSubnet2RouteTable55378216"
           }
         ],
-        "/PlatformStack/NetworkingConstruct/PlatformVPC/PublicSubnet2/RouteTableAssociation": [
+        "/NetworkingStack/NetworkingConstruct/PlatformVPC/PublicSubnet2/RouteTableAssociation": [
           {
             "type": "aws:cdk:logicalId",
             "data": "NetworkingConstructPlatformVPCPublicSubnet2RouteTableAssociation44F90CE4"
           }
         ],
-        "/PlatformStack/NetworkingConstruct/PlatformVPC/PublicSubnet2/DefaultRoute": [
+        "/NetworkingStack/NetworkingConstruct/PlatformVPC/PublicSubnet2/DefaultRoute": [
           {
             "type": "aws:cdk:logicalId",
             "data": "NetworkingConstructPlatformVPCPublicSubnet2DefaultRouteEFC1AF05"
           }
         ],
-        "/PlatformStack/NetworkingConstruct/PlatformVPC/PrivateSubnet1/Subnet": [
+        "/NetworkingStack/NetworkingConstruct/PlatformVPC/PrivateSubnet1/Subnet": [
           {
             "type": "aws:cdk:logicalId",
             "data": "NetworkingConstructPlatformVPCPrivateSubnet1Subnet6D700D2E"
           }
         ],
-        "/PlatformStack/NetworkingConstruct/PlatformVPC/PrivateSubnet1/RouteTable": [
+        "/NetworkingStack/NetworkingConstruct/PlatformVPC/PrivateSubnet1/RouteTable": [
           {
             "type": "aws:cdk:logicalId",
             "data": "NetworkingConstructPlatformVPCPrivateSubnet1RouteTable06E97996"
           }
         ],
-        "/PlatformStack/NetworkingConstruct/PlatformVPC/PrivateSubnet1/RouteTableAssociation": [
+        "/NetworkingStack/NetworkingConstruct/PlatformVPC/PrivateSubnet1/RouteTableAssociation": [
           {
             "type": "aws:cdk:logicalId",
             "data": "NetworkingConstructPlatformVPCPrivateSubnet1RouteTableAssociationCB6A8558"
           }
         ],
-        "/PlatformStack/NetworkingConstruct/PlatformVPC/PrivateSubnet1/DefaultRoute": [
+        "/NetworkingStack/NetworkingConstruct/PlatformVPC/PrivateSubnet1/DefaultRoute": [
           {
             "type": "aws:cdk:logicalId",
             "data": "NetworkingConstructPlatformVPCPrivateSubnet1DefaultRouteF05354D5"
           }
         ],
-        "/PlatformStack/NetworkingConstruct/PlatformVPC/PrivateSubnet2/Subnet": [
+        "/NetworkingStack/NetworkingConstruct/PlatformVPC/PrivateSubnet2/Subnet": [
           {
             "type": "aws:cdk:logicalId",
             "data": "NetworkingConstructPlatformVPCPrivateSubnet2SubnetBF1734FF"
           }
         ],
-        "/PlatformStack/NetworkingConstruct/PlatformVPC/PrivateSubnet2/RouteTable": [
+        "/NetworkingStack/NetworkingConstruct/PlatformVPC/PrivateSubnet2/RouteTable": [
           {
             "type": "aws:cdk:logicalId",
             "data": "NetworkingConstructPlatformVPCPrivateSubnet2RouteTable099578DE"
           }
         ],
-        "/PlatformStack/NetworkingConstruct/PlatformVPC/PrivateSubnet2/RouteTableAssociation": [
+        "/NetworkingStack/NetworkingConstruct/PlatformVPC/PrivateSubnet2/RouteTableAssociation": [
           {
             "type": "aws:cdk:logicalId",
             "data": "NetworkingConstructPlatformVPCPrivateSubnet2RouteTableAssociation0C61A5EF"
           }
         ],
-        "/PlatformStack/NetworkingConstruct/PlatformVPC/PrivateSubnet2/DefaultRoute": [
+        "/NetworkingStack/NetworkingConstruct/PlatformVPC/PrivateSubnet2/DefaultRoute": [
           {
             "type": "aws:cdk:logicalId",
             "data": "NetworkingConstructPlatformVPCPrivateSubnet2DefaultRoute338C5C3E"
           }
         ],
-        "/PlatformStack/NetworkingConstruct/PlatformVPC/IGW": [
+        "/NetworkingStack/NetworkingConstruct/PlatformVPC/IGW": [
           {
             "type": "aws:cdk:logicalId",
             "data": "NetworkingConstructPlatformVPCIGWF782E6F9"
           }
         ],
-        "/PlatformStack/NetworkingConstruct/PlatformVPC/VPCGW": [
+        "/NetworkingStack/NetworkingConstruct/PlatformVPC/VPCGW": [
           {
             "type": "aws:cdk:logicalId",
             "data": "NetworkingConstructPlatformVPCVPCGW1A0C15AC"
           }
         ],
-        "/PlatformStack/NetworkingConstruct/ApplicationSecurityGroup/Resource": [
+        "/NetworkingStack/NetworkingConstruct/ApplicationSecurityGroup/Resource": [
           {
             "type": "aws:cdk:logicalId",
             "data": "NetworkingConstructApplicationSecurityGroup29DA5B85"
           }
         ],
-        "/PlatformStack/NetworkingConstruct/VpcId": [
+        "/NetworkingStack/NetworkingConstruct/VpcId": [
           {
             "type": "aws:cdk:logicalId",
             "data": "NetworkingConstructVpcId13FDA9D1"
           }
         ],
-        "/PlatformStack/NetworkingConstruct/SecurityGroupId": [
+        "/NetworkingStack/NetworkingConstruct/SecurityGroupId": [
           {
             "type": "aws:cdk:logicalId",
             "data": "NetworkingConstructSecurityGroupId749D182F"
           }
         ],
-        "/PlatformStack/VpcId": [
+        "/NetworkingStack/VpcId": [
           {
             "type": "aws:cdk:logicalId",
             "data": "VpcId"
           }
         ],
-        "/PlatformStack/SecurityGroupId": [
+        "/NetworkingStack/SecurityGroupId": [
           {
             "type": "aws:cdk:logicalId",
             "data": "SecurityGroupId"
           }
         ],
-        "/PlatformStack/PublicSubnetIds": [
+        "/NetworkingStack/PublicSubnetIds": [
           {
             "type": "aws:cdk:logicalId",
             "data": "PublicSubnetIds"
           }
         ],
-        "/PlatformStack/PrivateSubnetIds": [
+        "/NetworkingStack/PrivateSubnetIds": [
           {
             "type": "aws:cdk:logicalId",
             "data": "PrivateSubnetIds"
           }
         ],
-        "/PlatformStack/ContainerConstruct/LogEncryptionKey/Resource": [
-          {
-            "type": "aws:cdk:logicalId",
-            "data": "ContainerConstructLogEncryptionKeyA3DA34DB"
-          }
-        ],
-        "/PlatformStack/ContainerConstruct/ContainerLogGroup/Resource": [
-          {
-            "type": "aws:cdk:logicalId",
-            "data": "ContainerConstructContainerLogGroup0606F656"
-          }
-        ],
-        "/PlatformStack/ContainerConstruct/ApplicationRepository/Resource": [
-          {
-            "type": "aws:cdk:logicalId",
-            "data": "ContainerConstructApplicationRepository11E601CB"
-          }
-        ],
-        "/PlatformStack/ContainerConstruct/ApplicationCluster/Resource": [
-          {
-            "type": "aws:cdk:logicalId",
-            "data": "ContainerConstructApplicationCluster56345A4E"
-          }
-        ],
-        "/PlatformStack/ContainerConstruct/TaskExecutionRole/Resource": [
-          {
-            "type": "aws:cdk:logicalId",
-            "data": "ContainerConstructTaskExecutionRoleAB1D23DC"
-          }
-        ],
-        "/PlatformStack/ContainerConstruct/TaskExecutionRole/DefaultPolicy/Resource": [
-          {
-            "type": "aws:cdk:logicalId",
-            "data": "ContainerConstructTaskExecutionRoleDefaultPolicy0E7EA6F8"
-          }
-        ],
-        "/PlatformStack/ContainerConstruct/TaskRole/Resource": [
-          {
-            "type": "aws:cdk:logicalId",
-            "data": "ContainerConstructTaskRoleF4EB3789"
-          }
-        ],
-        "/PlatformStack/ContainerConstruct/ApplicationTaskDefinition/Resource": [
-          {
-            "type": "aws:cdk:logicalId",
-            "data": "ContainerConstructApplicationTaskDefinitionB0EBE2C9"
-          }
-        ],
-        "/PlatformStack/ContainerConstruct/ApplicationService/Service": [
-          {
-            "type": "aws:cdk:logicalId",
-            "data": "ContainerConstructApplicationServiceB0650F50"
-          }
-        ],
-        "/PlatformStack/EcrRepositoryName": [
-          {
-            "type": "aws:cdk:logicalId",
-            "data": "EcrRepositoryName"
-          }
-        ],
-        "/PlatformStack/EcsClusterName": [
-          {
-            "type": "aws:cdk:logicalId",
-            "data": "EcsClusterName"
-          }
-        ],
-        "/PlatformStack/EcsServiceName": [
-          {
-            "type": "aws:cdk:logicalId",
-            "data": "EcsServiceName"
-          }
-        ],
-        "/PlatformStack/CDKMetadata/Default": [
+        "/NetworkingStack/CDKMetadata/Default": [
           {
             "type": "aws:cdk:logicalId",
             "data": "CDKMetadata"
           }
         ],
-        "/PlatformStack/BootstrapVersion": [
+        "/NetworkingStack/Exports/Output{\"Ref\":\"NetworkingConstructPlatformVPCPublicSubnet1SubnetAAC63FD1\"}": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "ExportsOutputRefNetworkingConstructPlatformVPCPublicSubnet1SubnetAAC63FD19D801D7F"
+          }
+        ],
+        "/NetworkingStack/Exports/Output{\"Ref\":\"NetworkingConstructPlatformVPCPublicSubnet2Subnet6EF7BED7\"}": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "ExportsOutputRefNetworkingConstructPlatformVPCPublicSubnet2Subnet6EF7BED74A81723C"
+          }
+        ],
+        "/NetworkingStack/Exports/Output{\"Fn::GetAtt\":[\"NetworkingConstructApplicationSecurityGroup29DA5B85\",\"GroupId\"]}": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "ExportsOutputFnGetAttNetworkingConstructApplicationSecurityGroup29DA5B85GroupIdE77F49C3"
+          }
+        ],
+        "/NetworkingStack/BootstrapVersion": [
           {
             "type": "aws:cdk:logicalId",
             "data": "BootstrapVersion"
           }
         ],
-        "/PlatformStack/CheckBootstrapVersion": [
+        "/NetworkingStack/CheckBootstrapVersion": [
           {
             "type": "aws:cdk:logicalId",
             "data": "CheckBootstrapVersion"
           }
         ]
       },
-      "displayName": "PlatformStack"
+      "displayName": "NetworkingStack"
+    },
+    "ContainerStack.assets": {
+      "type": "cdk:asset-manifest",
+      "properties": {
+        "file": "ContainerStack.assets.json",
+        "requiresBootstrapStackVersion": 6,
+        "bootstrapStackVersionSsmParameter": "/cdk-bootstrap/hnb659fds/version"
+      }
+    },
+    "ContainerStack": {
+      "type": "aws:cloudformation:stack",
+      "environment": "aws://156041400555/eu-west-2",
+      "properties": {
+        "templateFile": "ContainerStack.template.json",
+        "terminationProtection": false,
+        "validateOnSynth": false,
+        "assumeRoleArn": "arn:${AWS::Partition}:iam::156041400555:role/cdk-hnb659fds-deploy-role-156041400555-eu-west-2",
+        "cloudFormationExecutionRoleArn": "arn:${AWS::Partition}:iam::156041400555:role/cdk-hnb659fds-cfn-exec-role-156041400555-eu-west-2",
+        "stackTemplateAssetObjectUrl": "s3://cdk-hnb659fds-assets-156041400555-eu-west-2/d263a667f678750787a12721430ca30be6d2640569b92d5804dc444bd4b7751e.json",
+        "requiresBootstrapStackVersion": 6,
+        "bootstrapStackVersionSsmParameter": "/cdk-bootstrap/hnb659fds/version",
+        "additionalDependencies": [
+          "ContainerStack.assets"
+        ],
+        "lookupRole": {
+          "arn": "arn:${AWS::Partition}:iam::156041400555:role/cdk-hnb659fds-lookup-role-156041400555-eu-west-2",
+          "requiresBootstrapStackVersion": 8,
+          "bootstrapStackVersionSsmParameter": "/cdk-bootstrap/hnb659fds/version"
+        }
+      },
+      "dependencies": [
+        "NetworkingStack",
+        "ContainerStack.assets"
+      ],
+      "metadata": {
+        "/ContainerStack/ContainerConstruct/LogEncryptionKey/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "ContainerConstructLogEncryptionKeyA3DA34DB"
+          }
+        ],
+        "/ContainerStack/ContainerConstruct/ContainerLogGroup/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "ContainerConstructContainerLogGroup0606F656"
+          }
+        ],
+        "/ContainerStack/ContainerConstruct/ApplicationRepository/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "ContainerConstructApplicationRepository11E601CB"
+          }
+        ],
+        "/ContainerStack/ContainerConstruct/ApplicationCluster/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "ContainerConstructApplicationCluster56345A4E"
+          }
+        ],
+        "/ContainerStack/ContainerConstruct/TaskExecutionRole/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "ContainerConstructTaskExecutionRoleAB1D23DC"
+          }
+        ],
+        "/ContainerStack/ContainerConstruct/TaskExecutionRole/DefaultPolicy/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "ContainerConstructTaskExecutionRoleDefaultPolicy0E7EA6F8"
+          }
+        ],
+        "/ContainerStack/ContainerConstruct/TaskRole/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "ContainerConstructTaskRoleF4EB3789"
+          }
+        ],
+        "/ContainerStack/ContainerConstruct/ApplicationTaskDefinition/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "ContainerConstructApplicationTaskDefinitionB0EBE2C9"
+          }
+        ],
+        "/ContainerStack/ContainerConstruct/ApplicationService/Service": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "ContainerConstructApplicationServiceB0650F50"
+          }
+        ],
+        "/ContainerStack/EcrRepositoryName": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "EcrRepositoryName"
+          }
+        ],
+        "/ContainerStack/EcsClusterName": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "EcsClusterName"
+          }
+        ],
+        "/ContainerStack/EcsServiceName": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "EcsServiceName"
+          }
+        ],
+        "/ContainerStack/CDKMetadata/Default": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "CDKMetadata"
+          }
+        ],
+        "/ContainerStack/BootstrapVersion": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "BootstrapVersion"
+          }
+        ],
+        "/ContainerStack/CheckBootstrapVersion": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "CheckBootstrapVersion"
+          }
+        ]
+      },
+      "displayName": "ContainerStack"
     },
     "Tree": {
       "type": "cdk:tree",

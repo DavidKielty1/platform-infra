@@ -1,0 +1,453 @@
+{
+ "Resources": {
+  "ContainerConstructLogEncryptionKeyA3DA34DB": {
+   "Type": "AWS::KMS::Key",
+   "Properties": {
+    "Description": "KMS key for CloudWatch Logs encryption",
+    "EnableKeyRotation": true,
+    "KeyPolicy": {
+     "Statement": [
+      {
+       "Action": "kms:*",
+       "Effect": "Allow",
+       "Principal": {
+        "AWS": {
+         "Fn::Join": [
+          "",
+          [
+           "arn:",
+           {
+            "Ref": "AWS::Partition"
+           },
+           ":iam::156041400555:root"
+          ]
+         ]
+        }
+       },
+       "Resource": "*"
+      },
+      {
+       "Action": [
+        "kms:Encrypt*",
+        "kms:Decrypt*",
+        "kms:ReEncrypt*",
+        "kms:GenerateDataKey*",
+        "kms:Describe*"
+       ],
+       "Condition": {
+        "ArnLike": {
+         "kms:EncryptionContext:aws:logs:arn": "arn:aws:logs:eu-west-2:156041400555:*"
+        }
+       },
+       "Effect": "Allow",
+       "Principal": {
+        "Service": "logs.eu-west-2.amazonaws.com"
+       },
+       "Resource": "*"
+      }
+     ],
+     "Version": "2012-10-17"
+    }
+   },
+   "UpdateReplacePolicy": "Retain",
+   "DeletionPolicy": "Retain",
+   "Metadata": {
+    "aws:cdk:path": "ContainerStack/ContainerConstruct/LogEncryptionKey/Resource"
+   }
+  },
+  "ContainerConstructContainerLogGroup0606F656": {
+   "Type": "AWS::Logs::LogGroup",
+   "Properties": {
+    "KmsKeyId": {
+     "Fn::GetAtt": [
+      "ContainerConstructLogEncryptionKeyA3DA34DB",
+      "Arn"
+     ]
+    },
+    "LogGroupName": "/ecs/platform-infra",
+    "RetentionInDays": 1
+   },
+   "UpdateReplacePolicy": "Delete",
+   "DeletionPolicy": "Delete",
+   "Metadata": {
+    "aws:cdk:path": "ContainerStack/ContainerConstruct/ContainerLogGroup/Resource"
+   }
+  },
+  "ContainerConstructApplicationRepository11E601CB": {
+   "Type": "AWS::ECR::Repository",
+   "Properties": {
+    "EmptyOnDelete": true,
+    "ImageScanningConfiguration": {
+     "ScanOnPush": true
+    },
+    "LifecyclePolicy": {
+     "LifecyclePolicyText": "{\"rules\":[{\"rulePriority\":1,\"description\":\"Keep only the last 5 images\",\"selection\":{\"tagStatus\":\"any\",\"countType\":\"imageCountMoreThan\",\"countNumber\":5},\"action\":{\"type\":\"expire\"}}]}"
+    },
+    "RepositoryName": "platform-infra"
+   },
+   "UpdateReplacePolicy": "Delete",
+   "DeletionPolicy": "Delete",
+   "Metadata": {
+    "aws:cdk:path": "ContainerStack/ContainerConstruct/ApplicationRepository/Resource"
+   }
+  },
+  "ContainerConstructApplicationCluster56345A4E": {
+   "Type": "AWS::ECS::Cluster",
+   "Properties": {
+    "ClusterName": "platform-infra-cluster",
+    "ClusterSettings": [
+     {
+      "Name": "containerInsights",
+      "Value": "enabled"
+     }
+    ]
+   },
+   "Metadata": {
+    "aws:cdk:path": "ContainerStack/ContainerConstruct/ApplicationCluster/Resource"
+   }
+  },
+  "ContainerConstructTaskExecutionRoleAB1D23DC": {
+   "Type": "AWS::IAM::Role",
+   "Properties": {
+    "AssumeRolePolicyDocument": {
+     "Statement": [
+      {
+       "Action": "sts:AssumeRole",
+       "Effect": "Allow",
+       "Principal": {
+        "Service": "ecs-tasks.amazonaws.com"
+       }
+      }
+     ],
+     "Version": "2012-10-17"
+    },
+    "ManagedPolicyArns": [
+     {
+      "Fn::Join": [
+       "",
+       [
+        "arn:",
+        {
+         "Ref": "AWS::Partition"
+        },
+        ":iam::aws:policy/service-role/AmazonECSTaskExecutionRolePolicy"
+       ]
+      ]
+     }
+    ]
+   },
+   "Metadata": {
+    "aws:cdk:path": "ContainerStack/ContainerConstruct/TaskExecutionRole/Resource"
+   }
+  },
+  "ContainerConstructTaskExecutionRoleDefaultPolicy0E7EA6F8": {
+   "Type": "AWS::IAM::Policy",
+   "Properties": {
+    "PolicyDocument": {
+     "Statement": [
+      {
+       "Action": [
+        "ecr:BatchCheckLayerAvailability",
+        "ecr:GetDownloadUrlForLayer",
+        "ecr:BatchGetImage"
+       ],
+       "Effect": "Allow",
+       "Resource": {
+        "Fn::GetAtt": [
+         "ContainerConstructApplicationRepository11E601CB",
+         "Arn"
+        ]
+       }
+      },
+      {
+       "Action": "ecr:GetAuthorizationToken",
+       "Effect": "Allow",
+       "Resource": "*"
+      },
+      {
+       "Action": [
+        "logs:CreateLogStream",
+        "logs:PutLogEvents"
+       ],
+       "Effect": "Allow",
+       "Resource": {
+        "Fn::GetAtt": [
+         "ContainerConstructContainerLogGroup0606F656",
+         "Arn"
+        ]
+       }
+      }
+     ],
+     "Version": "2012-10-17"
+    },
+    "PolicyName": "ContainerConstructTaskExecutionRoleDefaultPolicy0E7EA6F8",
+    "Roles": [
+     {
+      "Ref": "ContainerConstructTaskExecutionRoleAB1D23DC"
+     }
+    ]
+   },
+   "Metadata": {
+    "aws:cdk:path": "ContainerStack/ContainerConstruct/TaskExecutionRole/DefaultPolicy/Resource"
+   }
+  },
+  "ContainerConstructTaskRoleF4EB3789": {
+   "Type": "AWS::IAM::Role",
+   "Properties": {
+    "AssumeRolePolicyDocument": {
+     "Statement": [
+      {
+       "Action": "sts:AssumeRole",
+       "Effect": "Allow",
+       "Principal": {
+        "Service": "ecs-tasks.amazonaws.com"
+       }
+      }
+     ],
+     "Version": "2012-10-17"
+    },
+    "ManagedPolicyArns": [
+     {
+      "Fn::Join": [
+       "",
+       [
+        "arn:",
+        {
+         "Ref": "AWS::Partition"
+        },
+        ":iam::aws:policy/AmazonECS_FullAccess"
+       ]
+      ]
+     }
+    ]
+   },
+   "Metadata": {
+    "aws:cdk:path": "ContainerStack/ContainerConstruct/TaskRole/Resource"
+   }
+  },
+  "ContainerConstructApplicationTaskDefinitionB0EBE2C9": {
+   "Type": "AWS::ECS::TaskDefinition",
+   "Properties": {
+    "ContainerDefinitions": [
+     {
+      "Essential": true,
+      "Image": {
+       "Fn::Join": [
+        "",
+        [
+         {
+          "Fn::Select": [
+           4,
+           {
+            "Fn::Split": [
+             ":",
+             {
+              "Fn::GetAtt": [
+               "ContainerConstructApplicationRepository11E601CB",
+               "Arn"
+              ]
+             }
+            ]
+           }
+          ]
+         },
+         ".dkr.ecr.",
+         {
+          "Fn::Select": [
+           3,
+           {
+            "Fn::Split": [
+             ":",
+             {
+              "Fn::GetAtt": [
+               "ContainerConstructApplicationRepository11E601CB",
+               "Arn"
+              ]
+             }
+            ]
+           }
+          ]
+         },
+         ".",
+         {
+          "Ref": "AWS::URLSuffix"
+         },
+         "/",
+         {
+          "Ref": "ContainerConstructApplicationRepository11E601CB"
+         },
+         ":latest"
+        ]
+       ]
+      },
+      "LogConfiguration": {
+       "LogDriver": "awslogs",
+       "Options": {
+        "awslogs-group": {
+         "Ref": "ContainerConstructContainerLogGroup0606F656"
+        },
+        "awslogs-stream-prefix": "ecs",
+        "awslogs-region": "eu-west-2"
+       }
+      },
+      "Name": "ApplicationContainer",
+      "PortMappings": [
+       {
+        "ContainerPort": 3000,
+        "Protocol": "tcp"
+       }
+      ]
+     }
+    ],
+    "Cpu": "256",
+    "ExecutionRoleArn": {
+     "Fn::GetAtt": [
+      "ContainerConstructTaskExecutionRoleAB1D23DC",
+      "Arn"
+     ]
+    },
+    "Family": "ContainerStackContainerConstructApplicationTaskDefinitionAA66D4AD",
+    "Memory": "512",
+    "NetworkMode": "awsvpc",
+    "RequiresCompatibilities": [
+     "FARGATE"
+    ],
+    "RuntimePlatform": {
+     "CpuArchitecture": "X86_64",
+     "OperatingSystemFamily": "LINUX"
+    },
+    "TaskRoleArn": {
+     "Fn::GetAtt": [
+      "ContainerConstructTaskRoleF4EB3789",
+      "Arn"
+     ]
+    }
+   },
+   "Metadata": {
+    "aws:cdk:path": "ContainerStack/ContainerConstruct/ApplicationTaskDefinition/Resource"
+   }
+  },
+  "ContainerConstructApplicationServiceB0650F50": {
+   "Type": "AWS::ECS::Service",
+   "Properties": {
+    "Cluster": {
+     "Ref": "ContainerConstructApplicationCluster56345A4E"
+    },
+    "DeploymentConfiguration": {
+     "Alarms": {
+      "AlarmNames": [],
+      "Enable": false,
+      "Rollback": false
+     },
+     "MaximumPercent": 200,
+     "MinimumHealthyPercent": 50
+    },
+    "DesiredCount": 1,
+    "EnableECSManagedTags": false,
+    "LaunchType": "FARGATE",
+    "NetworkConfiguration": {
+     "AwsvpcConfiguration": {
+      "AssignPublicIp": "ENABLED",
+      "SecurityGroups": [
+       {
+        "Fn::ImportValue": "NetworkingStack:ExportsOutputFnGetAttNetworkingConstructApplicationSecurityGroup29DA5B85GroupIdE77F49C3"
+       }
+      ],
+      "Subnets": [
+       {
+        "Fn::ImportValue": "NetworkingStack:ExportsOutputRefNetworkingConstructPlatformVPCPublicSubnet1SubnetAAC63FD19D801D7F"
+       },
+       {
+        "Fn::ImportValue": "NetworkingStack:ExportsOutputRefNetworkingConstructPlatformVPCPublicSubnet2Subnet6EF7BED74A81723C"
+       }
+      ]
+     }
+    },
+    "TaskDefinition": {
+     "Ref": "ContainerConstructApplicationTaskDefinitionB0EBE2C9"
+    }
+   },
+   "DependsOn": [
+    "ContainerConstructTaskRoleF4EB3789"
+   ],
+   "Metadata": {
+    "aws:cdk:path": "ContainerStack/ContainerConstruct/ApplicationService/Service"
+   }
+  },
+  "CDKMetadata": {
+   "Type": "AWS::CDK::Metadata",
+   "Properties": {
+    "Analytics": "v2:deflate64:H4sIAAAAAAAA/12OwW7CMBBEv4W7swXyCaD2QCVQ6L0y7pJu43gjr10UWf73yjGoVU8z+2ZHmi1s2jWsV/omjfkYGksXSOegzaD0Td7TMAqkA85qd3UHnLOy3AukV+5fPMep4IfPCo2H1OHEQoH90vm9SiyQdjZKQF+yh33WvtcB37QMe7ySo0DsysN/wi5ocuj/sHv3jP6bDJbS3WZFeoTUsV3ooie2ZJZZ1eWsOhSOvjaPMUwx1NWVZnWawye7pxY2LWxXX0LU+OgCjQhd1R/TrICmQgEAAA=="
+   },
+   "Metadata": {
+    "aws:cdk:path": "ContainerStack/CDKMetadata/Default"
+   }
+  }
+ },
+ "Outputs": {
+  "EcrRepositoryName": {
+   "Description": "ECR Repository Name",
+   "Value": {
+    "Ref": "ContainerConstructApplicationRepository11E601CB"
+   },
+   "Export": {
+    "Name": "platform-infra-ecr-repository-name"
+   }
+  },
+  "EcsClusterName": {
+   "Description": "ECS Cluster Name",
+   "Value": {
+    "Ref": "ContainerConstructApplicationCluster56345A4E"
+   },
+   "Export": {
+    "Name": "platform-infra-ecs-cluster-name"
+   }
+  },
+  "EcsServiceName": {
+   "Description": "ECS Service Name",
+   "Value": {
+    "Fn::GetAtt": [
+     "ContainerConstructApplicationServiceB0650F50",
+     "Name"
+    ]
+   },
+   "Export": {
+    "Name": "platform-infra-ecs-service-name"
+   }
+  }
+ },
+ "Parameters": {
+  "BootstrapVersion": {
+   "Type": "AWS::SSM::Parameter::Value<String>",
+   "Default": "/cdk-bootstrap/hnb659fds/version",
+   "Description": "Version of the CDK Bootstrap resources in this environment, automatically retrieved from SSM Parameter Store. [cdk:skip]"
+  }
+ },
+ "Rules": {
+  "CheckBootstrapVersion": {
+   "Assertions": [
+    {
+     "Assert": {
+      "Fn::Not": [
+       {
+        "Fn::Contains": [
+         [
+          "1",
+          "2",
+          "3",
+          "4",
+          "5"
+         ],
+         {
+          "Ref": "BootstrapVersion"
+         }
+        ]
+       }
+      ]
+     },
+     "AssertDescription": "CDK bootstrap stack version 6 required. Please run 'cdk bootstrap' with a recent version of the CDK CLI."
+    }
+   ]
+  }
+ }
+}
