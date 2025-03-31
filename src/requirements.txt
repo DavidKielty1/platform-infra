@@ -1,4 +1,4 @@
-# AWS CDK
+ # AWS CDK
 aws-cdk-lib==2.130.0
 constructs<11.0.0,>=10.0.0
 
@@ -11,20 +11,5 @@ python-dotenv==1.0.1
 pyyaml==6.0.1
 requests==2.31.0
 
-# Testing and development
-pytest>=7.4.0
-pytest-cov>=4.1.0
-black>=23.0.0
-flake8>=6.1.0
-mypy>=1.5.0
-pre-commit>=3.3.0
-
 # Docker
 docker>=6.1.0
-
-# Application dependencies
-flask==3.0.2
-gunicorn==21.2.0
-
-# Build dependencies
-setuptools>=68.0.0 

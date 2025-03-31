@@ -18,7 +18,7 @@
         "validateOnSynth": false,
         "assumeRoleArn": "arn:${AWS::Partition}:iam::156041400555:role/cdk-hnb659fds-deploy-role-156041400555-eu-west-2",
         "cloudFormationExecutionRoleArn": "arn:${AWS::Partition}:iam::156041400555:role/cdk-hnb659fds-cfn-exec-role-156041400555-eu-west-2",
-        "stackTemplateAssetObjectUrl": "s3://cdk-hnb659fds-assets-156041400555-eu-west-2/708443983f08f0f4f297f7eaf18a4cbea7b750622eca14a5869f90c33b9e4464.json",
+        "stackTemplateAssetObjectUrl": "s3://cdk-hnb659fds-assets-156041400555-eu-west-2/2d0ddf10d896f7b7170e7f92716daac908c1ae76adce9bf14f3872f85eaed9cd.json",
         "requiresBootstrapStackVersion": 6,
         "bootstrapStackVersionSsmParameter": "/cdk-bootstrap/hnb659fds/version",
         "additionalDependencies": [
@@ -160,12 +160,6 @@
             "data": "NetworkingConstructPlatformVPCVPCGW1A0C15AC"
           }
         ],
-        "/PlatformStack/NetworkingConstruct/PlatformVPC/RestrictDefaultSecurityGroupCustomResource/Default": [
-          {
-            "type": "aws:cdk:logicalId",
-            "data": "NetworkingConstructPlatformVPCRestrictDefaultSecurityGroupCustomResource7CD24F44"
-          }
-        ],
         "/PlatformStack/NetworkingConstruct/ApplicationSecurityGroup/Resource": [
           {
             "type": "aws:cdk:logicalId",
@@ -184,18 +178,6 @@
             "data": "NetworkingConstructSecurityGroupId749D182F"
           }
         ],
-        "/PlatformStack/Custom::VpcRestrictDefaultSGCustomResourceProvider/Role": [
-          {
-            "type": "aws:cdk:logicalId",
-            "data": "CustomVpcRestrictDefaultSGCustomResourceProviderRole26592FE0"
-          }
-        ],
-        "/PlatformStack/Custom::VpcRestrictDefaultSGCustomResourceProvider/Handler": [
-          {
-            "type": "aws:cdk:logicalId",
-            "data": "CustomVpcRestrictDefaultSGCustomResourceProviderHandlerDC833E5E"
-          }
-        ],
         "/PlatformStack/VpcId": [
           {
             "type": "aws:cdk:logicalId",
@@ -208,16 +190,16 @@
             "data": "SecurityGroupId"
           }
         ],
-        "/PlatformStack/PublicSubnets": [
+        "/PlatformStack/PublicSubnetIds": [
           {
             "type": "aws:cdk:logicalId",
-            "data": "PublicSubnets"
+            "data": "PublicSubnetIds"
           }
         ],
-        "/PlatformStack/PrivateSubnets": [
+        "/PlatformStack/PrivateSubnetIds": [
           {
             "type": "aws:cdk:logicalId",
-            "data": "PrivateSubnets"
+            "data": "PrivateSubnetIds"
           }
         ],
         "/PlatformStack/ContainerConstruct/LogEncryptionKey/Resource": [
@@ -226,22 +208,16 @@
             "data": "ContainerConstructLogEncryptionKeyA3DA34DB"
           }
         ],
-        "/PlatformStack/ContainerConstruct/ApplicationContainerLogGroup/Resource": [
+        "/PlatformStack/ContainerConstruct/ContainerLogGroup/Resource": [
           {
             "type": "aws:cdk:logicalId",
-            "data": "ContainerConstructApplicationContainerLogGroupA5EF6D09"
+            "data": "ContainerConstructContainerLogGroup0606F656"
           }
         ],
         "/PlatformStack/ContainerConstruct/ApplicationRepository/Resource": [
           {
             "type": "aws:cdk:logicalId",
             "data": "ContainerConstructApplicationRepository11E601CB"
-          }
-        ],
-        "/PlatformStack/ContainerConstruct/ApplicationRepository/AutoDeleteImagesCustomResource/Default": [
-          {
-            "type": "aws:cdk:logicalId",
-            "data": "ContainerConstructApplicationRepositoryAutoDeleteImagesCustomResource13C99E9A"
           }
         ],
         "/PlatformStack/ContainerConstruct/ApplicationCluster/Resource": [
@@ -268,12 +244,6 @@
             "data": "ContainerConstructTaskRoleF4EB3789"
           }
         ],
-        "/PlatformStack/ContainerConstruct/TaskRole/DefaultPolicy/Resource": [
-          {
-            "type": "aws:cdk:logicalId",
-            "data": "ContainerConstructTaskRoleDefaultPolicy7711B492"
-          }
-        ],
         "/PlatformStack/ContainerConstruct/ApplicationTaskDefinition/Resource": [
           {
             "type": "aws:cdk:logicalId",
@@ -286,34 +256,22 @@
             "data": "ContainerConstructApplicationServiceB0650F50"
           }
         ],
-        "/PlatformStack/Custom::ECRAutoDeleteImagesCustomResourceProvider/Role": [
+        "/PlatformStack/EcrRepositoryName": [
           {
             "type": "aws:cdk:logicalId",
-            "data": "CustomECRAutoDeleteImagesCustomResourceProviderRole665F2773"
+            "data": "EcrRepositoryName"
           }
         ],
-        "/PlatformStack/Custom::ECRAutoDeleteImagesCustomResourceProvider/Handler": [
+        "/PlatformStack/EcsClusterName": [
           {
             "type": "aws:cdk:logicalId",
-            "data": "CustomECRAutoDeleteImagesCustomResourceProviderHandler8D89C030"
+            "data": "EcsClusterName"
           }
         ],
-        "/PlatformStack/ClusterName": [
+        "/PlatformStack/EcsServiceName": [
           {
             "type": "aws:cdk:logicalId",
-            "data": "ClusterName"
-          }
-        ],
-        "/PlatformStack/ServiceName": [
-          {
-            "type": "aws:cdk:logicalId",
-            "data": "ServiceName"
-          }
-        ],
-        "/PlatformStack/RepositoryUri": [
-          {
-            "type": "aws:cdk:logicalId",
-            "data": "RepositoryUri"
+            "data": "EcsServiceName"
           }
         ],
         "/PlatformStack/CDKMetadata/Default": [

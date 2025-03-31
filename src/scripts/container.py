@@ -1,216 +1,150 @@
 from aws_cdk import (
-    aws_ec2 as ec2,
     aws_ecs as ecs,
     aws_ecr as ecr,
     aws_iam as iam,
     aws_logs as logs,
     aws_kms as kms,
+    aws_ec2 as ec2,
     RemovalPolicy,
-    Duration,
-    Tags
+    Stack
 )
 from constructs import Construct
-from ..utils.config import PlatformConfig
+from scripts.config import PlatformConfig
 
 class ContainerConstruct(Construct):
-    """Container infrastructure for the platform."""
+    """Container infrastructure construct."""
     
-    def __init__(
-        self,
-        scope: Construct,
-        config: PlatformConfig,
-        vpc: ec2.IVpc,
-        security_group: ec2.ISecurityGroup
-    ) -> None:
-        super().__init__(scope, "ContainerConstruct")
-        
-        self.config = config
-        self.vpc = vpc
-        self.security_group = security_group
+    def __init__(self, scope: Construct, config: PlatformConfig, vpc, security_group, **kwargs):
+        super().__init__(scope, "ContainerConstruct", **kwargs)
         
         # Create KMS key for log encryption
-        self.log_key = kms.Key(
+        log_key = kms.Key(
             self,
             "LogEncryptionKey",
             description="KMS key for CloudWatch Logs encryption",
-            enable_key_rotation=True,
-            removal_policy=RemovalPolicy.DESTROY
+            enable_key_rotation=True
+        )
+        
+        # Grant CloudWatch Logs permission to use the key
+        log_key.add_to_resource_policy(
+            iam.PolicyStatement(
+                effect=iam.Effect.ALLOW,
+                principals=[iam.ServicePrincipal("logs.eu-west-2.amazonaws.com")],
+                actions=[
+                    "kms:Encrypt*",
+                    "kms:Decrypt*",
+                    "kms:ReEncrypt*",
+                    "kms:GenerateDataKey*",
+                    "kms:Describe*"
+                ],
+                resources=["*"],
+                conditions={
+                    "ArnLike": {
+                        "kms:EncryptionContext:aws:logs:arn": f"arn:aws:logs:eu-west-2:{Stack.of(self).account}:*"
+                    }
+                }
+            )
         )
         
         # Create CloudWatch Log Group with KMS encryption
-        self.log_group = logs.LogGroup(
+        log_group = logs.LogGroup(
             self,
-            "ApplicationContainerLogGroup",
-            log_group_name=f"/ecs/{self.config.app_name}",
+            "ContainerLogGroup",
+            log_group_name=f"/ecs/{config.app_name}",
             retention=logs.RetentionDays.ONE_WEEK,
-            encryption_key=self.log_key,
+            encryption_key=log_key,
             removal_policy=RemovalPolicy.DESTROY
         )
         
         # Create ECR repository
-        self.repository = self._create_repository()
-        
-        # Create ECS cluster
-        self.cluster = self._create_cluster()
-        
-        # Create task execution role
-        self.task_execution_role = self._create_task_execution_role()
-        
-        # Create task role
-        self.task_role = self._create_task_role()
-        
-        # Create ECS task definition
-        self.task_definition = self._create_task_definition()
-        
-        # Create ECS service
-        self.service = self._create_service()
-        
-        # Add tags
-        self._add_tags()
-    
-    def _create_repository(self) -> ecr.Repository:
-        """Import the existing ECR repository for the application."""
-        return ecr.Repository.from_repository_name(
+        repository = ecr.Repository(
             self,
             "ApplicationRepository",
-            repository_name=f"{self.config.app_name}-repo"
-        )
-    
-    def _create_cluster(self) -> ecs.Cluster:
-        """Create an ECS cluster."""
-        return ecs.Cluster(
-            self,
-            "ApplicationCluster",
-            cluster_name=self.config.ecs_cluster_name,
-            vpc=self.vpc,
-            container_insights=True
-        )
-    
-    def _create_task_execution_role(self) -> iam.Role:
-        """Create the task execution role for ECS tasks."""
-        role = iam.Role(
-            self,
-            "TaskExecutionRole",
-            assumed_by=iam.ServicePrincipal("ecs-tasks.amazonaws.com"),
-            description="Role for ECS task execution"
+            repository_name=config.app_name,
+            removal_policy=RemovalPolicy.DESTROY,
+            empty_on_delete=True,
+            image_scan_on_push=True,
+            lifecycle_rules=[
+                ecr.LifecycleRule(
+                    description="Keep only the last 5 images",
+                    max_image_count=5
+                )
+            ]
         )
         
-        # Add policy for pulling images from ECR
-        role.add_managed_policy(
+        # Create ECS cluster
+        cluster = ecs.Cluster(
+            self,
+            "ApplicationCluster",
+            cluster_name=config.ecs_cluster_name,
+            vpc=vpc,
+            container_insights=True
+        )
+        
+        # Create task execution role
+        task_execution_role = iam.Role(
+            self,
+            "TaskExecutionRole",
+            assumed_by=iam.ServicePrincipal("ecs-tasks.amazonaws.com")
+        )
+        
+        # Add policy for task execution
+        task_execution_role.add_managed_policy(
             iam.ManagedPolicy.from_aws_managed_policy_name("service-role/AmazonECSTaskExecutionRolePolicy")
         )
         
-        # Add policy for CloudWatch Logs
-        role.add_to_policy(
-            iam.PolicyStatement(
-                effect=iam.Effect.ALLOW,
-                actions=[
-                    "logs:CreateLogStream",
-                    "logs:PutLogEvents"
-                ],
-                resources=[self.log_group.log_group_arn]
-            )
-        )
-        
-        return role
-    
-    def _create_task_role(self) -> iam.Role:
-        """Create the task role for ECS tasks."""
-        role = iam.Role(
+        # Create task role
+        task_role = iam.Role(
             self,
             "TaskRole",
-            assumed_by=iam.ServicePrincipal("ecs-tasks.amazonaws.com"),
-            description="Role for ECS task execution"
+            assumed_by=iam.ServicePrincipal("ecs-tasks.amazonaws.com")
         )
         
-        # Add minimal permissions needed for the application
-        role.add_to_policy(
-            iam.PolicyStatement(
-                effect=iam.Effect.ALLOW,
-                actions=[
-                    "ecr:GetAuthorizationToken",
-                    "ecr:BatchCheckLayerAvailability",
-                    "ecr:GetDownloadUrlForLayer",
-                    "ecr:BatchGetImage"
-                ],
-                resources=["*"]
-            )
+        # Add basic policy for task role
+        task_role.add_managed_policy(
+            iam.ManagedPolicy.from_aws_managed_policy_name("AmazonECS_FullAccess")
         )
         
-        return role
-    
-    def _create_task_definition(self) -> ecs.FargateTaskDefinition:
-        """Create a Fargate task definition."""
+        # Create task definition
         task_definition = ecs.FargateTaskDefinition(
             self,
             "ApplicationTaskDefinition",
-            family=f"{self.config.app_name}-task",
-            cpu=self.config.ecs_task_cpu,
-            memory_limit_mib=self.config.ecs_task_memory,
+            execution_role=task_execution_role,
+            task_role=task_role,
+            memory_limit_mib=config.ecs_task_memory,
+            cpu=config.ecs_task_cpu,
             runtime_platform=ecs.RuntimePlatform(
-                operating_system_family=ecs.OperatingSystemFamily.LINUX,
-                cpu_architecture=ecs.CpuArchitecture.X86_64
-            ),
-            execution_role=self.task_execution_role,
-            task_role=self.task_role
+                cpu_architecture=ecs.CpuArchitecture.X86_64,
+                operating_system_family=ecs.OperatingSystemFamily.LINUX
+            )
         )
         
-        # Add container to the task definition
-        task_definition.add_container(
+        # Add container to task
+        container = task_definition.add_container(
             "ApplicationContainer",
-            image=ecs.ContainerImage.from_ecr_repository(
-                self.repository,
-                tag="latest"
+            image=ecs.ContainerImage.from_ecr_repository(repository),
+            logging=ecs.LogDrivers.aws_logs(
+                stream_prefix="ecs",
+                log_group=log_group
             ),
-            container_name=self.config.app_name,
-            port_mappings=[
-                ecs.PortMapping(
-                    container_port=self.config.container_port,
-                    host_port=self.config.container_port,
-                    protocol=ecs.Protocol.TCP
-                )
-            ],
-            logging=ecs.LogDriver.aws_logs(
-                stream_prefix=self.config.app_name,
-                log_group=self.log_group
-            ),
-            environment={
-                "APP_ENV": self.config.app_env,
-                "APP_PORT": str(self.config.container_port)
-            },
-            health_check={
-                "command": [
-                    "CMD-SHELL",
-                    f"wget --no-verbose --tries=1 --spider http://localhost:{self.config.container_port}/health || exit 1"
-                ],
-                "interval": Duration.seconds(30),
-                "timeout": Duration.seconds(5),
-                "retries": 3,
-                "start_period": Duration.seconds(60)
-            }
+            port_mappings=[ecs.PortMapping(container_port=config.container_port)]
         )
         
-        return task_definition
-    
-    def _create_service(self) -> ecs.FargateService:
-        """Create a Fargate service."""
-        return ecs.FargateService(
+        # Create ECS service
+        service = ecs.FargateService(
             self,
             "ApplicationService",
-            service_name=self.config.ecs_service_name,
-            cluster=self.cluster,
-            task_definition=self.task_definition,
-            desired_count=self.config.ecs_desired_count,
+            cluster=cluster,
+            task_definition=task_definition,
+            desired_count=1,
+            security_groups=[security_group],
             assign_public_ip=True,
-            security_groups=[self.security_group],
             vpc_subnets=ec2.SubnetSelection(
                 subnet_type=ec2.SubnetType.PUBLIC
             )
         )
-    
-    def _add_tags(self) -> None:
-        """Add tags to the container resources."""
-        for resource in [self.repository, self.cluster, self.service, self.log_key, self.task_execution_role, self.task_role]:
-            Tags.of(resource).add("Environment", self.config.environment)
-            Tags.of(resource).add("Project", self.config.project)
-            Tags.of(resource).add("Team", self.config.team)
+        
+        # Store references
+        self.cluster = cluster
+        self.service = service
+        self.repository = repository

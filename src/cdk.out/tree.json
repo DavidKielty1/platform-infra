@@ -572,24 +572,6 @@
                       "fqn": "aws-cdk-lib.aws_ec2.CfnVPCGatewayAttachment",
                       "version": "2.130.0"
                     }
-                  },
-                  "RestrictDefaultSecurityGroupCustomResource": {
-                    "id": "RestrictDefaultSecurityGroupCustomResource",
-                    "path": "PlatformStack/NetworkingConstruct/PlatformVPC/RestrictDefaultSecurityGroupCustomResource",
-                    "children": {
-                      "Default": {
-                        "id": "Default",
-                        "path": "PlatformStack/NetworkingConstruct/PlatformVPC/RestrictDefaultSecurityGroupCustomResource/Default",
-                        "constructInfo": {
-                          "fqn": "aws-cdk-lib.CfnResource",
-                          "version": "2.130.0"
-                        }
-                      }
-                    },
-                    "constructInfo": {
-                      "fqn": "aws-cdk-lib.CustomResource",
-                      "version": "2.130.0"
-                    }
                   }
                 },
                 "constructInfo": {
@@ -659,40 +641,6 @@
               "version": "10.4.2"
             }
           },
-          "Custom::VpcRestrictDefaultSGCustomResourceProvider": {
-            "id": "Custom::VpcRestrictDefaultSGCustomResourceProvider",
-            "path": "PlatformStack/Custom::VpcRestrictDefaultSGCustomResourceProvider",
-            "children": {
-              "Staging": {
-                "id": "Staging",
-                "path": "PlatformStack/Custom::VpcRestrictDefaultSGCustomResourceProvider/Staging",
-                "constructInfo": {
-                  "fqn": "aws-cdk-lib.AssetStaging",
-                  "version": "2.130.0"
-                }
-              },
-              "Role": {
-                "id": "Role",
-                "path": "PlatformStack/Custom::VpcRestrictDefaultSGCustomResourceProvider/Role",
-                "constructInfo": {
-                  "fqn": "aws-cdk-lib.CfnResource",
-                  "version": "2.130.0"
-                }
-              },
-              "Handler": {
-                "id": "Handler",
-                "path": "PlatformStack/Custom::VpcRestrictDefaultSGCustomResourceProvider/Handler",
-                "constructInfo": {
-                  "fqn": "aws-cdk-lib.CfnResource",
-                  "version": "2.130.0"
-                }
-              }
-            },
-            "constructInfo": {
-              "fqn": "aws-cdk-lib.CustomResourceProviderBase",
-              "version": "2.130.0"
-            }
-          },
           "VpcId": {
             "id": "VpcId",
             "path": "PlatformStack/VpcId",
@@ -709,17 +657,17 @@
               "version": "2.130.0"
             }
           },
-          "PublicSubnets": {
-            "id": "PublicSubnets",
-            "path": "PlatformStack/PublicSubnets",
+          "PublicSubnetIds": {
+            "id": "PublicSubnetIds",
+            "path": "PlatformStack/PublicSubnetIds",
             "constructInfo": {
               "fqn": "aws-cdk-lib.CfnOutput",
               "version": "2.130.0"
             }
           },
-          "PrivateSubnets": {
-            "id": "PrivateSubnets",
-            "path": "PlatformStack/PrivateSubnets",
+          "PrivateSubnetIds": {
+            "id": "PrivateSubnetIds",
+            "path": "PlatformStack/PrivateSubnetIds",
             "constructInfo": {
               "fqn": "aws-cdk-lib.CfnOutput",
               "version": "2.130.0"
@@ -747,17 +695,28 @@
                               "Action": "kms:*",
                               "Effect": "Allow",
                               "Principal": {
-                                "AWS": "arn:aws:iam::156041400555:root"
+                                "AWS": {
+                                  "Fn::Join": [
+                                    "",
+                                    [
+                                      "arn:",
+                                      {
+                                        "Ref": "AWS::Partition"
+                                      },
+                                      ":iam::156041400555:root"
+                                    ]
+                                  ]
+                                }
                               },
                               "Resource": "*"
                             },
                             {
                               "Action": [
-                                "kms:Decrypt*",
-                                "kms:Describe*",
                                 "kms:Encrypt*",
+                                "kms:Decrypt*",
+                                "kms:ReEncrypt*",
                                 "kms:GenerateDataKey*",
-                                "kms:ReEncrypt*"
+                                "kms:Describe*"
                               ],
                               "Condition": {
                                 "ArnLike": {
@@ -766,27 +725,13 @@
                               },
                               "Effect": "Allow",
                               "Principal": {
-                                "Service": "logs.amazonaws.com"
+                                "Service": "logs.eu-west-2.amazonaws.com"
                               },
                               "Resource": "*"
                             }
                           ],
                           "Version": "2012-10-17"
-                        },
-                        "tags": [
-                          {
-                            "key": "Environment",
-                            "value": "dev"
-                          },
-                          {
-                            "key": "Project",
-                            "value": "platform-infra"
-                          },
-                          {
-                            "key": "Team",
-                            "value": "platform-engineering"
-                          }
-                        ]
+                        }
                       }
                     },
                     "constructInfo": {
@@ -800,13 +745,13 @@
                   "version": "2.130.0"
                 }
               },
-              "ApplicationContainerLogGroup": {
-                "id": "ApplicationContainerLogGroup",
-                "path": "PlatformStack/ContainerConstruct/ApplicationContainerLogGroup",
+              "ContainerLogGroup": {
+                "id": "ContainerLogGroup",
+                "path": "PlatformStack/ContainerConstruct/ContainerLogGroup",
                 "children": {
                   "Resource": {
                     "id": "Resource",
-                    "path": "PlatformStack/ContainerConstruct/ApplicationContainerLogGroup/Resource",
+                    "path": "PlatformStack/ContainerConstruct/ContainerLogGroup/Resource",
                     "attributes": {
                       "aws:cdk:cloudformation:type": "AWS::Logs::LogGroup",
                       "aws:cdk:cloudformation:props": {
@@ -841,53 +786,18 @@
                     "attributes": {
                       "aws:cdk:cloudformation:type": "AWS::ECR::Repository",
                       "aws:cdk:cloudformation:props": {
+                        "emptyOnDelete": true,
                         "imageScanningConfiguration": {
                           "scanOnPush": true
                         },
                         "lifecyclePolicy": {
                           "lifecyclePolicyText": "{\"rules\":[{\"rulePriority\":1,\"description\":\"Keep only the last 5 images\",\"selection\":{\"tagStatus\":\"any\",\"countType\":\"imageCountMoreThan\",\"countNumber\":5},\"action\":{\"type\":\"expire\"}}]}"
                         },
-                        "repositoryName": "platform-infra-repo",
-                        "tags": [
-                          {
-                            "key": "aws-cdk:auto-delete-images",
-                            "value": "true"
-                          },
-                          {
-                            "key": "Environment",
-                            "value": "dev"
-                          },
-                          {
-                            "key": "Project",
-                            "value": "platform-infra"
-                          },
-                          {
-                            "key": "Team",
-                            "value": "platform-engineering"
-                          }
-                        ]
+                        "repositoryName": "platform-infra"
                       }
                     },
                     "constructInfo": {
                       "fqn": "aws-cdk-lib.aws_ecr.CfnRepository",
-                      "version": "2.130.0"
-                    }
-                  },
-                  "AutoDeleteImagesCustomResource": {
-                    "id": "AutoDeleteImagesCustomResource",
-                    "path": "PlatformStack/ContainerConstruct/ApplicationRepository/AutoDeleteImagesCustomResource",
-                    "children": {
-                      "Default": {
-                        "id": "Default",
-                        "path": "PlatformStack/ContainerConstruct/ApplicationRepository/AutoDeleteImagesCustomResource/Default",
-                        "constructInfo": {
-                          "fqn": "aws-cdk-lib.CfnResource",
-                          "version": "2.130.0"
-                        }
-                      }
-                    },
-                    "constructInfo": {
-                      "fqn": "aws-cdk-lib.CustomResource",
                       "version": "2.130.0"
                     }
                   }
@@ -912,20 +822,6 @@
                           {
                             "name": "containerInsights",
                             "value": "enabled"
-                          }
-                        ],
-                        "tags": [
-                          {
-                            "key": "Environment",
-                            "value": "dev"
-                          },
-                          {
-                            "key": "Project",
-                            "value": "platform-infra"
-                          },
-                          {
-                            "key": "Team",
-                            "value": "platform-engineering"
                           }
                         ]
                       }
@@ -971,7 +867,6 @@
                           ],
                           "Version": "2012-10-17"
                         },
-                        "description": "Role for ECS task execution",
                         "managedPolicyArns": [
                           {
                             "Fn::Join": [
@@ -984,20 +879,6 @@
                                 ":iam::aws:policy/service-role/AmazonECSTaskExecutionRolePolicy"
                               ]
                             ]
-                          }
-                        ],
-                        "tags": [
-                          {
-                            "key": "Environment",
-                            "value": "dev"
-                          },
-                          {
-                            "key": "Project",
-                            "value": "platform-infra"
-                          },
-                          {
-                            "key": "Team",
-                            "value": "platform-engineering"
                           }
                         ]
                       }
@@ -1021,22 +902,9 @@
                               "Statement": [
                                 {
                                   "Action": [
-                                    "logs:CreateLogStream",
-                                    "logs:PutLogEvents"
-                                  ],
-                                  "Effect": "Allow",
-                                  "Resource": {
-                                    "Fn::GetAtt": [
-                                      "ContainerConstructApplicationContainerLogGroupA5EF6D09",
-                                      "Arn"
-                                    ]
-                                  }
-                                },
-                                {
-                                  "Action": [
                                     "ecr:BatchCheckLayerAvailability",
-                                    "ecr:BatchGetImage",
-                                    "ecr:GetDownloadUrlForLayer"
+                                    "ecr:GetDownloadUrlForLayer",
+                                    "ecr:BatchGetImage"
                                   ],
                                   "Effect": "Allow",
                                   "Resource": {
@@ -1050,6 +918,19 @@
                                   "Action": "ecr:GetAuthorizationToken",
                                   "Effect": "Allow",
                                   "Resource": "*"
+                                },
+                                {
+                                  "Action": [
+                                    "logs:CreateLogStream",
+                                    "logs:PutLogEvents"
+                                  ],
+                                  "Effect": "Allow",
+                                  "Resource": {
+                                    "Fn::GetAtt": [
+                                      "ContainerConstructContainerLogGroup0606F656",
+                                      "Arn"
+                                    ]
+                                  }
                                 }
                               ],
                               "Version": "2012-10-17"
@@ -1109,69 +990,24 @@
                           ],
                           "Version": "2012-10-17"
                         },
-                        "description": "Role for ECS task execution",
-                        "tags": [
+                        "managedPolicyArns": [
                           {
-                            "key": "Environment",
-                            "value": "dev"
-                          },
-                          {
-                            "key": "Project",
-                            "value": "platform-infra"
-                          },
-                          {
-                            "key": "Team",
-                            "value": "platform-engineering"
+                            "Fn::Join": [
+                              "",
+                              [
+                                "arn:",
+                                {
+                                  "Ref": "AWS::Partition"
+                                },
+                                ":iam::aws:policy/AmazonECS_FullAccess"
+                              ]
+                            ]
                           }
                         ]
                       }
                     },
                     "constructInfo": {
                       "fqn": "aws-cdk-lib.aws_iam.CfnRole",
-                      "version": "2.130.0"
-                    }
-                  },
-                  "DefaultPolicy": {
-                    "id": "DefaultPolicy",
-                    "path": "PlatformStack/ContainerConstruct/TaskRole/DefaultPolicy",
-                    "children": {
-                      "Resource": {
-                        "id": "Resource",
-                        "path": "PlatformStack/ContainerConstruct/TaskRole/DefaultPolicy/Resource",
-                        "attributes": {
-                          "aws:cdk:cloudformation:type": "AWS::IAM::Policy",
-                          "aws:cdk:cloudformation:props": {
-                            "policyDocument": {
-                              "Statement": [
-                                {
-                                  "Action": [
-                                    "ecr:BatchCheckLayerAvailability",
-                                    "ecr:BatchGetImage",
-                                    "ecr:GetAuthorizationToken",
-                                    "ecr:GetDownloadUrlForLayer"
-                                  ],
-                                  "Effect": "Allow",
-                                  "Resource": "*"
-                                }
-                              ],
-                              "Version": "2012-10-17"
-                            },
-                            "policyName": "ContainerConstructTaskRoleDefaultPolicy7711B492",
-                            "roles": [
-                              {
-                                "Ref": "ContainerConstructTaskRoleF4EB3789"
-                              }
-                            ]
-                          }
-                        },
-                        "constructInfo": {
-                          "fqn": "aws-cdk-lib.aws_iam.CfnPolicy",
-                          "version": "2.130.0"
-                        }
-                      }
-                    },
-                    "constructInfo": {
-                      "fqn": "aws-cdk-lib.aws_iam.Policy",
                       "version": "2.130.0"
                     }
                   }
@@ -1243,11 +1079,10 @@
                                 ]
                               ]
                             },
-                            "name": "platform-infra",
+                            "name": "ApplicationContainer",
                             "portMappings": [
                               {
                                 "containerPort": 3000,
-                                "hostPort": 3000,
                                 "protocol": "tcp"
                               }
                             ],
@@ -1255,31 +1090,11 @@
                               "logDriver": "awslogs",
                               "options": {
                                 "awslogs-group": {
-                                  "Ref": "ContainerConstructApplicationContainerLogGroupA5EF6D09"
+                                  "Ref": "ContainerConstructContainerLogGroup0606F656"
                                 },
-                                "awslogs-stream-prefix": "platform-infra",
+                                "awslogs-stream-prefix": "ecs",
                                 "awslogs-region": "eu-west-2"
                               }
-                            },
-                            "environment": [
-                              {
-                                "name": "APP_ENV",
-                                "value": "development"
-                              },
-                              {
-                                "name": "APP_PORT",
-                                "value": "3000"
-                              }
-                            ],
-                            "healthCheck": {
-                              "command": [
-                                "CMD-SHELL",
-                                "wget --no-verbose --tries=1 --spider http://localhost:3000/health || exit 1"
-                              ],
-                              "interval": 30,
-                              "retries": 3,
-                              "startPeriod": 60,
-                              "timeout": 5
                             }
                           }
                         ],
@@ -1290,7 +1105,7 @@
                             "Arn"
                           ]
                         },
-                        "family": "platform-infra-task",
+                        "family": "PlatformStackContainerConstructApplicationTaskDefinitionD58B40F5",
                         "memory": "512",
                         "networkMode": "awsvpc",
                         "requiresCompatibilities": [
@@ -1373,21 +1188,6 @@
                             ]
                           }
                         },
-                        "serviceName": "platform-infra-service",
-                        "tags": [
-                          {
-                            "key": "Environment",
-                            "value": "dev"
-                          },
-                          {
-                            "key": "Project",
-                            "value": "platform-infra"
-                          },
-                          {
-                            "key": "Team",
-                            "value": "platform-engineering"
-                          }
-                        ],
                         "taskDefinition": {
                           "Ref": "ContainerConstructApplicationTaskDefinitionB0EBE2C9"
                         }
@@ -1410,59 +1210,25 @@
               "version": "10.4.2"
             }
           },
-          "Custom::ECRAutoDeleteImagesCustomResourceProvider": {
-            "id": "Custom::ECRAutoDeleteImagesCustomResourceProvider",
-            "path": "PlatformStack/Custom::ECRAutoDeleteImagesCustomResourceProvider",
-            "children": {
-              "Staging": {
-                "id": "Staging",
-                "path": "PlatformStack/Custom::ECRAutoDeleteImagesCustomResourceProvider/Staging",
-                "constructInfo": {
-                  "fqn": "aws-cdk-lib.AssetStaging",
-                  "version": "2.130.0"
-                }
-              },
-              "Role": {
-                "id": "Role",
-                "path": "PlatformStack/Custom::ECRAutoDeleteImagesCustomResourceProvider/Role",
-                "constructInfo": {
-                  "fqn": "aws-cdk-lib.CfnResource",
-                  "version": "2.130.0"
-                }
-              },
-              "Handler": {
-                "id": "Handler",
-                "path": "PlatformStack/Custom::ECRAutoDeleteImagesCustomResourceProvider/Handler",
-                "constructInfo": {
-                  "fqn": "aws-cdk-lib.CfnResource",
-                  "version": "2.130.0"
-                }
-              }
-            },
-            "constructInfo": {
-              "fqn": "aws-cdk-lib.CustomResourceProviderBase",
-              "version": "2.130.0"
-            }
-          },
-          "ClusterName": {
-            "id": "ClusterName",
-            "path": "PlatformStack/ClusterName",
+          "EcrRepositoryName": {
+            "id": "EcrRepositoryName",
+            "path": "PlatformStack/EcrRepositoryName",
             "constructInfo": {
               "fqn": "aws-cdk-lib.CfnOutput",
               "version": "2.130.0"
             }
           },
-          "ServiceName": {
-            "id": "ServiceName",
-            "path": "PlatformStack/ServiceName",
+          "EcsClusterName": {
+            "id": "EcsClusterName",
+            "path": "PlatformStack/EcsClusterName",
             "constructInfo": {
               "fqn": "aws-cdk-lib.CfnOutput",
               "version": "2.130.0"
             }
           },
-          "RepositoryUri": {
-            "id": "RepositoryUri",
-            "path": "PlatformStack/RepositoryUri",
+          "EcsServiceName": {
+            "id": "EcsServiceName",
+            "path": "PlatformStack/EcsServiceName",
             "constructInfo": {
               "fqn": "aws-cdk-lib.CfnOutput",
               "version": "2.130.0"

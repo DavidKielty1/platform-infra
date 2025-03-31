@@ -390,29 +390,6 @@
     "aws:cdk:path": "PlatformStack/NetworkingConstruct/PlatformVPC/VPCGW"
    }
   },
-  "NetworkingConstructPlatformVPCRestrictDefaultSecurityGroupCustomResource7CD24F44": {
-   "Type": "Custom::VpcRestrictDefaultSG",
-   "Properties": {
-    "ServiceToken": {
-     "Fn::GetAtt": [
-      "CustomVpcRestrictDefaultSGCustomResourceProviderHandlerDC833E5E",
-      "Arn"
-     ]
-    },
-    "DefaultSecurityGroupId": {
-     "Fn::GetAtt": [
-      "NetworkingConstructPlatformVPC2388000F",
-      "DefaultSecurityGroup"
-     ]
-    },
-    "Account": "156041400555"
-   },
-   "UpdateReplacePolicy": "Delete",
-   "DeletionPolicy": "Delete",
-   "Metadata": {
-    "aws:cdk:path": "PlatformStack/NetworkingConstruct/PlatformVPC/RestrictDefaultSecurityGroupCustomResource/Default"
-   }
-  },
   "NetworkingConstructApplicationSecurityGroup29DA5B85": {
    "Type": "AWS::EC2::SecurityGroup",
    "Properties": {
@@ -438,94 +415,6 @@
     "aws:cdk:path": "PlatformStack/NetworkingConstruct/ApplicationSecurityGroup/Resource"
    }
   },
-  "CustomVpcRestrictDefaultSGCustomResourceProviderRole26592FE0": {
-   "Type": "AWS::IAM::Role",
-   "Properties": {
-    "AssumeRolePolicyDocument": {
-     "Version": "2012-10-17",
-     "Statement": [
-      {
-       "Action": "sts:AssumeRole",
-       "Effect": "Allow",
-       "Principal": {
-        "Service": "lambda.amazonaws.com"
-       }
-      }
-     ]
-    },
-    "ManagedPolicyArns": [
-     {
-      "Fn::Sub": "arn:${AWS::Partition}:iam::aws:policy/service-role/AWSLambdaBasicExecutionRole"
-     }
-    ],
-    "Policies": [
-     {
-      "PolicyName": "Inline",
-      "PolicyDocument": {
-       "Version": "2012-10-17",
-       "Statement": [
-        {
-         "Effect": "Allow",
-         "Action": [
-          "ec2:AuthorizeSecurityGroupIngress",
-          "ec2:AuthorizeSecurityGroupEgress",
-          "ec2:RevokeSecurityGroupIngress",
-          "ec2:RevokeSecurityGroupEgress"
-         ],
-         "Resource": [
-          {
-           "Fn::Join": [
-            "",
-            [
-             "arn:aws:ec2:eu-west-2:156041400555:security-group/",
-             {
-              "Fn::GetAtt": [
-               "NetworkingConstructPlatformVPC2388000F",
-               "DefaultSecurityGroup"
-              ]
-             }
-            ]
-           ]
-          }
-         ]
-        }
-       ]
-      }
-     }
-    ]
-   },
-   "Metadata": {
-    "aws:cdk:path": "PlatformStack/Custom::VpcRestrictDefaultSGCustomResourceProvider/Role"
-   }
-  },
-  "CustomVpcRestrictDefaultSGCustomResourceProviderHandlerDC833E5E": {
-   "Type": "AWS::Lambda::Function",
-   "Properties": {
-    "Code": {
-     "S3Bucket": "cdk-hnb659fds-assets-156041400555-eu-west-2",
-     "S3Key": "dd5711540f04e06aa955d7f4862fc04e8cdea464cb590dae91ed2976bb78098e.zip"
-    },
-    "Timeout": 900,
-    "MemorySize": 128,
-    "Handler": "__entrypoint__.handler",
-    "Role": {
-     "Fn::GetAtt": [
-      "CustomVpcRestrictDefaultSGCustomResourceProviderRole26592FE0",
-      "Arn"
-     ]
-    },
-    "Runtime": "nodejs18.x",
-    "Description": "Lambda function for removing all inbound/outbound rules from the VPC default security group"
-   },
-   "DependsOn": [
-    "CustomVpcRestrictDefaultSGCustomResourceProviderRole26592FE0"
-   ],
-   "Metadata": {
-    "aws:cdk:path": "PlatformStack/Custom::VpcRestrictDefaultSGCustomResourceProvider/Handler",
-    "aws:asset:path": "asset.dd5711540f04e06aa955d7f4862fc04e8cdea464cb590dae91ed2976bb78098e",
-    "aws:asset:property": "Code"
-   }
-  },
   "ContainerConstructLogEncryptionKeyA3DA34DB": {
    "Type": "AWS::KMS::Key",
    "Properties": {
@@ -537,17 +426,28 @@
        "Action": "kms:*",
        "Effect": "Allow",
        "Principal": {
-        "AWS": "arn:aws:iam::156041400555:root"
+        "AWS": {
+         "Fn::Join": [
+          "",
+          [
+           "arn:",
+           {
+            "Ref": "AWS::Partition"
+           },
+           ":iam::156041400555:root"
+          ]
+         ]
+        }
        },
        "Resource": "*"
       },
       {
        "Action": [
-        "kms:Decrypt*",
-        "kms:Describe*",
         "kms:Encrypt*",
+        "kms:Decrypt*",
+        "kms:ReEncrypt*",
         "kms:GenerateDataKey*",
-        "kms:ReEncrypt*"
+        "kms:Describe*"
        ],
        "Condition": {
         "ArnLike": {
@@ -556,35 +456,21 @@
        },
        "Effect": "Allow",
        "Principal": {
-        "Service": "logs.amazonaws.com"
+        "Service": "logs.eu-west-2.amazonaws.com"
        },
        "Resource": "*"
       }
      ],
      "Version": "2012-10-17"
-    },
-    "Tags": [
-     {
-      "Key": "Environment",
-      "Value": "dev"
-     },
-     {
-      "Key": "Project",
-      "Value": "platform-infra"
-     },
-     {
-      "Key": "Team",
-      "Value": "platform-engineering"
-     }
-    ]
+    }
    },
-   "UpdateReplacePolicy": "Delete",
-   "DeletionPolicy": "Delete",
+   "UpdateReplacePolicy": "Retain",
+   "DeletionPolicy": "Retain",
    "Metadata": {
     "aws:cdk:path": "PlatformStack/ContainerConstruct/LogEncryptionKey/Resource"
    }
   },
-  "ContainerConstructApplicationContainerLogGroupA5EF6D09": {
+  "ContainerConstructContainerLogGroup0606F656": {
    "Type": "AWS::Logs::LogGroup",
    "Properties": {
     "KmsKeyId": {
@@ -599,64 +485,25 @@
    "UpdateReplacePolicy": "Delete",
    "DeletionPolicy": "Delete",
    "Metadata": {
-    "aws:cdk:path": "PlatformStack/ContainerConstruct/ApplicationContainerLogGroup/Resource"
+    "aws:cdk:path": "PlatformStack/ContainerConstruct/ContainerLogGroup/Resource"
    }
   },
   "ContainerConstructApplicationRepository11E601CB": {
    "Type": "AWS::ECR::Repository",
    "Properties": {
+    "EmptyOnDelete": true,
     "ImageScanningConfiguration": {
      "ScanOnPush": true
     },
     "LifecyclePolicy": {
      "LifecyclePolicyText": "{\"rules\":[{\"rulePriority\":1,\"description\":\"Keep only the last 5 images\",\"selection\":{\"tagStatus\":\"any\",\"countType\":\"imageCountMoreThan\",\"countNumber\":5},\"action\":{\"type\":\"expire\"}}]}"
     },
-    "RepositoryName": "platform-infra-repo",
-    "Tags": [
-     {
-      "Key": "aws-cdk:auto-delete-images",
-      "Value": "true"
-     },
-     {
-      "Key": "Environment",
-      "Value": "dev"
-     },
-     {
-      "Key": "Project",
-      "Value": "platform-infra"
-     },
-     {
-      "Key": "Team",
-      "Value": "platform-engineering"
-     }
-    ]
+    "RepositoryName": "platform-infra"
    },
    "UpdateReplacePolicy": "Delete",
    "DeletionPolicy": "Delete",
    "Metadata": {
     "aws:cdk:path": "PlatformStack/ContainerConstruct/ApplicationRepository/Resource"
-   }
-  },
-  "ContainerConstructApplicationRepositoryAutoDeleteImagesCustomResource13C99E9A": {
-   "Type": "Custom::ECRAutoDeleteImages",
-   "Properties": {
-    "ServiceToken": {
-     "Fn::GetAtt": [
-      "CustomECRAutoDeleteImagesCustomResourceProviderHandler8D89C030",
-      "Arn"
-     ]
-    },
-    "RepositoryName": {
-     "Ref": "ContainerConstructApplicationRepository11E601CB"
-    }
-   },
-   "DependsOn": [
-    "ContainerConstructApplicationRepository11E601CB"
-   ],
-   "UpdateReplacePolicy": "Delete",
-   "DeletionPolicy": "Delete",
-   "Metadata": {
-    "aws:cdk:path": "PlatformStack/ContainerConstruct/ApplicationRepository/AutoDeleteImagesCustomResource/Default"
    }
   },
   "ContainerConstructApplicationCluster56345A4E": {
@@ -667,20 +514,6 @@
      {
       "Name": "containerInsights",
       "Value": "enabled"
-     }
-    ],
-    "Tags": [
-     {
-      "Key": "Environment",
-      "Value": "dev"
-     },
-     {
-      "Key": "Project",
-      "Value": "platform-infra"
-     },
-     {
-      "Key": "Team",
-      "Value": "platform-engineering"
      }
     ]
    },
@@ -703,7 +536,6 @@
      ],
      "Version": "2012-10-17"
     },
-    "Description": "Role for ECS task execution",
     "ManagedPolicyArns": [
      {
       "Fn::Join": [
@@ -716,20 +548,6 @@
         ":iam::aws:policy/service-role/AmazonECSTaskExecutionRolePolicy"
        ]
       ]
-     }
-    ],
-    "Tags": [
-     {
-      "Key": "Environment",
-      "Value": "dev"
-     },
-     {
-      "Key": "Project",
-      "Value": "platform-infra"
-     },
-     {
-      "Key": "Team",
-      "Value": "platform-engineering"
      }
     ]
    },
@@ -744,22 +562,9 @@
      "Statement": [
       {
        "Action": [
-        "logs:CreateLogStream",
-        "logs:PutLogEvents"
-       ],
-       "Effect": "Allow",
-       "Resource": {
-        "Fn::GetAtt": [
-         "ContainerConstructApplicationContainerLogGroupA5EF6D09",
-         "Arn"
-        ]
-       }
-      },
-      {
-       "Action": [
         "ecr:BatchCheckLayerAvailability",
-        "ecr:BatchGetImage",
-        "ecr:GetDownloadUrlForLayer"
+        "ecr:GetDownloadUrlForLayer",
+        "ecr:BatchGetImage"
        ],
        "Effect": "Allow",
        "Resource": {
@@ -773,6 +578,19 @@
        "Action": "ecr:GetAuthorizationToken",
        "Effect": "Allow",
        "Resource": "*"
+      },
+      {
+       "Action": [
+        "logs:CreateLogStream",
+        "logs:PutLogEvents"
+       ],
+       "Effect": "Allow",
+       "Resource": {
+        "Fn::GetAtt": [
+         "ContainerConstructContainerLogGroup0606F656",
+         "Arn"
+        ]
+       }
       }
      ],
      "Version": "2012-10-17"
@@ -803,19 +621,18 @@
      ],
      "Version": "2012-10-17"
     },
-    "Description": "Role for ECS task execution",
-    "Tags": [
+    "ManagedPolicyArns": [
      {
-      "Key": "Environment",
-      "Value": "dev"
-     },
-     {
-      "Key": "Project",
-      "Value": "platform-infra"
-     },
-     {
-      "Key": "Team",
-      "Value": "platform-engineering"
+      "Fn::Join": [
+       "",
+       [
+        "arn:",
+        {
+         "Ref": "AWS::Partition"
+        },
+        ":iam::aws:policy/AmazonECS_FullAccess"
+       ]
+      ]
      }
     ]
    },
@@ -823,61 +640,12 @@
     "aws:cdk:path": "PlatformStack/ContainerConstruct/TaskRole/Resource"
    }
   },
-  "ContainerConstructTaskRoleDefaultPolicy7711B492": {
-   "Type": "AWS::IAM::Policy",
-   "Properties": {
-    "PolicyDocument": {
-     "Statement": [
-      {
-       "Action": [
-        "ecr:BatchCheckLayerAvailability",
-        "ecr:BatchGetImage",
-        "ecr:GetAuthorizationToken",
-        "ecr:GetDownloadUrlForLayer"
-       ],
-       "Effect": "Allow",
-       "Resource": "*"
-      }
-     ],
-     "Version": "2012-10-17"
-    },
-    "PolicyName": "ContainerConstructTaskRoleDefaultPolicy7711B492",
-    "Roles": [
-     {
-      "Ref": "ContainerConstructTaskRoleF4EB3789"
-     }
-    ]
-   },
-   "Metadata": {
-    "aws:cdk:path": "PlatformStack/ContainerConstruct/TaskRole/DefaultPolicy/Resource"
-   }
-  },
   "ContainerConstructApplicationTaskDefinitionB0EBE2C9": {
    "Type": "AWS::ECS::TaskDefinition",
    "Properties": {
     "ContainerDefinitions": [
      {
-      "Environment": [
-       {
-        "Name": "APP_ENV",
-        "Value": "development"
-       },
-       {
-        "Name": "APP_PORT",
-        "Value": "3000"
-       }
-      ],
       "Essential": true,
-      "HealthCheck": {
-       "Command": [
-        "CMD-SHELL",
-        "wget --no-verbose --tries=1 --spider http://localhost:3000/health || exit 1"
-       ],
-       "Interval": 30,
-       "Retries": 3,
-       "StartPeriod": 60,
-       "Timeout": 5
-      },
       "Image": {
        "Fn::Join": [
         "",
@@ -931,17 +699,16 @@
        "LogDriver": "awslogs",
        "Options": {
         "awslogs-group": {
-         "Ref": "ContainerConstructApplicationContainerLogGroupA5EF6D09"
+         "Ref": "ContainerConstructContainerLogGroup0606F656"
         },
-        "awslogs-stream-prefix": "platform-infra",
+        "awslogs-stream-prefix": "ecs",
         "awslogs-region": "eu-west-2"
        }
       },
-      "Name": "platform-infra",
+      "Name": "ApplicationContainer",
       "PortMappings": [
        {
         "ContainerPort": 3000,
-        "HostPort": 3000,
         "Protocol": "tcp"
        }
       ]
@@ -954,7 +721,7 @@
       "Arn"
      ]
     },
-    "Family": "platform-infra-task",
+    "Family": "PlatformStackContainerConstructApplicationTaskDefinitionD58B40F5",
     "Memory": "512",
     "NetworkMode": "awsvpc",
     "RequiresCompatibilities": [
@@ -1014,139 +781,21 @@
       ]
      }
     },
-    "ServiceName": "platform-infra-service",
-    "Tags": [
-     {
-      "Key": "Environment",
-      "Value": "dev"
-     },
-     {
-      "Key": "Project",
-      "Value": "platform-infra"
-     },
-     {
-      "Key": "Team",
-      "Value": "platform-engineering"
-     }
-    ],
     "TaskDefinition": {
      "Ref": "ContainerConstructApplicationTaskDefinitionB0EBE2C9"
     }
    },
    "DependsOn": [
-    "ContainerConstructTaskRoleDefaultPolicy7711B492",
     "ContainerConstructTaskRoleF4EB3789"
    ],
    "Metadata": {
     "aws:cdk:path": "PlatformStack/ContainerConstruct/ApplicationService/Service"
    }
   },
-  "CustomECRAutoDeleteImagesCustomResourceProviderRole665F2773": {
-   "Type": "AWS::IAM::Role",
-   "Properties": {
-    "AssumeRolePolicyDocument": {
-     "Version": "2012-10-17",
-     "Statement": [
-      {
-       "Action": "sts:AssumeRole",
-       "Effect": "Allow",
-       "Principal": {
-        "Service": "lambda.amazonaws.com"
-       }
-      }
-     ]
-    },
-    "ManagedPolicyArns": [
-     {
-      "Fn::Sub": "arn:${AWS::Partition}:iam::aws:policy/service-role/AWSLambdaBasicExecutionRole"
-     }
-    ],
-    "Policies": [
-     {
-      "PolicyName": "Inline",
-      "PolicyDocument": {
-       "Version": "2012-10-17",
-       "Statement": [
-        {
-         "Effect": "Allow",
-         "Action": [
-          "ecr:BatchDeleteImage",
-          "ecr:DescribeRepositories",
-          "ecr:ListImages",
-          "ecr:ListTagsForResource"
-         ],
-         "Resource": [
-          {
-           "Fn::Join": [
-            "",
-            [
-             "arn:",
-             {
-              "Ref": "AWS::Partition"
-             },
-             ":ecr:eu-west-2:156041400555:repository/*"
-            ]
-           ]
-          }
-         ],
-         "Condition": {
-          "StringEquals": {
-           "ecr:ResourceTag/aws-cdk:auto-delete-images": "true"
-          }
-         }
-        }
-       ]
-      }
-     }
-    ]
-   },
-   "Metadata": {
-    "aws:cdk:path": "PlatformStack/Custom::ECRAutoDeleteImagesCustomResourceProvider/Role"
-   }
-  },
-  "CustomECRAutoDeleteImagesCustomResourceProviderHandler8D89C030": {
-   "Type": "AWS::Lambda::Function",
-   "Properties": {
-    "Code": {
-     "S3Bucket": "cdk-hnb659fds-assets-156041400555-eu-west-2",
-     "S3Key": "e024e432dbd64a0923f6308842181e502c39dd8287ee2dbae98472ec78a5097f.zip"
-    },
-    "Timeout": 900,
-    "MemorySize": 128,
-    "Handler": "index.handler",
-    "Role": {
-     "Fn::GetAtt": [
-      "CustomECRAutoDeleteImagesCustomResourceProviderRole665F2773",
-      "Arn"
-     ]
-    },
-    "Runtime": "nodejs18.x",
-    "Description": {
-     "Fn::Join": [
-      "",
-      [
-       "Lambda function for auto-deleting images in ",
-       {
-        "Ref": "ContainerConstructApplicationRepository11E601CB"
-       },
-       " repository."
-      ]
-     ]
-    }
-   },
-   "DependsOn": [
-    "CustomECRAutoDeleteImagesCustomResourceProviderRole665F2773"
-   ],
-   "Metadata": {
-    "aws:cdk:path": "PlatformStack/Custom::ECRAutoDeleteImagesCustomResourceProvider/Handler",
-    "aws:asset:path": "asset.e024e432dbd64a0923f6308842181e502c39dd8287ee2dbae98472ec78a5097f",
-    "aws:asset:property": "Code"
-   }
-  },
   "CDKMetadata": {
    "Type": "AWS::CDK::Metadata",
    "Properties": {
-    "Analytics": "v2:deflate64:H4sIAAAAAAAA/11QXW/CMAz8LbyHjI9fwNiGENNWtROvkxtM8domVeKAqqj/fUoLFPF057PPOnsh58uZnE3g4qbqUE4rymXIGFQp4OJ+A6qFDPtGifVR75O1SHxekcp8rpGjNrLUeMYfyCsc9VFbOWcUAZPR9+FI3rdJhC/gDTBeoBWJpTMwjou3mtFqvA8MSa7VihnUqUbNIkPlLXG7scY3fYZHoRNl7WTYYb9gh20nKlM4GT5NcXfceCdQWRlSbIwjNrb3jFVsOxnWlXeMNvZu9ANsAfFkV77hkTTdDn5WjGYgjfZBu3oztGdSwxMH2gmCWobUDK/tMTEVqT7WwLpOpOiMt9HpHZt6LGP0kX97bjw/DSXWnOmA9hUcipVzyBlDQbroRNLyyeiXpZwv5WLy54im1mumGmU64D8eXaNiRAIAAA=="
+    "Analytics": "v2:deflate64:H4sIAAAAAAAA/12R3W7CMAyFn4X7kPHzBIhtCDFtVTtxO7mZAdM2qRIHVEV596kNULQrn3z2sWxnIefLmZxN4Oqm6rea1lTKUDCoSsDV/QRUCxn2rRLrg95na5H5siZV+FIj92xUufGM31DWOPKRrZwzioDJ6EdxL962WR8+gTfAeIVOZJYuwDg23mpGq/FRkCa5vVbMoE4NahYFKm+Ju401vh1meAZRVI2TYYdDgx12UdTm6GT4MMeH466jQGVlyLE1jtjYwTO++rSTYV17x2j73F2+gz1Cv7KrXvFAmu4L/ydGM5BG+8Ru3gLthVQ6YpJREDQy5CaddoiZqUkNYyUVo8jRGW+T88tz69O33GgUWccno1+Wcr6Ui8nZEU2t10wNyjzFP0am4gsNAgAA"
    },
    "Metadata": {
     "aws:cdk:path": "PlatformStack/CDKMetadata/Default"
@@ -1168,19 +817,28 @@
    }
   },
   "VpcId": {
+   "Description": "VPC ID",
    "Value": {
     "Ref": "NetworkingConstructPlatformVPC2388000F"
+   },
+   "Export": {
+    "Name": "platform-infra-vpc-id"
    }
   },
   "SecurityGroupId": {
+   "Description": "Security Group ID",
    "Value": {
     "Fn::GetAtt": [
      "NetworkingConstructApplicationSecurityGroup29DA5B85",
      "GroupId"
     ]
+   },
+   "Export": {
+    "Name": "platform-infra-security-group-id"
    }
   },
-  "PublicSubnets": {
+  "PublicSubnetIds": {
+   "Description": "Public Subnet IDs",
    "Value": {
     "Fn::Join": [
      "",
@@ -1194,9 +852,13 @@
       }
      ]
     ]
+   },
+   "Export": {
+    "Name": "platform-infra-public-subnet-ids"
    }
   },
-  "PrivateSubnets": {
+  "PrivateSubnetIds": {
+   "Description": "Private Subnet IDs",
    "Value": {
     "Fn::Join": [
      "",
@@ -1210,69 +872,39 @@
       }
      ]
     ]
+   },
+   "Export": {
+    "Name": "platform-infra-private-subnet-ids"
    }
   },
-  "ClusterName": {
+  "EcrRepositoryName": {
+   "Description": "ECR Repository Name",
+   "Value": {
+    "Ref": "ContainerConstructApplicationRepository11E601CB"
+   },
+   "Export": {
+    "Name": "platform-infra-ecr-repository-name"
+   }
+  },
+  "EcsClusterName": {
+   "Description": "ECS Cluster Name",
    "Value": {
     "Ref": "ContainerConstructApplicationCluster56345A4E"
+   },
+   "Export": {
+    "Name": "platform-infra-ecs-cluster-name"
    }
   },
-  "ServiceName": {
+  "EcsServiceName": {
+   "Description": "ECS Service Name",
    "Value": {
     "Fn::GetAtt": [
      "ContainerConstructApplicationServiceB0650F50",
      "Name"
     ]
-   }
-  },
-  "RepositoryUri": {
-   "Value": {
-    "Fn::Join": [
-     "",
-     [
-      {
-       "Fn::Select": [
-        4,
-        {
-         "Fn::Split": [
-          ":",
-          {
-           "Fn::GetAtt": [
-            "ContainerConstructApplicationRepository11E601CB",
-            "Arn"
-           ]
-          }
-         ]
-        }
-       ]
-      },
-      ".dkr.ecr.",
-      {
-       "Fn::Select": [
-        3,
-        {
-         "Fn::Split": [
-          ":",
-          {
-           "Fn::GetAtt": [
-            "ContainerConstructApplicationRepository11E601CB",
-            "Arn"
-           ]
-          }
-         ]
-        }
-       ]
-      },
-      ".",
-      {
-       "Ref": "AWS::URLSuffix"
-      },
-      "/",
-      {
-       "Ref": "ContainerConstructApplicationRepository11E601CB"
-      }
-     ]
-    ]
+   },
+   "Export": {
+    "Name": "platform-infra-ecs-service-name"
    }
   }
  },

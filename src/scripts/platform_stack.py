@@ -1,52 +1,85 @@
-from aws_cdk import Stack, CfnOutput
+from aws_cdk import (
+    Stack,
+    CfnOutput,
+    aws_ec2 as ec2
+)
 from constructs import Construct
-from .networking import NetworkingConstruct
-from .container import ContainerConstruct
-from ..utils.config import PlatformConfig
+from scripts.config import PlatformConfig
+from scripts.networking import NetworkingConstruct
+from scripts.container import ContainerConstruct
 
 class PlatformStack(Stack):
-    """Platform stack that creates all necessary infrastructure."""
+    """Platform infrastructure stack."""
     
     def __init__(self, scope: Construct, construct_id: str, config: PlatformConfig, **kwargs) -> None:
         super().__init__(scope, construct_id, **kwargs)
         
-        # Store configuration
-        self.config = config
-        
         # Create networking infrastructure
         networking = NetworkingConstruct(self, config)
         
-        # Output networking information
-        self._output_networking_info(networking.vpc, networking.security_group)
-        
-        # If we're only deploying networking, stop here
-        if config.deploy_networking_only:
-            return
-            
-        # Create container infrastructure
-        container = ContainerConstruct(
+        # Export networking outputs
+        CfnOutput(
             self,
-            config,
-            vpc=networking.vpc,
-            security_group=networking.security_group
+            "VpcId",
+            value=networking.vpc.vpc_id,
+            description="VPC ID",
+            export_name=f"{config.app_name}-vpc-id"
         )
         
-        # Output container information
-        self._output_container_info(
-            cluster=container.cluster,
-            service=container.service,
-            repository=container.repository
+        CfnOutput(
+            self,
+            "SecurityGroupId",
+            value=networking.security_group.security_group_id,
+            description="Security Group ID",
+            export_name=f"{config.app_name}-security-group-id"
         )
-    
-    def _output_networking_info(self, vpc, security_group):
-        """Output networking information."""
-        CfnOutput(self, "VpcId", value=vpc.vpc_id)
-        CfnOutput(self, "SecurityGroupId", value=security_group.security_group_id)
-        CfnOutput(self, "PublicSubnets", value=','.join([s.subnet_id for s in vpc.public_subnets]))
-        CfnOutput(self, "PrivateSubnets", value=','.join([s.subnet_id for s in vpc.private_subnets]))
-    
-    def _output_container_info(self, cluster, service, repository):
-        """Output container information."""
-        CfnOutput(self, "ClusterName", value=cluster.cluster_name)
-        CfnOutput(self, "ServiceName", value=service.service_name)
-        CfnOutput(self, "RepositoryUri", value=repository.repository_uri) 
+        
+        CfnOutput(
+            self,
+            "PublicSubnetIds",
+            value=",".join([subnet.subnet_id for subnet in networking.vpc.public_subnets]),
+            description="Public Subnet IDs",
+            export_name=f"{config.app_name}-public-subnet-ids"
+        )
+        
+        CfnOutput(
+            self,
+            "PrivateSubnetIds",
+            value=",".join([subnet.subnet_id for subnet in networking.vpc.private_subnets]),
+            description="Private Subnet IDs",
+            export_name=f"{config.app_name}-private-subnet-ids"
+        )
+        
+        # Only create container infrastructure if not in networking-only mode
+        if not config.deploy_networking_only:
+            container = ContainerConstruct(
+                self,
+                config,
+                vpc=networking.vpc,
+                security_group=networking.security_group
+            )
+            
+            # Export container outputs
+            CfnOutput(
+                self,
+                "EcrRepositoryName",
+                value=container.repository.repository_name,
+                description="ECR Repository Name",
+                export_name=f"{config.app_name}-ecr-repository-name"
+            )
+            
+            CfnOutput(
+                self,
+                "EcsClusterName",
+                value=container.cluster.cluster_name,
+                description="ECS Cluster Name",
+                export_name=f"{config.app_name}-ecs-cluster-name"
+            )
+            
+            CfnOutput(
+                self,
+                "EcsServiceName",
+                value=container.service.service_name,
+                description="ECS Service Name",
+                export_name=f"{config.app_name}-ecs-service-name"
+            ) 
