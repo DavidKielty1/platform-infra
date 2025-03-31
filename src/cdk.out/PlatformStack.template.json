@@ -401,6 +401,15 @@
       "IpProtocol": "-1"
      }
     ],
+    "SecurityGroupIngress": [
+     {
+      "CidrIp": "0.0.0.0/0",
+      "Description": "Allow inbound HTTP traffic",
+      "FromPort": 5000,
+      "IpProtocol": "tcp",
+      "ToPort": 5000
+     }
+    ],
     "Tags": [
      {
       "Key": "Name",
@@ -480,7 +489,7 @@
      ]
     },
     "LogGroupName": "/ecs/platform-infra",
-    "RetentionInDays": 7
+    "RetentionInDays": 1
    },
    "UpdateReplacePolicy": "Delete",
    "DeletionPolicy": "Delete",

@@ -29,18 +29,19 @@ This directory contains AWS CDK infrastructure code and related documentation fo
    - Health checks
    - Performance metrics
 
-5. **Sample Application**
-   - Flask application deployment
-   - Container configuration
-   - Health check endpoints
-   - Logging setup
-
 ## Directory Structure
 ```
 infrastructure/
-├── configs/        # Configuration documentation
-├── stacks/         # Stack-specific documentation
-└── constructs/     # Construct-specific documentation
+├── src/
+│   ├── scripts/
+│   │   ├── config.py        # Configuration management
+│   │   ├── container.py     # Container infrastructure
+│   │   ├── networking.py    # Network infrastructure
+│   │   └── platform_stack.py # Main stack definition
+│   ├── docs/               # Documentation
+│   └── app.py              # CDK app entry point
+├── .env                    # Environment variables
+└── requirements.txt        # Dependencies
 ```
 
 ## Deployment Process

@@ -136,7 +136,7 @@ This document tracks the development process and technical decisions made during
 # 1. Delete ECR images
 aws ecr batch-delete-image --repository-name platform-repo --image-ids imageTag=latest
 
-# 2. Delete ECR repository.
+# 2. Delete ECR repository
 aws ecr delete-repository --repository-name platform-repo --force
 
 # 3. Delete ECS services

@@ -1,9 +1,5 @@
 FROM python:3.8-slim
 
-# Create non-root user first
-RUN useradd -m -s /bin/bash platform && \
-    usermod -aG docker platform
-
 # Install system dependencies with proper verification
 RUN apt-get update && apt-get install -y --no-install-recommends \
     curl \
@@ -21,6 +17,10 @@ RUN curl -fsSL https://download.docker.com/linux/debian/gpg | gpg --dearmor -o /
     && rm -rf /var/lib/apt/lists/* \
     && apt-get clean \
     && rm -rf /var/run/docker.sock
+
+# Create non-root user and add to docker group
+RUN useradd -m -s /bin/bash platform && \
+    usermod -aG docker platform
 
 # Install Node.js and npm with proper verification
 RUN curl -fsSL https://deb.nodesource.com/setup_18.x | bash - \
@@ -59,7 +59,7 @@ ENV PYTHONUNBUFFERED=1 \
 
 # Add healthcheck
 HEALTHCHECK --interval=30s --timeout=5s --start-period=60s --retries=3 \
-    CMD curl -f http://localhost:8080/health || exit 1
+    CMD curl -f http://localhost:3000/health || exit 1
 
 # Default command
 CMD ["/bin/bash"] 

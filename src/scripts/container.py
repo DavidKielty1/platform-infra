@@ -51,7 +51,7 @@ class ContainerConstruct(Construct):
             self,
             "ContainerLogGroup",
             log_group_name=f"/ecs/{config.app_name}",
-            retention=logs.RetentionDays.ONE_WEEK,
+            retention=logs.RetentionDays.ONE_DAY,
             encryption_key=log_key,
             removal_policy=RemovalPolicy.DESTROY
         )

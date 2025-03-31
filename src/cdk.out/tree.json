@@ -597,6 +597,15 @@
                             "ipProtocol": "-1"
                           }
                         ],
+                        "securityGroupIngress": [
+                          {
+                            "cidrIp": "0.0.0.0/0",
+                            "ipProtocol": "tcp",
+                            "fromPort": 5000,
+                            "toPort": 5000,
+                            "description": "Allow inbound HTTP traffic"
+                          }
+                        ],
                         "tags": [
                           {
                             "key": "Name",
@@ -762,7 +771,7 @@
                           ]
                         },
                         "logGroupName": "/ecs/platform-infra",
-                        "retentionInDays": 7
+                        "retentionInDays": 1
                       }
                     },
                     "constructInfo": {

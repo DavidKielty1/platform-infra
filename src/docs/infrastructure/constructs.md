@@ -10,30 +10,62 @@ The `ContainerConstruct` creates container-related resources:
 ### Components
 1. **ECR Repository**
    ```python
-   # Creation
-   repository = ecr.Repository(self, "ApplicationRepository",
-       repository_name=repository_name,
+   repository = ecr.Repository(
+       self,
+       "ApplicationRepository",
+       repository_name=config.app_name,
        removal_policy=RemovalPolicy.DESTROY,
-       auto_delete_images=True
+       empty_on_delete=True,
+       image_scan_on_push=True,
+       lifecycle_rules=[
+           ecr.LifecycleRule(
+               description="Keep only the last 5 images",
+               max_image_count=5
+           )
+       ]
    )
    ```
 
 2. **ECS Cluster**
    ```python
-   # Creation
-   cluster = ecs.Cluster(self, "ApplicationCluster",
-       cluster_name=cluster_name,
-       vpc=vpc
+   cluster = ecs.Cluster(
+       self,
+       "ApplicationCluster",
+       cluster_name=config.ecs_cluster_name,
+       vpc=vpc,
+       container_insights=True
    )
    ```
 
-3. **Fargate Service**
+3. **Task Definition**
    ```python
-   # Creation
-   service = ecs.FargateService(self, "ApplicationService",
+   task_definition = ecs.FargateTaskDefinition(
+       self,
+       "ApplicationTaskDefinition",
+       execution_role=task_execution_role,
+       task_role=task_role,
+       memory_limit_mib=config.ecs_task_memory,
+       cpu=config.ecs_task_cpu,
+       runtime_platform=ecs.RuntimePlatform(
+           cpu_architecture=ecs.CpuArchitecture.X86_64,
+           operating_system_family=ecs.OperatingSystemFamily.LINUX
+       )
+   )
+   ```
+
+4. **ECS Service**
+   ```python
+   service = ecs.FargateService(
+       self,
+       "ApplicationService",
        cluster=cluster,
        task_definition=task_definition,
-       service_name=service_name
+       desired_count=1,
+       security_groups=[security_group],
+       assign_public_ip=True,
+       vpc_subnets=ec2.SubnetSelection(
+           subnet_type=ec2.SubnetType.PUBLIC
+       )
    )
    ```
 
@@ -41,7 +73,7 @@ The `ContainerConstruct` creates container-related resources:
 
 1. **Repository Deletion**
    - Issue: Cannot delete repository with images
-   - Solution: Use `auto_delete_images=True` or force delete
+   - Solution: Use `empty_on_delete=True` or force delete
 
 2. **Service Updates**
    - Issue: Service update failures
@@ -55,7 +87,7 @@ The `ContainerConstruct` creates container-related resources:
    RemovalPolicy.DESTROY
    
    # Enable auto delete for repositories
-   auto_delete_images=True
+   empty_on_delete=True
    ```
 
 2. **Health Checks**
@@ -71,13 +103,15 @@ The `ContainerConstruct` creates container-related resources:
 
 ## Network Construct
 
-The `NetworkConstruct` creates networking resources:
+The `NetworkingConstruct` creates networking resources:
 
 ### Components
 1. **VPC**
    ```python
-   # Creation
-   vpc = ec2.Vpc(self, "ApplicationVPC",
+   vpc = ec2.Vpc(
+       self,
+       "PlatformVPC",
+       vpc_name="platform-vpc",
        max_azs=2,
        nat_gateways=1,
        subnet_configuration=[
@@ -88,7 +122,7 @@ The `NetworkConstruct` creates networking resources:
            ),
            ec2.SubnetConfiguration(
                name="Private",
-               subnet_type=ec2.SubnetType.PRIVATE_WITH_NAT,
+               subnet_type=ec2.SubnetType.PRIVATE_WITH_EGRESS,
                cidr_mask=24
            )
        ]
@@ -97,11 +131,12 @@ The `NetworkConstruct` creates networking resources:
 
 2. **Security Groups**
    ```python
-   # Creation
-   security_group = ec2.SecurityGroup(self, "ApplicationSecurityGroup",
+   security_group = ec2.SecurityGroup(
+       self,
+       "ApplicationSecurityGroup",
        vpc=vpc,
-       security_group_name=f"{config.app_name}-sg",
-       description="Security group for application"
+       description="Security group for application resources",
+       allow_all_outbound=True
    )
    ```
 
@@ -124,18 +159,21 @@ The `MonitoringConstruct` creates monitoring resources:
 ### Components
 1. **CloudWatch Logs**
    ```python
-   # Creation
-   log_group = logs.LogGroup(self, "ApplicationLogGroup",
+   log_group = logs.LogGroup(
+       self,
+       "ContainerLogGroup",
        log_group_name=f"/ecs/{config.app_name}",
-       retention=logs.RetentionDays.ONE_MONTH,
+       retention=logs.RetentionDays.ONE_WEEK,
+       encryption_key=log_key,
        removal_policy=RemovalPolicy.DESTROY
    )
    ```
 
 2. **Alarms**
    ```python
-   # Creation
-   alarm = cloudwatch.Alarm(self, "HighCPUAlarm",
+   alarm = cloudwatch.Alarm(
+       self,
+       "HighCPUAlarm",
        metric=service.metric_cpu_utilization(),
        threshold=80,
        evaluation_periods=3,
@@ -159,22 +197,29 @@ The `MonitoringConstruct` creates monitoring resources:
 
 1. **Container Construct**
    ```python
-   container = ContainerConstruct(self, "Container",
+   container = ContainerConstruct(
+       self,
+       "Container",
+       config=config,
        vpc=network.vpc,
-       config=config
+       security_group=network.security_group
    )
    ```
 
 2. **Network Construct**
    ```python
-   network = NetworkConstruct(self, "Network",
+   network = NetworkConstruct(
+       self,
+       "Network",
        config=config
    )
    ```
 
 3. **Monitoring Construct**
    ```python
-   monitoring = MonitoringConstruct(self, "Monitoring",
+   monitoring = MonitoringConstruct(
+       self,
+       "Monitoring",
        service=container.service,
        config=config
    )

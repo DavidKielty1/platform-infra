@@ -48,6 +48,13 @@ class NetworkingConstruct(Construct):
             allow_all_outbound=True
         )
 
+        # Add inbound rule for application port
+        self.security_group.add_ingress_rule(
+            peer=ec2.Peer.any_ipv4(),
+            connection=ec2.Port.tcp(5000),
+            description="Allow inbound HTTP traffic"
+        )
+
         # Add tags to resources
         Tags.of(self.vpc).add("Name", "platform-vpc")
         Tags.of(self.security_group).add("Name", f"{config.project}-app-sg")

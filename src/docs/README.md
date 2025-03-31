@@ -101,9 +101,8 @@ This documentation is for platform engineers working on the infrastructure and d
 - Memory: 512
 - Platform: Linux
 - Runtime: Fargate
-- Desired count: 2
-- Max capacity: 4
-- Min capacity: 1
+- Desired count: 1
+- Port: 5000
 
 ### Monitoring Settings
 - Log retention: 30 days

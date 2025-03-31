@@ -18,7 +18,6 @@ The main stack (`PlatformStack`) that creates the core infrastructure:
    - Service definitions
    - Task definitions
    - Auto-scaling policies
-   - Sample Flask application deployment
 
 3. **Networking**
    - VPC with public/private subnets
@@ -26,23 +25,14 @@ The main stack (`PlatformStack`) that creates the core infrastructure:
    - Security groups
    - Load balancer
 
-4. **Sample Application**
-   - Flask application on port 3000
-   - Health check endpoint (/health)
-   - CloudWatch logging
-   - Container insights
-   - Auto-scaling based on CPU/Memory
-
 ### Application Configuration
 ```python
 # Flask application settings
-app_port = 3000
+app_port = 5000
 health_check_path = "/health"
 container_cpu = 256
 container_memory = 512
-desired_count = 2
-max_capacity = 4
-min_capacity = 1
+desired_count = 1
 ```
 
 ### Known Issues and Solutions

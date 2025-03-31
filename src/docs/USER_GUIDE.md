@@ -31,7 +31,7 @@ This guide is for application developers using the platform. It covers how to de
 
 Your application should:
 - Be containerized
-- Expose a port (default: 3000)
+- Expose a port (default: 5000)
 - Include a health check endpoint
 - Log to stdout/stderr
 - Use environment variables for configuration
@@ -62,21 +62,13 @@ Your application should:
 
 ## Code Quality Tools
 
-The platform provides two sets of pre-commit hooks:
-
-1. **Infrastructure Checks** (Root Directory)
-   - Basic file checks
-   - Python formatting (black)
-   - Import sorting (isort)
-   - Basic linting (flake8)
-   - Docker linting (hadolint)
-   - Infrastructure security (checkov)
-
-2. **Application Checks** (devex/tools/code-quality/pre-commit)
-   - Comprehensive Python checks
-   - Type checking (mypy)
-   - Additional flake8 plugins
-   - Application security checks
+The platform provides pre-commit hooks for:
+- Basic file checks
+- Python formatting (black)
+- Import sorting (isort)
+- Basic linting (flake8)
+- Docker linting (hadolint)
+- Infrastructure security (checkov)
 
 ## VS Code Extensions
 
@@ -104,7 +96,7 @@ AWS_ACCOUNT_ID=your_account_id
 # Application Configuration
 APP_NAME=your-app-name
 APP_ENV=development
-APP_PORT=3000
+APP_PORT=5000
 ```
 
 ## Troubleshooting

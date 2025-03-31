@@ -7,6 +7,29 @@ from dataclasses import dataclass
 class PlatformConfig:
     """Configuration for the platform infrastructure."""
     
+    # Application settings
+    app_name: str = "platform-app"
+    app_env: str = "dev"
+    
+    # AWS settings
+    account_id: str = "156041400555"
+    region: str = "eu-west-2"
+    
+    # VPC settings
+    vpc_cidr: str = "10.0.0.0/16"
+    max_azs: int = 2
+    nat_gateways: int = 1
+    
+    # Container settings
+    container_port: int = 8000
+    ecs_cluster_name: str = "platform-app-cluster"
+    ecs_service_name: str = "platform-app-service"
+    ecs_task_cpu: int = 256
+    ecs_task_memory: int = 1024
+    
+    # Deployment settings
+    deploy_networking_only: bool = False  # Enable container deployment
+    
     def __init__(self, env_vars=None):
         """Initialize configuration from environment variables."""
         if env_vars is None:
@@ -17,27 +40,27 @@ class PlatformConfig:
         self.environment = env_vars.get("ENVIRONMENT", "dev")
         self.project = env_vars.get("PROJECT", "platform")
         self.team = env_vars.get("TEAM", "platform")
-        self.app_name = env_vars.get("APP_NAME", "platform-app")
-        self.app_env = env_vars.get("APP_ENV", "development")
+        self.app_name = env_vars.get("APP_NAME", self.app_name)
+        self.app_env = env_vars.get("APP_ENV", self.app_env)
         
         # Networking
-        self.vpc_cidr = env_vars.get("VPC_CIDR", "10.0.0.0/16")
-        self.vpc_max_azs = int(env_vars.get("VPC_MAX_AZS", "2"))
+        self.vpc_cidr = env_vars.get("VPC_CIDR", self.vpc_cidr)
+        self.max_azs = int(env_vars.get("VPC_MAX_AZS", self.max_azs))  # Use max_azs consistently
         
         # Container
-        self.container_port = int(env_vars.get("CONTAINER_PORT", "8080"))
-        self.ecs_cluster_name = env_vars.get("ECS_CLUSTER_NAME", f"{self.app_name}-cluster")
-        self.ecs_service_name = env_vars.get("ECS_SERVICE_NAME", f"{self.app_name}-service")
-        self.ecs_task_cpu = int(env_vars.get("ECS_TASK_CPU", "256"))
-        self.ecs_task_memory = int(env_vars.get("ECS_TASK_MEMORY", "512"))
+        self.container_port = int(env_vars.get("CONTAINER_PORT", self.container_port))
+        self.ecs_cluster_name = env_vars.get("ECS_CLUSTER_NAME", self.ecs_cluster_name)
+        self.ecs_service_name = env_vars.get("ECS_SERVICE_NAME", self.ecs_service_name)
+        self.ecs_task_cpu = int(env_vars.get("ECS_TASK_CPU", self.ecs_task_cpu))
+        self.ecs_task_memory = int(env_vars.get("ECS_TASK_MEMORY", self.ecs_task_memory))
         self.ecs_desired_count = int(env_vars.get("ECS_DESIRED_COUNT", "1"))
         
         # Deployment flags
-        self.deploy_networking_only = env_vars.get("DEPLOY_NETWORKING_ONLY", "true").lower() == "true"
+        self.deploy_networking_only = env_vars.get("DEPLOY_NETWORKING_ONLY", "false").lower() == "true"  # Default to false
         
         # AWS Configuration
-        self.account_id = env_vars.get("AWS_ACCOUNT_ID", "")
-        self.region = env_vars.get("AWS_REGION", "eu-west-2")
+        self.account_id = env_vars.get("AWS_ACCOUNT_ID", self.account_id)
+        self.region = env_vars.get("AWS_REGION", self.region)
         self.aws_access_key_id = env_vars.get("AWS_ACCESS_KEY_ID", "")
         self.aws_secret_access_key = env_vars.get("AWS_SECRET_ACCESS_KEY", "")
         
